@@ -1,11 +1,11 @@
 package me.baocai.adal.web.service.impl;
 
-import me.baocai.adal.web.mapper.PermissionDao;
-import me.baocai.adal.web.mapper.RoleDao;
-import me.baocai.adal.web.mapper.UserDao;
 import me.baocai.adal.web.model.Permission;
 import me.baocai.adal.web.model.Role;
 import me.baocai.adal.web.model.User;
+import me.baocai.adal.web.service.PermissionService;
+import me.baocai.adal.web.service.RoleService;
+import me.baocai.adal.web.service.UserService;
 import me.baocai.adal.web.vo.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,23 +24,23 @@ import java.util.stream.Collectors;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
-    private UserDao userDao;
+    private UserService userService;
 
     @Autowired
-    private RoleDao roleDao;
+    private RoleService roleService;
 
     @Autowired
-    private PermissionDao permissionDao;
+    private PermissionService permissionService;
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmailOrPhone) throws UsernameNotFoundException {
-        User user = userDao.findByUsernameOrEmailOrPhone(usernameOrEmailOrPhone, usernameOrEmailOrPhone, usernameOrEmailOrPhone)
+        User user = userService.findByUsernameOrEmailOrPhone(usernameOrEmailOrPhone, usernameOrEmailOrPhone, usernameOrEmailOrPhone)
                 .orElseThrow(() -> new UsernameNotFoundException("未找到用户信息 : " + usernameOrEmailOrPhone));
-        List<Role> roles = roleDao.getRolesByUserId(user.getId());
+        List<Role> roles = roleService.getRolesByUserId(user.getId());
         List<Long> roleIds = roles.stream()
                 .map(Role::getId)
                 .collect(Collectors.toList());
-        List<Permission> permissions = permissionDao.getPermissionsByRoleIds(roleIds);
+        List<Permission> permissions = permissionService.getPermissionsByRoleIds(roleIds);
         return UserPrincipal.create(user, roles, permissions);
     }
 }

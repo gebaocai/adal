@@ -2,13 +2,16 @@ package me.baocai.adal.web.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * <p>
  * 角色
  * </p>
  */
 @Data
-public class Role {
+public class Role implements Serializable {
+    private static final long serialVersionUID = -6202142152889273136L;
     /**
      * 主键
      */

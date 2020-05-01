@@ -5,10 +5,10 @@ import cn.hutool.core.util.StrUtil;
 import me.baocai.adal.web.common.Consts;
 import me.baocai.adal.web.common.Status;
 import me.baocai.adal.web.exception.SecurityException;
-import me.baocai.adal.web.mapper.PermissionDao;
-import me.baocai.adal.web.mapper.RoleDao;
 import me.baocai.adal.web.model.Permission;
 import me.baocai.adal.web.model.Role;
+import me.baocai.adal.web.service.PermissionService;
+import me.baocai.adal.web.service.RoleService;
 import me.baocai.adal.web.vo.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -32,10 +32,10 @@ import java.util.stream.Collectors;
 @Component
 public class RbacAuthorityService {
     @Autowired
-    private RoleDao roleDao;
+    private RoleService roleService;
 
     @Autowired
-    private PermissionDao permissionDao;
+    private PermissionService permissionService;
 
     @Autowired
     private RequestMappingHandlerMapping mapping;
@@ -50,11 +50,11 @@ public class RbacAuthorityService {
             UserPrincipal principal = (UserPrincipal) userInfo;
             Long userId = principal.getId();
 
-            List<Role> roles = roleDao.getRolesByUserId(userId);
+            List<Role> roles = roleService.getRolesByUserId(userId);
             List<Long> roleIds = roles.stream()
                     .map(Role::getId)
                     .collect(Collectors.toList());
-            List<Permission> permissions = permissionDao.getPermissionsByRoleIds(roleIds);
+            List<Permission> permissions = permissionService.getPermissionsByRoleIds(roleIds);
 
             //获取资源，前后端分离，所以过滤页面权限，只保留按钮权限
             List<Permission> btnPerms = permissions.stream()

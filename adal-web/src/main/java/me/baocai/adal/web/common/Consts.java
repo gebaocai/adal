@@ -28,7 +28,7 @@ public interface Consts {
     /**
      * JWT 在 Redis 中保存的key前缀
      */
-    String REDIS_JWT_KEY_PREFIX = "security:jwt:";
+    String REDIS_JWT_KEY_PREFIX = "adal:jwt:";
 
     /**
      * 星号
