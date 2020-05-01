@@ -27,6 +27,8 @@
         <user.agent.version>1.20</user.agent.version>
         <adal.version>1.0-SNAPSHOT</adal.version>
         <logstash.logback>6.3</logstash.logback>
+        <jjwt.veersion>0.9.1</jjwt.veersion>
+        <mybatis.version>2.1.2</mybatis.version>
     </properties>
 
     <repositories>
@@ -88,6 +90,17 @@
                 <groupId>net.logstash.logback</groupId>
                 <artifactId>logstash-logback-encoder</artifactId>
                 <version>${logstash.logback}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.veersion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

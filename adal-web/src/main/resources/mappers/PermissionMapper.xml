@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.baocai.adal.web.mapper.PermissionDao">
+
+    <select id="getPermissionsByRoleIds" resultType="Permission">
+        SELECT DISTINCT A.*
+        FROM adal_permission A, adal_role_permission B
+        WHERE A.id = B.permission_id
+        AND B.role_id IN
+        <foreach collection="ids" item="id" index="index"
+                 open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

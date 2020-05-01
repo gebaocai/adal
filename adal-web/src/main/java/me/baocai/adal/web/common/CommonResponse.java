@@ -51,7 +51,7 @@ public class CommonResponse {
      * @param code    状态码
      * @param message 返回内容
      * @param data    返回数据
-     * @return ApiResponse
+     * @return CommonResponse
      */
     public static CommonResponse of(Integer code, String message, Object data) {
         return new CommonResponse(code, message, data);
@@ -60,7 +60,7 @@ public class CommonResponse {
     /**
      * 构造一个成功且不带数据的API返回
      *
-     * @return ApiResponse
+     * @return CommonResponse
      */
     public static CommonResponse ofSuccess() {
         return ofSuccess(null);
@@ -70,7 +70,7 @@ public class CommonResponse {
      * 构造一个成功且带数据的API返回
      *
      * @param data 返回数据
-     * @return ApiResponse
+     * @return CommonResponse
      */
     public static CommonResponse ofSuccess(Object data) {
         return ofStatus(Status.SUCCESS, data);
@@ -80,7 +80,7 @@ public class CommonResponse {
      * 构造一个成功且自定义消息的API返回
      *
      * @param message 返回内容
-     * @return ApiResponse
+     * @return CommonResponse
      */
     public static CommonResponse ofMessage(String message) {
         return of(Status.SUCCESS.getCode(), message, null);
@@ -90,7 +90,7 @@ public class CommonResponse {
      * 构造一个有状态的API返回
      *
      * @param status 状态 {@link Status}
-     * @return ApiResponse
+     * @return CommonResponse
      */
     public static CommonResponse ofStatus(Status status) {
         return ofStatus(status, null);
@@ -101,7 +101,7 @@ public class CommonResponse {
      *
      * @param status 状态 {@link IStatus}
      * @param data   返回数据
-     * @return ApiResponse
+     * @return CommonResponse
      */
     public static CommonResponse ofStatus(IStatus status, Object data) {
         return of(status.getCode(), status.getMessage(), data);
@@ -112,7 +112,7 @@ public class CommonResponse {
      *
      * @param t   异常
      * @param <T> {@link BaseException} 的子类
-     * @return ApiResponse
+     * @return CommonResponse
      */
     public static <T extends BaseException> CommonResponse ofException(T t) {
         return of(t.getCode(), t.getMessage(), t.getData());
