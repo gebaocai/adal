@@ -1,7 +1,7 @@
 package me.baocai.adal.web.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import me.baocai.adal.web.model.User;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -13,9 +13,8 @@ import java.util.Optional;
  * 用户 DAO
  * </p>
  */
-@Mapper
 @Component
-public interface UserDao {
+public interface UserDao extends BaseMapper<User> {
     /**
      * 根据用户名、邮箱、手机号查询用户
      *

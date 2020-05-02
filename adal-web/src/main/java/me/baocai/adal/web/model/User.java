@@ -1,5 +1,6 @@
 package me.baocai.adal.web.model;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.io.Serializable;
  * </p>
  */
 @Data
+@TableName("adal_user")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 5050629747580893401L;

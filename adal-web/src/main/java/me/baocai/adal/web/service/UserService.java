@@ -1,11 +1,12 @@
 package me.baocai.adal.web.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import me.baocai.adal.web.model.User;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface UserService {
+public interface UserService extends IService<User> {
     /**
      * 根据用户名、邮箱、手机号查询用户
      *
