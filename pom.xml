@@ -30,6 +30,7 @@
         <jjwt.veersion>0.9.1</jjwt.veersion>
         <mybatis.version>2.1.2</mybatis.version>
         <mybatisplus.version>3.3.1.tmp</mybatisplus.version>
+        <dynamic-datasource.version>3.1.0</dynamic-datasource.version>
         <velocity.version>2.2</velocity.version>
     </properties>
 
@@ -112,6 +113,11 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-generator</artifactId>
                 <version>${mybatisplus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dynamic-datasource.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.velocity</groupId>
