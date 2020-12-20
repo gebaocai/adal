@@ -32,6 +32,7 @@
         <mybatisplus.version>3.3.1.tmp</mybatisplus.version>
         <dynamic-datasource.version>3.1.0</dynamic-datasource.version>
         <velocity.version>2.2</velocity.version>
+        <springfox.version>3.0.0</springfox.version>
     </properties>
 
     <repositories>
@@ -123,6 +124,11 @@
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity-engine-core</artifactId>
                 <version>${velocity.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-boot-starter</artifactId>
+                <version>${springfox.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

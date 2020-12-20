@@ -65,6 +65,11 @@ public enum Status implements IStatus {
     USERNAME_PASSWORD_ERROR(5001, "用户名或密码错误！"),
 
     /**
+     * 用户名或密码错误！
+     */
+    CAPTCHA_ERROR(5001, "验证码错误！"),
+
+    /**
      * token 已过期，请重新登录！
      */
     TOKEN_EXPIRED(5002, "token 已过期，请重新登录！"),

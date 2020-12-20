@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +23,7 @@ import java.io.Serializable;
  * @author gebaocai
  * @since 2020-05-02
  */
+@ApiModel("商品模型")
 @Data
 @Builder
 @EqualsAndHashCode(callSuper = false)
@@ -31,11 +34,14 @@ public class Goods implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty("商品id")
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
+    @ApiModelProperty("商品名称")
     private String name;
 
+    @ApiModelProperty("商品数量")
     private String num;
 
     /**

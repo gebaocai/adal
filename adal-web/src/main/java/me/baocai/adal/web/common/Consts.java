@@ -31,6 +31,16 @@ public interface Consts {
     String REDIS_JWT_KEY_PREFIX = "adal:jwt:";
 
     /**
+     * Captcha 在 Redis 中保存的key前缀
+     */
+    String REDIS_CAPTCHA_PREFIX = "adal:captcha:";
+
+    /**
+     * Captcha 有效期
+     */
+    Integer CAPTCHA_EXPIRATION = 60;
+
+    /**
      * 星号
      */
     String SYMBOL_STAR = "*";
