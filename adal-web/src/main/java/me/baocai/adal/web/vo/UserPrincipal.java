@@ -6,14 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import me.baocai.adal.web.common.Consts;
-import me.baocai.adal.web.model.Permission;
-import me.baocai.adal.web.model.Role;
-import me.baocai.adal.web.model.User;
+import me.baocai.adal.web.model.SysPermission;
+import me.baocai.adal.web.model.SysRole;
+import me.baocai.adal.web.model.SysUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -27,10 +28,11 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserPrincipal implements UserDetails {
+    private static final long serialVersionUID = 8701647944963022922L;
     /**
      * 主键
      */
-    private Long id;
+    private String id;
 
     /**
      * 用户名
@@ -61,7 +63,7 @@ public class UserPrincipal implements UserDetails {
     /**
      * 生日
      */
-    private Long birthday;
+    private Date birthday;
 
     /**
      * 性别，男-1，女-2
@@ -76,12 +78,12 @@ public class UserPrincipal implements UserDetails {
     /**
      * 创建时间
      */
-    private Long createTime;
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    private Long updateTime;
+    private Date updateTime;
 
     /**
      * 用户角色列表
@@ -93,17 +95,17 @@ public class UserPrincipal implements UserDetails {
      */
     private Collection<? extends GrantedAuthority> authorities;
 
-    public static UserPrincipal create(User user, List<Role> roles, List<Permission> permissions) {
+    public static UserPrincipal create(SysUser user, List<SysRole> roles, List<SysPermission> permissions) {
         List<String> roleNames = roles.stream()
-                .map(Role::getName)
+                .map(SysRole::getRoleName)
                 .collect(Collectors.toList());
 
         List<GrantedAuthority> authorities = permissions.stream()
-                .filter(permission -> StrUtil.isNotBlank(permission.getPermission()))
-                .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
+                .filter(permission -> StrUtil.isNotBlank(permission.getPerms()))
+                .map(permission -> new SimpleGrantedAuthority(permission.getPerms()))
                 .collect(Collectors.toList());
 
-        return new UserPrincipal(user.getId(), user.getUsername(), user.getPassword(), user.getNickname(), user.getPhone(), user.getEmail(), user.getBirthday(), user.getSex(), user.getStatus(), user.getCreateTime(), user.getUpdateTime(), roleNames, authorities);
+        return new UserPrincipal(user.getId(), user.getUsername(), user.getPassword(), user.getRealname(), user.getPhone(), user.getEmail(), user.getBirthday(), user.getSex(), user.getStatus(), user.getCreateTime(), user.getUpdateTime(), roleNames, authorities);
     }
 
     @Override

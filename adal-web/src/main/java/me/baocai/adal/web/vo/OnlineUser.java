@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 import me.baocai.adal.web.common.Consts;
-import me.baocai.adal.web.model.User;
+import me.baocai.adal.web.model.SysUser;
 
 /**
  * <p>
@@ -49,7 +49,7 @@ public class OnlineUser {
      */
     private Integer sex;
 
-    public static OnlineUser create(User user) {
+    public static OnlineUser create(SysUser user) {
         OnlineUser onlineUser = new OnlineUser();
         BeanUtil.copyProperties(user, onlineUser);
         // 脱敏

@@ -5,10 +5,10 @@ import cn.hutool.core.util.StrUtil;
 import me.baocai.adal.web.common.Consts;
 import me.baocai.adal.web.common.Status;
 import me.baocai.adal.web.exception.SecurityException;
-import me.baocai.adal.web.model.Permission;
-import me.baocai.adal.web.model.Role;
-import me.baocai.adal.web.service.PermissionService;
-import me.baocai.adal.web.service.RoleService;
+import me.baocai.adal.web.model.SysPermission;
+import me.baocai.adal.web.model.SysRole;
+import me.baocai.adal.web.service.SysPermissionService;
+import me.baocai.adal.web.service.SysRoleService;
 import me.baocai.adal.web.vo.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -32,10 +32,10 @@ import java.util.stream.Collectors;
 @Component
 public class RbacAuthorityService {
     @Autowired
-    private RoleService roleService;
+    private SysRoleService sysRoleService;
 
     @Autowired
-    private PermissionService permissionService;
+    private SysPermissionService permissionService;
 
     @Autowired
     private RequestMappingHandlerMapping mapping;
@@ -48,26 +48,24 @@ public class RbacAuthorityService {
 
         if (userInfo instanceof UserDetails) {
             UserPrincipal principal = (UserPrincipal) userInfo;
-            Long userId = principal.getId();
+            String userId = principal.getId();
 
-            List<Role> roles = roleService.getRolesByUserId(userId);
-            List<Long> roleIds = roles.stream()
-                    .map(Role::getId)
-                    .collect(Collectors.toList());
-            List<Permission> permissions = permissionService.getPermissionsByRoleIds(roleIds);
+            List<SysRole> roles = sysRoleService.getRolesByUserId(userId);
+            List<SysPermission> permissions = roles.stream().map(sysRole -> {
+                String roleId = sysRole.getId();
+                return permissionService.getPermissionsByRoleId(roleId);
+            }).flatMap(Collection::stream).collect(Collectors.toSet()).stream().collect(Collectors.toList());
 
             //获取资源，前后端分离，所以过滤页面权限，只保留按钮权限
-            List<Permission> btnPerms = permissions.stream()
+            List<SysPermission> btnPerms = permissions.stream()
                     // 过滤页面权限
-                    .filter(permission -> Objects.equals(permission.getType(), Consts.BUTTON))
+                    .filter(permission -> Objects.equals(permission.getMenuType(), Consts.BUTTON))
                     // 过滤 URL 为空
                     .filter(permission -> StrUtil.isNotBlank(permission.getUrl()))
-                    // 过滤 METHOD 为空
-                    .filter(permission -> StrUtil.isNotBlank(permission.getMethod()))
                     .collect(Collectors.toList());
 
-            for (Permission btnPerm : btnPerms) {
-                AntPathRequestMatcher antPathMatcher = new AntPathRequestMatcher(btnPerm.getUrl(), btnPerm.getMethod());
+            for (SysPermission btnPerm : btnPerms) {
+                AntPathRequestMatcher antPathMatcher = new AntPathRequestMatcher(btnPerm.getUrl());
                 if (antPathMatcher.matches(request)) {
                     hasPermission = true;
                     break;

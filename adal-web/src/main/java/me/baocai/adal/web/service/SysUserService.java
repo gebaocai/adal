@@ -1,12 +1,12 @@
 package me.baocai.adal.web.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import me.baocai.adal.web.model.User;
+import me.baocai.adal.web.model.SysUser;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface UserService extends IService<User> {
+public interface SysUserService extends IService<SysUser> {
     /**
      * 根据用户名、邮箱、手机号查询用户
      *
@@ -15,8 +15,8 @@ public interface UserService extends IService<User> {
      * @param phone    手机号
      * @return 用户信息
      */
-    Optional<User> findByUsernameOrEmailOrPhone(String username, String email,
-                                                String phone);
+    Optional<SysUser> findByUsernameOrEmailOrPhone(String username, String email,
+                                                   String phone);
 
     /**
      * 根据用户名列表查询用户列表
@@ -24,5 +24,5 @@ public interface UserService extends IService<User> {
      * @param usernameList 用户名列表
      * @return 用户列表
      */
-    List<User> findByUsernameIn(List<String> usernameList);
+    List<SysUser> findByUsernameIn(List<String> usernameList);
 }

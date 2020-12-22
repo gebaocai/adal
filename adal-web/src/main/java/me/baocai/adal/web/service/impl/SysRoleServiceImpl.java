@@ -1,8 +1,8 @@
 package me.baocai.adal.web.service.impl;
 
-import me.baocai.adal.web.mapper.RoleDao;
-import me.baocai.adal.web.model.Role;
-import me.baocai.adal.web.service.RoleService;
+import me.baocai.adal.web.mapper.SysRoleDao;
+import me.baocai.adal.web.model.SysRole;
+import me.baocai.adal.web.service.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -12,13 +12,13 @@ import java.util.List;
 
 @Service
 @CacheConfig(cacheNames = {"roleCache"})
-public class RoleServiceImpl implements RoleService {
+public class SysRoleServiceImpl implements SysRoleService {
     @Autowired
-    private RoleDao roleDao;
+    private SysRoleDao sysRoleDao;
 
     @Override
     @Cacheable(keyGenerator = "customKeyGenerator")
-    public List<Role> getRolesByUserId(Long userId) {
-        return roleDao.getRolesByUserId(userId);
+    public List<SysRole> getRolesByUserId(String userId) {
+        return sysRoleDao.getRolesByUserId(userId);
     }
 }

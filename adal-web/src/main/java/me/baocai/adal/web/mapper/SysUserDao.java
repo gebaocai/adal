@@ -1,7 +1,7 @@
 package me.baocai.adal.web.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import me.baocai.adal.web.model.User;
+import me.baocai.adal.web.model.SysUser;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ import java.util.Optional;
  * </p>
  */
 @Component
-public interface UserDao extends BaseMapper<User> {
+public interface SysUserDao extends BaseMapper<SysUser> {
     /**
      * 根据用户名、邮箱、手机号查询用户
      *
@@ -23,8 +23,8 @@ public interface UserDao extends BaseMapper<User> {
      * @param phone    手机号
      * @return 用户信息
      */
-    Optional<User> findByUsernameOrEmailOrPhone(@Param("username") String username, @Param("email") String email,
-                                                @Param("phone") String phone);
+    Optional<SysUser> findByUsernameOrEmailOrPhone(@Param("username") String username, @Param("email") String email,
+                                                   @Param("phone") String phone);
 
     /**
      * 根据用户名列表查询用户列表
@@ -32,5 +32,5 @@ public interface UserDao extends BaseMapper<User> {
      * @param usernameList 用户名列表
      * @return 用户列表
      */
-    List<User> findByUsernameIn(@Param("usernameList") List<String> usernameList);
+    List<SysUser> findByUsernameIn(@Param("usernameList") List<String> usernameList);
 }

@@ -2,23 +2,23 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="me.baocai.adal.web.mapper.UserDao">
+<mapper namespace="me.baocai.adal.web.mapper.SysUserDao">
 
     <!-- 开启基于redis的二级缓存 -->
     <!--<cache type="me.baocai.budd.tb.RedisCache"/>-->
 
-    <select id="findByUsernameOrEmailOrPhone" resultType="User">
+    <select id="findByUsernameOrEmailOrPhone" resultType="SysUser">
         SELECT *
-        FROM adal_user
+        FROM sys_user
         WHERE
             username = #{username}
             OR phone = #{phone}
             OR email = #{email}
     </select>
 
-    <select id="findByUsernameIn" resultType="User">
+    <select id="findByUsernameIn" resultType="SysUser">
         SELECT id, username, password
-        FROM adal_user
+        FROM sys_user
         WHERE username in (#{usernameList})
     </select>
 </mapper>

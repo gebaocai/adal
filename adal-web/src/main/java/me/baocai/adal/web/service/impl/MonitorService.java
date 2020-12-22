@@ -5,8 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import me.baocai.adal.web.common.Consts;
 import me.baocai.adal.web.common.PageResult;
-import me.baocai.adal.web.mapper.UserDao;
-import me.baocai.adal.web.model.User;
+import me.baocai.adal.web.mapper.SysUserDao;
+import me.baocai.adal.web.model.SysUser;
 import me.baocai.adal.web.playload.PageCondition;
 import me.baocai.adal.web.util.RedisUtil;
 import me.baocai.adal.web.util.SecurityUtil;
@@ -37,7 +37,7 @@ public class MonitorService {
     private RedisUtil redisUtil;
 
     @Autowired
-    private UserDao userDao;
+    private SysUserDao sysUserDao;
 
     /**
      * 在线用户分页列表
@@ -55,7 +55,7 @@ public class MonitorService {
                 .map(s -> StrUtil.subAfter(s, Consts.REDIS_JWT_KEY_PREFIX, true))
                 .collect(Collectors.toList());
         // 根据用户名查询用户信息
-        List<User> userList = userDao.findByUsernameIn(usernameList);
+        List<SysUser> userList = sysUserDao.findByUsernameIn(usernameList);
 
         // 封装在线用户信息
         List<OnlineUser> onlineUserList = CollUtil.newArrayList();
