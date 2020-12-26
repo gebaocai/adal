@@ -4,8 +4,8 @@ import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import me.baocai.adal.web.entity.Goods;
 import me.baocai.adal.web.mapper.GoodsDao;
-import me.baocai.adal.web.model.Goods;
 import me.baocai.adal.web.service.GoodsService;
 import org.springframework.stereotype.Service;
 

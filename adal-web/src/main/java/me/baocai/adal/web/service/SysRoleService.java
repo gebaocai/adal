@@ -1,6 +1,6 @@
 package me.baocai.adal.web.service;
 
-import me.baocai.adal.web.model.SysRole;
+import me.baocai.adal.web.entity.SysRole;
 
 import java.util.List;
 

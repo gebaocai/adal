@@ -3,7 +3,7 @@ package me.baocai.adal.web.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import me.baocai.adal.web.model.Goods;
+import me.baocai.adal.web.entity.Goods;
 
 /**
  * <p>
@@ -15,9 +15,9 @@ import me.baocai.adal.web.model.Goods;
  */
 public interface GoodsService extends IService<Goods> {
 
-    public IPage<Goods> selectUserPage(Page<Goods> page, Integer state);
+    IPage<Goods> selectUserPage(Page<Goods> page, Integer state);
 
 
-    public boolean addGoods(Goods goods);
+    boolean addGoods(Goods goods);
 
 }

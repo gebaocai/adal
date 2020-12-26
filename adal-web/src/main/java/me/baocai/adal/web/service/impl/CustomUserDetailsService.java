@@ -1,8 +1,8 @@
 package me.baocai.adal.web.service.impl;
 
-import me.baocai.adal.web.model.SysPermission;
-import me.baocai.adal.web.model.SysRole;
-import me.baocai.adal.web.model.SysUser;
+import me.baocai.adal.web.entity.SysPermission;
+import me.baocai.adal.web.entity.SysRole;
+import me.baocai.adal.web.entity.SysUser;
 import me.baocai.adal.web.service.SysPermissionService;
 import me.baocai.adal.web.service.SysRoleService;
 import me.baocai.adal.web.service.SysUserService;

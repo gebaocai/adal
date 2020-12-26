@@ -1,20 +1,20 @@
 package me.baocai.adal.web.mapper;
 
-import me.baocai.adal.web.model.SysPermission;
-import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import me.baocai.adal.web.entity.SysPermission;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * <p>
- * 权限 DAO
+ * 菜单权限表 Mapper 接口
  * </p>
+ *
+ * @author gebaocai
+ * @since 2020-12-23
  */
-@Mapper
-@Component
-public interface PermissionDao {
+public interface SysPermissionDao extends BaseMapper<SysPermission> {
 
     /**
      * 根据角色列表查询权限列表

@@ -7,7 +7,7 @@
     <!-- 开启基于redis的二级缓存 -->
     <!--<cache type="me.baocai.budd.tb.RedisCache"/>-->
 
-    <select id="findByUsernameOrEmailOrPhone" resultType="SysUser">
+    <select id="findByUsernameOrEmailOrPhone" resultType="me.baocai.adal.web.entity.SysUser">
         SELECT *
         FROM sys_user
         WHERE
@@ -16,7 +16,7 @@
             OR email = #{email}
     </select>
 
-    <select id="findByUsernameIn" resultType="SysUser">
+    <select id="findByUsernameIn" resultType="me.baocai.adal.web.entity.SysUser">
         SELECT id, username, password
         FROM sys_user
         WHERE username in (#{usernameList})

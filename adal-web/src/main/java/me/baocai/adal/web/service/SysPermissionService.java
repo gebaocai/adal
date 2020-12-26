@@ -1,10 +1,11 @@
 package me.baocai.adal.web.service;
 
-import me.baocai.adal.web.model.SysPermission;
+import com.baomidou.mybatisplus.extension.service.IService;
+import me.baocai.adal.web.entity.SysPermission;
 
 import java.util.List;
 
-public interface SysPermissionService {
+public interface SysPermissionService extends IService<SysPermission> {
     /**
      * 根据角色列表查询权限列表
      *
@@ -21,4 +22,14 @@ public interface SysPermissionService {
      */
     List<SysPermission> getPermissionsByRoleId(String roleId);
 
+    @Override
+    List<SysPermission> list();
+
+    /**
+     * 根据用户id查找其权限
+     *
+     * @param userId
+     * @return
+     */
+    List<SysPermission> getUserPermission(String userId);
 }

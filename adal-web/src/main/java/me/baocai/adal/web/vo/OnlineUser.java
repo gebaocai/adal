@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 import me.baocai.adal.web.common.Consts;
-import me.baocai.adal.web.model.SysUser;
+import me.baocai.adal.web.entity.SysUser;
 
 /**
  * <p>

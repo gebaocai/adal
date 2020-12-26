@@ -1,7 +1,7 @@
 package me.baocai.adal.web.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import me.baocai.adal.web.model.SysUser;
+import me.baocai.adal.web.entity.SysUser;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 

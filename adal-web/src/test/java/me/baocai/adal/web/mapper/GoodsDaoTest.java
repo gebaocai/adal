@@ -8,8 +8,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import me.baocai.adal.web.AdalWebApplicationTests;
+import me.baocai.adal.web.entity.Goods;
 import me.baocai.adal.web.enums.StateEnum;
-import me.baocai.adal.web.model.Goods;
 import me.baocai.adal.web.service.GoodsService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -62,8 +62,8 @@ public class GoodsDaoTest extends AdalWebApplicationTests {
 
     @Test
     public void save() {
-        Goods goods = Goods.builder().name("apple").num("10").state(StateEnum.ACTIVATED).build();
-        boolean result = goodsService.save(goods);
+        Goods goods = Goods.builder().name("苹果").num("10").state(StateEnum.ACTIVATED).build();
+        boolean result = goodsService.addGoods(goods);
         Assert.assertEquals(true, result);
         log.info("【save goods】= {}", goods);
     }

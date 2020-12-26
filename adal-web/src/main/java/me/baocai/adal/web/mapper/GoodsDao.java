@@ -3,7 +3,7 @@ package me.baocai.adal.web.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import me.baocai.adal.web.model.Goods;
+import me.baocai.adal.web.entity.Goods;
 import org.apache.ibatis.annotations.Param;
 
 /**

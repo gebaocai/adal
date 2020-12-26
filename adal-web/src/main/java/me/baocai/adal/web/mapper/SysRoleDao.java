@@ -1,6 +1,6 @@
 package me.baocai.adal.web.mapper;
 
-import me.baocai.adal.web.model.SysRole;
+import me.baocai.adal.web.entity.SysRole;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;

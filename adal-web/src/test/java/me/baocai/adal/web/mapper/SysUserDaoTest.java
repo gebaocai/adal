@@ -2,9 +2,9 @@ package me.baocai.adal.web.mapper;
 
 import lombok.extern.slf4j.Slf4j;
 import me.baocai.adal.web.AdalWebApplicationTests;
-import me.baocai.adal.web.model.SysPermission;
-import me.baocai.adal.web.model.SysRole;
-import me.baocai.adal.web.model.SysUser;
+import me.baocai.adal.web.entity.SysPermission;
+import me.baocai.adal.web.entity.SysRole;
+import me.baocai.adal.web.entity.SysUser;
 import me.baocai.adal.web.service.SysPermissionService;
 import me.baocai.adal.web.service.SysRoleService;
 import me.baocai.adal.web.service.SysUserService;

@@ -1,4 +1,4 @@
-package me.baocai.adal.web.model;
+package me.baocai.adal.web.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

@@ -1,7 +1,7 @@
 package me.baocai.adal.web.service.impl;
 
+import me.baocai.adal.web.entity.SysRole;
 import me.baocai.adal.web.mapper.SysRoleDao;
-import me.baocai.adal.web.model.SysRole;
 import me.baocai.adal.web.service.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;

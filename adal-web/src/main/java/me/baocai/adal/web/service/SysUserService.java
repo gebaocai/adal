@@ -1,7 +1,7 @@
 package me.baocai.adal.web.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import me.baocai.adal.web.model.SysUser;
+import me.baocai.adal.web.entity.SysUser;
 
 import java.util.List;
 import java.util.Optional;

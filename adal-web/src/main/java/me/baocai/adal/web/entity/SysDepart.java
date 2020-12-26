@@ -1,7 +1,8 @@
-package me.baocai.adal.web.model;
+package me.baocai.adal.web.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -80,7 +81,8 @@ public class SysDepart implements Serializable {
     /**
      * 删除状态（0，正常，1已删除）
      */
-    private String delFlag;
+    @TableLogic
+    private Integer deleted;
     /**
      * 创建人
      */
@@ -132,7 +134,7 @@ public class SysDepart implements Serializable {
                 Objects.equals(address, depart.address) &&
                 Objects.equals(memo, depart.memo) &&
                 Objects.equals(status, depart.status) &&
-                Objects.equals(delFlag, depart.delFlag) &&
+                Objects.equals(deleted, depart.deleted) &&
                 Objects.equals(createBy, depart.createBy) &&
                 Objects.equals(createTime, depart.createTime) &&
                 Objects.equals(updateBy, depart.updateBy) &&
@@ -148,6 +150,6 @@ public class SysDepart implements Serializable {
         return Objects.hash(super.hashCode(), id, parentId, departName,
                 departNameEn, departNameAbbr, departOrder, description, orgCategory,
                 orgType, orgCode, mobile, fax, address, memo, status,
-                delFlag, createBy, createTime, updateBy, updateTime);
+                deleted, createBy, createTime, updateBy, updateTime);
     }
 }

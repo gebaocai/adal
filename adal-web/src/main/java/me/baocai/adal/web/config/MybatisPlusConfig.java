@@ -1,9 +1,6 @@
 package me.baocai.adal.web.config;
 
-import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
-import com.baomidou.mybatisplus.extension.parsers.DynamicTableNameParser;
-import com.baomidou.mybatisplus.extension.parsers.ITableNameHandler;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -14,9 +11,6 @@ import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilde
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import java.util.Collections;
-import java.util.HashMap;
 
 @EnableTransactionManagement
 @Configuration
@@ -33,26 +27,26 @@ public class MybatisPlusConfig {
         // 开启 count 的 join 优化,只针对部分 left join
         paginationInterceptor.setCountSqlParser(new JsqlParserCountOptimize(true));
 
-        DynamicTableNameParser dynamicTableNameParser = new DynamicTableNameParser();
-        dynamicTableNameParser.setTableNameHandlerMap(new HashMap<String, ITableNameHandler>(2) {
-            {
-                put("adal_goods", (metaObject, sql, tableName) -> {
-                    // metaObject 可以获取传入参数，这里实现你自己的动态规则
-                    String today = DateUtil.format(DateUtil.date(), "yyyyMMdd");
-                    log.debug("dynamic table name {}, metaObject: {}, sql: {}", tableName, metaObject, sql);
-                    return tableName + "_" + today;
-                });
-            }
-//        {
-//            put("adal_user", (metaObject, sql, tableName) -> {
-//                // metaObject 可以获取传入参数，这里实现你自己的动态规则
-//                String today= DateUtil.format(DateUtil.date(), "yyyyMMdd");
-//                log.debug("dynamic table name {}, metaObject: {}, sql: {}", tableName, metaObject, sql);
-//                return tableName+"_"+today;
-//            });
-//        }
-        });
-        paginationInterceptor.setSqlParserList(Collections.singletonList(dynamicTableNameParser));
+//        DynamicTableNameParser dynamicTableNameParser = new DynamicTableNameParser();
+//        dynamicTableNameParser.setTableNameHandlerMap(new HashMap<String, ITableNameHandler>(2) {
+//            {
+//                put("adal_goods", (metaObject, sql, tableName) -> {
+//                    // metaObject 可以获取传入参数，这里实现你自己的动态规则
+//                    String today = DateUtil.format(DateUtil.date(), "yyyyMMdd");
+//                    log.debug("dynamic table name {}, metaObject: {}, sql: {}", tableName, metaObject, sql);
+//                    return tableName + "_" + today;
+//                });
+//            }
+////        {
+////            put("adal_user", (metaObject, sql, tableName) -> {
+////                // metaObject 可以获取传入参数，这里实现你自己的动态规则
+////                String today= DateUtil.format(DateUtil.date(), "yyyyMMdd");
+////                log.debug("dynamic table name {}, metaObject: {}, sql: {}", tableName, metaObject, sql);
+////                return tableName+"_"+today;
+////            });
+////        }
+//        });
+//        paginationInterceptor.setSqlParserList(Collections.singletonList(dynamicTableNameParser));
 
 
         return paginationInterceptor;

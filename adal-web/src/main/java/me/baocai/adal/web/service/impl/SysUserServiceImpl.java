@@ -1,8 +1,8 @@
 package me.baocai.adal.web.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import me.baocai.adal.web.entity.SysUser;
 import me.baocai.adal.web.mapper.SysUserDao;
-import me.baocai.adal.web.model.SysUser;
 import me.baocai.adal.web.service.SysUserService;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;

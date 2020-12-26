@@ -13,17 +13,17 @@ spring:
       strict: false #设置严格模式,默认false不启动. 启动后在未匹配到指定数据源时候回抛出异常,不启动会使用默认数据源.
       datasource:
         master:
-          url: jdbc:mysql://192.168.1.100/adal
+          url: jdbc:mysql://192.168.1.100/adal?useUnicode=true&characterEncoding=utf8
           username: root
           password: 123456
           driver-class-name: com.mysql.cj.jdbc.Driver
         slave_1:
-          url: jdbc:mysql://192.168.1.100/adalslave1
+          url: jdbc:mysql://192.168.1.100/adalslave1?useUnicode=true&characterEncoding=utf8
           username: root
           password: 123456
           driver-class-name: com.mysql.cj.jdbc.Driver
         slave_2:
-          url: jdbc:mysql://192.168.1.100/adalslave2
+          url: jdbc:mysql://192.168.1.100/adalslave2?useUnicode=true&characterEncoding=utf8
           username: root
           password: 123456
           driver-class-name: com.mysql.cj.jdbc.Driver
@@ -46,7 +46,7 @@ mybatis-plus:
   configuration:
     # 下划线转驼峰
     map-underscore-to-camel-case: true
-  type-aliases-package: me.baocai.adal.web.model
+  type-aliases-package: me.baocai.adal.web.entity
   typeEnumsPackage: me.baocai.adal.web.enums
   mapper-locations:
     - mappers/*.xml
@@ -80,3 +80,4 @@ custom:
         - "/swagger-ui/**"
         - "/swagger-resources/**"
         - "/v3/**"
+        - "/*/**"
