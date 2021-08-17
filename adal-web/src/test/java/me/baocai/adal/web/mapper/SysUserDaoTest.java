@@ -12,7 +12,10 @@ import org.assertj.core.util.Lists;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,5 +70,23 @@ public class SysUserDaoTest extends AdalWebApplicationTests {
         List<SysUser> userList = sysUserService.list();
         Assert.assertEquals(true, userList.size() > 0);
         log.info("【userList】= {}", userList);
+    }
+
+    @Test
+    public void addUser() {
+        Date date = new Date();
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String password = bCryptPasswordEncoder.encode("123456");
+
+        SysUser sysUser = SysUser.builder().
+                username("baocai").
+                password(password).
+                birthday(date).
+                createTime(date).
+                updateTime(date).
+                build();
+        boolean res = sysUserService.save(sysUser);
+        log.info("【addUser】= {}", res);
     }
 }

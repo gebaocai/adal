@@ -28,6 +28,6 @@
         WHERE
             sys_role_permission.role_id = #{roleId}
         ORDER BY
-            sys_permission.sort_no ASC
+            sys_permission.sort ASC
     </select>
 </mapper>
