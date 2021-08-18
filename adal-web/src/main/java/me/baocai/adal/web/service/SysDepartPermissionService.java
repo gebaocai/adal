@@ -2,6 +2,7 @@ package me.baocai.adal.web.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import me.baocai.adal.web.entity.SysDepartPermission;
+import me.baocai.adal.web.playload.DepartPermission;
 
 /**
  * <p>
@@ -12,5 +13,5 @@ import me.baocai.adal.web.entity.SysDepartPermission;
  * @since 2020-12-23
  */
 public interface SysDepartPermissionService extends IService<SysDepartPermission> {
-
+    boolean saveDepartPermission(DepartPermission departPermission, String userId);
 }

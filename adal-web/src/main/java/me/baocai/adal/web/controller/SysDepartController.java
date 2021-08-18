@@ -1,6 +1,7 @@
 package me.baocai.adal.web.controller;
 
 
+import cn.hutool.core.util.StrUtil;
 import me.baocai.adal.web.common.CommonResponse;
 import me.baocai.adal.web.common.Status;
 import me.baocai.adal.web.entity.SysDepart;
@@ -54,7 +55,11 @@ public class SysDepartController extends BaseController {
     }
 
     @PostMapping("/delete")
-    public CommonResponse delete(@RequestParam(name = "id", required = true) String id) {
+    public CommonResponse delete(@RequestBody Depart depart) {
+        String id = depart.getId();
+        if (StrUtil.isEmpty(id)) {
+            return CommonResponse.ofStatus(Status.PARAM_NOT_MATCH);
+        }
         SysDepart sysDepart = sysDepartService.getById(id);
         if (null == sysDepart) {
             return CommonResponse.ofMessage("未找到对应实体");

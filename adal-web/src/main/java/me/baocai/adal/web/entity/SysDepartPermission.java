@@ -1,8 +1,10 @@
 package me.baocai.adal.web.entity;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import lombok.experimental.Tolerate;
 
 import java.io.Serializable;
 
@@ -15,6 +17,7 @@ import java.io.Serializable;
  * @since 2020-12-23
  */
 @Data
+@Builder
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public class SysDepartPermission implements Serializable {
@@ -38,5 +41,8 @@ public class SysDepartPermission implements Serializable {
      */
     private String dataRuleIds;
 
+    @Tolerate
+    SysDepartPermission() {
 
+    }
 }
