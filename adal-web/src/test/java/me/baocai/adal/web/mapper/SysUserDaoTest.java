@@ -43,14 +43,14 @@ public class SysUserDaoTest extends AdalWebApplicationTests {
 
     @Test
     public void findByUsernameOrEmailOrPhone() {
-        Optional<SysUser> user = sysUserService.findByUsernameOrEmailOrPhone("admin", null, null);
+        Optional<SysUser> user = sysUserService.findByUsernameOrPhone("admin", null);
         Assert.assertEquals(true, user.isPresent());
         log.info("【user】= {}", user.get());
     }
 
     @Test
     public void userPermission() {
-        Optional<SysUser> user = sysUserService.findByUsernameOrEmailOrPhone("admin", null, null);
+        Optional<SysUser> user = sysUserService.findByUsernameOrPhone("admin", null);
         List<SysRole> roles = sysRoleService.getRolesByUserId(user.get().getId());
         log.info("【user roles】= {}", roles);
         List<SysPermission> permissions = permissionService.getPermissionsByRoleId(roles.get(0).getId());

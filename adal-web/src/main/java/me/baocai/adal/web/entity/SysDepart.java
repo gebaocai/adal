@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,6 +14,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Data
+@Builder
 @EqualsAndHashCode(callSuper = false)
 public class SysDepart implements Serializable {
     private static final long serialVersionUID = -8114729001599287664L;
@@ -103,53 +105,4 @@ public class SysDepart implements Serializable {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
-
-    /**
-     * 重写equals方法
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        if (!super.equals(o)) {
-            return false;
-        }
-        SysDepart depart = (SysDepart) o;
-        return Objects.equals(id, depart.id) &&
-                Objects.equals(parentId, depart.parentId) &&
-                Objects.equals(departName, depart.departName) &&
-                Objects.equals(departNameEn, depart.departNameEn) &&
-                Objects.equals(departNameAbbr, depart.departNameAbbr) &&
-                Objects.equals(departOrder, depart.departOrder) &&
-                Objects.equals(description, depart.description) &&
-                Objects.equals(orgCategory, depart.orgCategory) &&
-                Objects.equals(orgType, depart.orgType) &&
-                Objects.equals(orgCode, depart.orgCode) &&
-                Objects.equals(mobile, depart.mobile) &&
-                Objects.equals(fax, depart.fax) &&
-                Objects.equals(address, depart.address) &&
-                Objects.equals(memo, depart.memo) &&
-                Objects.equals(status, depart.status) &&
-                Objects.equals(deleted, depart.deleted) &&
-                Objects.equals(createBy, depart.createBy) &&
-                Objects.equals(createTime, depart.createTime) &&
-                Objects.equals(updateBy, depart.updateBy) &&
-                Objects.equals(updateTime, depart.updateTime);
-    }
-
-    /**
-     * 重写hashCode方法
-     */
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(super.hashCode(), id, parentId, departName,
-                departNameEn, departNameAbbr, departOrder, description, orgCategory,
-                orgType, orgCode, mobile, fax, address, memo, status,
-                deleted, createBy, createTime, updateBy, updateTime);
-    }
 }

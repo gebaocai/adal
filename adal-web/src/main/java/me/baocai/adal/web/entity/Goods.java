@@ -28,7 +28,7 @@ import java.io.Serializable;
 @Builder
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("adal_goods")
+@TableName("market_goods")
 @AllArgsConstructor
 public class Goods implements Serializable {
 

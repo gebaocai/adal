@@ -35,7 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmailOrPhone) throws UsernameNotFoundException {
-        SysUser user = sysUserService.findByUsernameOrEmailOrPhone(usernameOrEmailOrPhone, usernameOrEmailOrPhone, usernameOrEmailOrPhone)
+        SysUser user = sysUserService.findByUsernameOrPhone(usernameOrEmailOrPhone, usernameOrEmailOrPhone)
                 .orElseThrow(() -> new UsernameNotFoundException("未找到用户信息 : " + usernameOrEmailOrPhone));
         List<SysRole> roles = sysRoleService.getRolesByUserId(user.getId());
         List<SysPermission> permissions = roles.stream().map(sysRole -> {

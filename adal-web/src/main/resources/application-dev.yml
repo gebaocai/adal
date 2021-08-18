@@ -80,4 +80,3 @@ custom:
         - "/swagger-ui/**"
         - "/swagger-resources/**"
         - "/v3/**"
-        - "/*/**"

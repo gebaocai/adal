@@ -17,8 +17,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
 
     @Override
     @Cacheable(keyGenerator = "customKeyGenerator")
-    public Optional<SysUser> findByUsernameOrEmailOrPhone(String username, String email, String phone) {
-        return baseMapper.findByUsernameOrEmailOrPhone(username, email, phone);
+    public Optional<SysUser> findByUsernameOrPhone(String username, String phone) {
+        return baseMapper.findByUsernameOrPhone(username, phone);
     }
 
     @Override

@@ -105,7 +105,7 @@ public class UserPrincipal implements UserDetails {
                 .map(permission -> new SimpleGrantedAuthority(permission.getPerms()))
                 .collect(Collectors.toList());
 
-        return new UserPrincipal(user.getId(), user.getUsername(), user.getPassword(), user.getRealname(), user.getPhone(), user.getEmail(), user.getBirthday(), user.getSex(), user.getStatus(), user.getCreateTime(), user.getUpdateTime(), roleNames, authorities);
+        return new UserPrincipal(user.getId(), user.getUsername(), user.getPassword(), user.getNickname(), user.getPhone(), user.getEmail(), user.getBirthday(), user.getSex(), user.getStatus(), user.getCreateTime(), user.getUpdateTime(), roleNames, authorities);
     }
 
     @Override

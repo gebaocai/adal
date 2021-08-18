@@ -5,6 +5,7 @@ import me.baocai.adal.web.common.CommonResponse;
 import me.baocai.adal.web.common.Status;
 import me.baocai.adal.web.entity.SysDepart;
 import me.baocai.adal.web.model.SysDepartTreeModel;
+import me.baocai.adal.web.playload.Depart;
 import me.baocai.adal.web.service.SysDepartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,19 +34,21 @@ public class SysDepartController extends BaseController {
     }
 
     @PostMapping("/add")
-    public CommonResponse add(@RequestBody SysDepart sysDepart) {
+    public CommonResponse add(@RequestBody Depart depart) {
         String userId = getUserId();
-        if (sysDepartService.saveDepartData(sysDepart, userId)) {
-            return CommonResponse.ofSuccess();
+        SysDepart sysDepart = sysDepartService.saveDepartData(depart, userId);
+        if (sysDepart!=null) {
+            return CommonResponse.ofSuccess(sysDepart);
         }
         return CommonResponse.ofStatus(Status.ERROR);
     }
 
     @PostMapping("/edit")
-    public CommonResponse edit(@RequestBody SysDepart sysDepart) {
+    public CommonResponse edit(@RequestBody Depart depart) {
         String userId = getUserId();
-        if (sysDepartService.updateDepartDataById(sysDepart, userId)) {
-            return CommonResponse.ofSuccess();
+        SysDepart sysDepart = sysDepartService.updateDepartDataById(depart, userId);
+        if (sysDepart!=null) {
+            return CommonResponse.ofSuccess(sysDepart);
         }
         return CommonResponse.ofStatus(Status.ERROR);
     }

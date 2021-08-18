@@ -19,12 +19,10 @@ public interface SysUserDao extends BaseMapper<SysUser> {
      * 根据用户名、邮箱、手机号查询用户
      *
      * @param username 用户名
-     * @param email    邮箱
      * @param phone    手机号
      * @return 用户信息
      */
-    Optional<SysUser> findByUsernameOrEmailOrPhone(@Param("username") String username, @Param("email") String email,
-                                                   @Param("phone") String phone);
+    Optional<SysUser> findByUsernameOrPhone(@Param("username") String username, @Param("phone") String phone);
 
     /**
      * 根据用户名列表查询用户列表

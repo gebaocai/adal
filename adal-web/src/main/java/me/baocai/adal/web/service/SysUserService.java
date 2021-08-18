@@ -11,12 +11,10 @@ public interface SysUserService extends IService<SysUser> {
      * 根据用户名、邮箱、手机号查询用户
      *
      * @param username 用户名
-     * @param email    邮箱
      * @param phone    手机号
      * @return 用户信息
      */
-    Optional<SysUser> findByUsernameOrEmailOrPhone(String username, String email,
-                                                   String phone);
+    Optional<SysUser> findByUsernameOrPhone(String username, String phone);
 
     /**
      * 根据用户名列表查询用户列表

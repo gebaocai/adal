@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.baocai.adal.web.AdalWebApplicationTests;
 import me.baocai.adal.web.entity.SysDepart;
 import me.baocai.adal.web.model.SysDepartTreeModel;
+import me.baocai.adal.web.playload.Depart;
 import me.baocai.adal.web.service.SysDepartService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -30,26 +31,22 @@ public class SysDepartDaoTest extends AdalWebApplicationTests {
 
     @Test
     public void testAdd() {
-        SysDepart sysDepart = new SysDepart();
-        sysDepart.setDepartName("公司1");
-        sysDepart.setParentId("1342850005937033216");
-//        sysDepartService.saveDepartData(sysDepart, "1234");
 
-        for (int i = 0; i < 1000; i++) {
-            sysDepart = new SysDepart();
-            sysDepart.setDepartName("公司" + i);
-            sysDepart.setParentId("1342850656117067776");
-            sysDepartService.saveDepartData(sysDepart, "1234");
+        for (int i = 0; i < 10; i++) {
+            Depart depart = new Depart();
+            depart.setDepartName("公司" + i);
+            depart.setParentId("c6d7cb4deeac411cb3384b1b31278596");
+            sysDepartService.saveDepartData(depart, "1234");
         }
     }
 
     @Test
     public void testEdit() {
-        SysDepart sysDepart = new SysDepart();
-        sysDepart.setDepartName("总公司");
-        sysDepart.setId("1342850005937033216");
-        boolean result = sysDepartService.updateDepartDataById(sysDepart, "4321");
-        Assert.assertTrue(result);
+        Depart depart = new Depart();
+        depart.setDepartName("总公司");
+        depart.setId("1342850005937033216");
+        SysDepart sysDepart = sysDepartService.updateDepartDataById(depart, "4321");
+        Assert.assertEquals("总公司", sysDepart.getDepartName());
     }
 
     @Test

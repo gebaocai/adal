@@ -29,7 +29,8 @@
         <logstash.logback>6.3</logstash.logback>
         <jjwt.veersion>0.9.1</jjwt.veersion>
         <mybatis.version>2.1.2</mybatis.version>
-        <mybatisplus.version>3.3.1.tmp</mybatisplus.version>
+        <mybatisplus.version>3.4.3.1</mybatisplus.version>
+        <mybatis-plus-generator.version>3.4.1</mybatis-plus-generator.version>
         <dynamic-datasource.version>3.1.0</dynamic-datasource.version>
         <velocity.version>2.2</velocity.version>
         <springfox.version>3.0.0</springfox.version>
@@ -100,11 +101,11 @@
                 <artifactId>jjwt</artifactId>
                 <version>${jjwt.veersion}</version>
             </dependency>
-            <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.mybatis.spring.boot</groupId>-->
+<!--                <artifactId>mybatis-spring-boot-starter</artifactId>-->
+<!--                <version>${mybatis.version}</version>-->
+<!--            </dependency>-->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -113,7 +114,7 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-generator</artifactId>
-                <version>${mybatisplus.version}</version>
+                <version>${mybatis-plus-generator.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>

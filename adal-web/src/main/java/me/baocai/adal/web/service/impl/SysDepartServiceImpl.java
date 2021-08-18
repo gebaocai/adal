@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.baocai.adal.web.entity.SysDepart;
 import me.baocai.adal.web.mapper.SysDepartDao;
 import me.baocai.adal.web.model.SysDepartTreeModel;
+import me.baocai.adal.web.playload.Depart;
 import me.baocai.adal.web.rule.OrgCodeRule;
 import me.baocai.adal.web.service.SysDepartService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,13 +40,18 @@ public class SysDepartServiceImpl extends ServiceImpl<SysDepartDao, SysDepart> i
 
     @Override
     @Transactional
-    public boolean saveDepartData(SysDepart sysDepart, String userId) {
-        if (sysDepart == null) {
-            return false;
+    public SysDepart saveDepartData(Depart depart, String userId) {
+        if (depart == null || StrUtil.isEmpty(depart.getDepartName())) {
+            return null;
+        }
+        if (depart == null) {
+            return null;
         }
         if (StrUtil.isEmpty(userId)) {
-            return false;
+            return null;
         }
+        SysDepart sysDepart = SysDepart.builder().build();
+        BeanUtils.copyProperties(depart, sysDepart);
         if (StrUtil.isEmpty(sysDepart.getParentId())) {
             sysDepart.setParentId("");
         }
@@ -53,7 +60,10 @@ public class SysDepartServiceImpl extends ServiceImpl<SysDepartDao, SysDepart> i
         sysDepart.setOrgType(codeArray[1]);
         sysDepart.setCreateBy(userId);
         sysDepart.setCreateTime(DateTime.now());
-        return save(sysDepart);
+        if (save(sysDepart)) {
+            return sysDepart;
+        }
+        return null;
     }
 
     @Override
@@ -64,16 +74,24 @@ public class SysDepartServiceImpl extends ServiceImpl<SysDepartDao, SysDepart> i
 
     @Override
     @Transactional
-    public boolean updateDepartDataById(SysDepart sysDepart, String userId) {
-        if (sysDepart == null) {
-            return false;
+    public SysDepart updateDepartDataById(Depart depart, String userId) {
+        if (depart == null || StrUtil.isEmpty(depart.getDepartName())) {
+            return null;
+        }
+        if (depart == null) {
+            return null;
         }
         if (StrUtil.isEmpty(userId)) {
-            return false;
+            return null;
         }
+        SysDepart sysDepart = SysDepart.builder().build();
+        BeanUtils.copyProperties(depart, sysDepart);
         sysDepart.setUpdateBy(userId);
         sysDepart.setUpdateTime(DateTime.now());
-        return updateById(sysDepart);
+        if (updateById(sysDepart)) {
+            return sysDepart;
+        }
+        return null;
     }
 
     private List<SysDepartTreeModel> convert2TreeModel(List<SysDepart> list) {
