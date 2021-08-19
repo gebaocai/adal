@@ -12,7 +12,7 @@ public interface SysPermissionService extends IService<SysPermission> {
      * @param ids 角色id列表
      * @return 权限列表
      */
-    List<SysPermission> getPermissionsByRoleIds(List<Long> ids);
+    List<SysPermission> getPermissionsByRoleIds(List<String> ids);
 
     /**
      * 根据角色列表查询权限列表
@@ -21,6 +21,22 @@ public interface SysPermissionService extends IService<SysPermission> {
      * @return 权限列表
      */
     List<SysPermission> getPermissionsByRoleId(String roleId);
+
+    /**
+     * 根据部门列表查询权限列表
+     *
+     * @param ids 部门id列表
+     * @return 权限列表
+     */
+    List<SysPermission> getPermissionsByDepartIds(List<String> ids);
+
+    /**
+     * 根据角色列表查询权限列表
+     *
+     * @param departId 部门id
+     * @return 权限列表
+     */
+    List<SysPermission> getPermissionsByDepartId(String departId);
 
     @Override
     List<SysPermission> list();

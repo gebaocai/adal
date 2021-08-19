@@ -1,5 +1,6 @@
 package me.baocai.adal.web.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.baocai.adal.web.entity.SysPermission;
@@ -29,7 +30,10 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionDao, SysP
 
     @Override
     @Cacheable(keyGenerator = "customKeyGenerator")
-    public List<SysPermission> getPermissionsByRoleIds(List<Long> ids) {
+    public List<SysPermission> getPermissionsByRoleIds(List<String> ids) {
+        if (CollUtil.isEmpty(ids)) {
+            return CollUtil.toList();
+        }
         return sysPermissionDao.getPermissionsByRoleIds(ids);
     }
 
@@ -37,6 +41,19 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionDao, SysP
     @Cacheable(keyGenerator = "customKeyGenerator")
     public List<SysPermission> getPermissionsByRoleId(String roleId) {
         return sysPermissionDao.getPermissionsByRoleId(roleId);
+    }
+
+    @Override
+    public List<SysPermission> getPermissionsByDepartIds(List<String> ids) {
+        if (CollUtil.isEmpty(ids)) {
+            return CollUtil.toList();
+        }
+        return sysPermissionDao.getPermissionsByDepartIds(ids);
+    }
+
+    @Override
+    public List<SysPermission> getPermissionsByDepartId(String departId) {
+        return sysPermissionDao.getPermissionsByDepartId(departId);
     }
 
     @Override

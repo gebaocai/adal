@@ -3,9 +3,13 @@ package me.baocai.adal.web.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.baocai.adal.web.entity.SysDepartPermission;
+import me.baocai.adal.web.entity.SysUserRole;
 import me.baocai.adal.web.mapper.SysDepartPermissionDao;
 import me.baocai.adal.web.playload.DepartPermission;
 import me.baocai.adal.web.service.SysDepartPermissionService;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,10 +27,12 @@ import java.util.stream.Collectors;
  * @since 2020-12-23
  */
 @Service
+@CacheConfig(cacheNames = {"departPermissionCache"})
 public class SysDepartPermissionServiceImpl extends ServiceImpl<SysDepartPermissionDao, SysDepartPermission> implements SysDepartPermissionService {
 
     @Override
     @Transactional
+    @CacheEvict()
     public boolean saveDepartPermission(DepartPermission departPermission, String userId) {
         String departId = departPermission.getDepartId();
         String permissionIds = departPermission.getPermissionIds();
@@ -51,5 +57,11 @@ public class SysDepartPermissionServiceImpl extends ServiceImpl<SysDepartPermiss
         boolean removeRes = removeByIds(removedPermissionIds);
         boolean saveRes = saveBatch(addedPermissions);
         return removeRes&&saveRes;
+    }
+
+    @Override
+    @Cacheable(keyGenerator = "customKeyGenerator")
+    public List<SysDepartPermission> list(Long departId) {
+        return list(lambdaQuery().eq(SysDepartPermission::getDepartId, departId).getWrapper());
     }
 }

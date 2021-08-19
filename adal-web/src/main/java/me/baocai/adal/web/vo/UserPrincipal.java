@@ -3,12 +3,14 @@ package me.baocai.adal.web.vo;
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import me.baocai.adal.web.common.Consts;
 import me.baocai.adal.web.entity.SysPermission;
 import me.baocai.adal.web.entity.SysRole;
 import me.baocai.adal.web.entity.SysUser;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,8 +27,6 @@ import java.util.stream.Collectors;
  * </p>
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserPrincipal implements UserDetails {
     private static final long serialVersionUID = 8701647944963022922L;
     /**
@@ -95,17 +95,10 @@ public class UserPrincipal implements UserDetails {
      */
     private Collection<? extends GrantedAuthority> authorities;
 
-    public static UserPrincipal create(SysUser user, List<SysRole> roles, List<SysPermission> permissions) {
-        List<String> roleNames = roles.stream()
-                .map(SysRole::getRoleName)
-                .collect(Collectors.toList());
-
-        List<GrantedAuthority> authorities = permissions.stream()
-                .filter(permission -> StrUtil.isNotBlank(permission.getPerms()))
-                .map(permission -> new SimpleGrantedAuthority(permission.getPerms()))
-                .collect(Collectors.toList());
-
-        return new UserPrincipal(user.getId(), user.getUsername(), user.getPassword(), user.getNickname(), user.getPhone(), user.getEmail(), user.getBirthday(), user.getSex(), user.getStatus(), user.getCreateTime(), user.getUpdateTime(), roleNames, authorities);
+    public static UserPrincipal create(SysUser user) {
+        UserPrincipal userPrincipal = new UserPrincipal();
+        BeanUtils.copyProperties(user, userPrincipal);
+        return userPrincipal;
     }
 
     @Override

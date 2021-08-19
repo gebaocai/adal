@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.baocai.adal.web.entity.SysDepart;
+import me.baocai.adal.web.entity.SysRole;
 import me.baocai.adal.web.mapper.SysDepartDao;
 import me.baocai.adal.web.model.SysDepartTreeModel;
 import me.baocai.adal.web.playload.Depart;
@@ -111,5 +112,10 @@ public class SysDepartServiceImpl extends ServiceImpl<SysDepartDao, SysDepart> i
             X.setChildren(childTreeModel);
             findChildren(childTreeModel, list);
         });
+    }
+
+    @Override
+    public List<SysDepart> getDepartsByUserId(String userId) {
+        return null;
     }
 }

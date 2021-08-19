@@ -22,7 +22,7 @@ public interface SysPermissionDao extends BaseMapper<SysPermission> {
      * @param ids 角色id列表
      * @return 权限列表
      */
-    List<SysPermission> getPermissionsByRoleIds(@Param("ids") List<Long> ids);
+    List<SysPermission> getPermissionsByRoleIds(@Param("ids") List<String> ids);
 
     /**
      * 根据角色列表查询权限列表
@@ -31,5 +31,21 @@ public interface SysPermissionDao extends BaseMapper<SysPermission> {
      * @return 权限列表
      */
     List<SysPermission> getPermissionsByRoleId(@Param("roleId") String roleId);
+
+    /**
+     * 根据角色列表查询权限列表
+     *
+     * @param ids 角色id列表
+     * @return 权限列表
+     */
+    List<SysPermission> getPermissionsByDepartIds(@Param("ids") List<String> ids);
+
+    /**
+     * 根据部门列表查询权限列表
+     *
+     * @param departId 部门id
+     * @return 权限列表
+     */
+    List<SysPermission> getPermissionsByDepartId(@Param("departId") String departId);
 
 }

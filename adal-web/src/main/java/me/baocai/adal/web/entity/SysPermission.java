@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @author gebaocai
@@ -177,4 +178,17 @@ public class SysPermission implements Serializable {
         }
 
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SysPermission permission = (SysPermission) o;
+        return Objects.equals(id, permission.id);
+    }
+
 }

@@ -6,13 +6,12 @@
 
     <select id="getPermissionsByRoleIds" resultType="SysPermission">
         SELECT
-        sys_permission.*
+            sys_permission.*
         FROM
-        sys_permission
-        LEFT JOIN sys_role_permission ON sys_permission.id = sys_role_permission.role_id
+            sys_permission
+        LEFT JOIN sys_role_permission ON sys_permission.id = sys_role_permission.permission_id
         WHERE
-        sys_role_permission.role_id = #{roleId}
-        AND sys_role_permission.role_id IN
+            sys_role_permission.role_id IN
         <foreach collection="ids" item="id" index="index"
                  open="(" close=")" separator=",">
             #{id}
@@ -27,6 +26,32 @@
         LEFT JOIN sys_role_permission ON sys_permission.id = sys_role_permission.permission_id
         WHERE
             sys_role_permission.role_id = #{roleId}
+        ORDER BY
+            sys_permission.sort_no ASC
+    </select>
+
+    <select id="getPermissionsByDepartIds" resultType="SysPermission">
+        SELECT
+            sys_permission.*
+        FROM
+            sys_permission
+        LEFT JOIN sys_depart_permission ON sys_permission.id = sys_depart_permission.permission_id
+        WHERE
+            sys_role_permission.depart_id IN
+        <foreach collection="ids" item="id" index="index"
+                 open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="getPermissionsByRoleId" resultType="SysPermission">
+        SELECT
+            sys_permission.*
+        FROM
+            sys_permission
+                LEFT JOIN sys_role_permission ON sys_permission.id = sys_role_permission.permission_id
+        WHERE
+            sys_role_permission.depart_id = #{departId}
         ORDER BY
             sys_permission.sort_no ASC
     </select>
