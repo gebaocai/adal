@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 import lombok.experimental.Tolerate;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * <p>
@@ -44,5 +45,22 @@ public class SysDepartPermission implements Serializable {
     @Tolerate
     SysDepartPermission() {
 
+    }
+
+    /**
+     * 重写equals方法
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SysDepartPermission departPermission = (SysDepartPermission) o;
+        return Objects.equals(departId, departPermission.departId) &&
+                Objects.equals(permissionId, departPermission.permissionId)&&
+                Objects.equals(dataRuleIds, departPermission.dataRuleIds);
     }
 }

@@ -39,7 +39,17 @@ public class SysDepartPermissionServiceImpl extends ServiceImpl<SysDepartPermiss
             return sysDepartPermission;
         }).collect(Collectors.toList());
 
-        boolean result = saveBatch(sysDepartPermissions);
-        return result;
+        List<SysDepartPermission> lastPermissions = list(lambdaQuery().eq(SysDepartPermission::getDepartId, departId).getWrapper());
+        List<SysDepartPermission> addedPermissions = sysDepartPermissions.stream().filter(SysDepartPermission-> {
+            return !lastPermissions.contains(SysDepartPermission);
+        }).collect(Collectors.toList());
+
+        List<String> removedPermissionIds = lastPermissions.stream().filter(SysDepartPermission-> {
+            return !sysDepartPermissions.contains(SysDepartPermission);
+        }).map(SysDepartPermission->SysDepartPermission.getId()).collect(Collectors.toList());
+
+        boolean removeRes = removeByIds(removedPermissionIds);
+        boolean saveRes = saveBatch(addedPermissions);
+        return removeRes&&saveRes;
     }
 }
