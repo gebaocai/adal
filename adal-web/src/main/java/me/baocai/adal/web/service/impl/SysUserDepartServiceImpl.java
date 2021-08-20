@@ -1,5 +1,6 @@
 package me.baocai.adal.web.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import me.baocai.adal.web.entity.SysUserDepart;
 import me.baocai.adal.web.entity.SysUserRole;
 import me.baocai.adal.web.mapper.SysUserDepartDao;
@@ -10,6 +11,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.beans.Transient;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +35,7 @@ public class SysUserDepartServiceImpl extends ServiceImpl<SysUserDepartDao, SysU
 
     @Override
     @CacheEvict(key ="'listByUserId'+#userId")
+    @Transient
     public boolean saveBatch(List<String> departIds, String userId) {
         List<SysUserDepart> departs = departIds.stream().map(departId->{
             SysUserDepart sysUserRole = new SysUserDepart();
@@ -50,8 +53,8 @@ public class SysUserDepartServiceImpl extends ServiceImpl<SysUserDepartDao, SysU
             return !departs.contains(SysUserDepart);
         }).map(SysUserDepart->SysUserDepart.getId()).collect(Collectors.toList());
 
-        boolean removeRes = removeByIds(removedRoles);
-        boolean saveRes = saveBatch(addedRoles);
+        boolean removeRes = CollUtil.isEmpty(removedRoles)?true:removeByIds(removedRoles);
+        boolean saveRes = CollUtil.isEmpty(addedRoles)?true:saveBatch(addedRoles);
         return removeRes&&saveRes;
     }
 }

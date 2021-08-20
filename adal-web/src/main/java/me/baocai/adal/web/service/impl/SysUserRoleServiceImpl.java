@@ -1,5 +1,6 @@
 package me.baocai.adal.web.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import me.baocai.adal.web.entity.SysDepartPermission;
 import me.baocai.adal.web.entity.SysUserDepart;
 import me.baocai.adal.web.entity.SysUserRole;
@@ -52,8 +53,8 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleDao, SysUserR
             return !roles.contains(SysUserRole);
         }).map(SysDepartPermission->SysDepartPermission.getId()).collect(Collectors.toList());
 
-        boolean removeRes = removeByIds(removedRoles);
-        boolean saveRes = saveBatch(addedRoles);
+        boolean removeRes = CollUtil.isEmpty(removedRoles)?true:removeByIds(removedRoles);
+        boolean saveRes = CollUtil.isEmpty(addedRoles)?true:saveBatch(addedRoles);
         return removeRes&&saveRes;
     }
 }

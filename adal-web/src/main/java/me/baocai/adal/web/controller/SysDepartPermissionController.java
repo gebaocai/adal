@@ -30,7 +30,7 @@ public class SysDepartPermissionController extends BaseController {
     private SysDepartPermissionService sysDepartPermissionService;
 
     @PostMapping("/batchSave")
-    public CommonResponse add(@RequestBody DepartPermission departPermission) {
+    public CommonResponse batchSave(@RequestBody DepartPermission departPermission) {
         String userId = getUserId();
         boolean result = sysDepartPermissionService.saveDepartPermission(departPermission, userId);
         if (result) {
