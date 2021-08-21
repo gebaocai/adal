@@ -2,6 +2,7 @@ package me.baocai.adal.web.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import me.baocai.adal.web.entity.SysUser;
+import me.baocai.adal.web.playload.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,4 +24,6 @@ public interface SysUserService extends IService<SysUser> {
      * @return 用户列表
      */
     List<SysUser> findByUsernameIn(List<String> usernameList);
+
+    SysUser save(User user);
 }

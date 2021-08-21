@@ -28,7 +28,7 @@
         <adal.version>1.0-SNAPSHOT</adal.version>
         <logstash.logback>6.3</logstash.logback>
         <jjwt.veersion>0.9.1</jjwt.veersion>
-        <mybatis.version>2.1.2</mybatis.version>
+        <mybatis.version>3.5.7</mybatis.version>
         <mybatisplus.version>3.4.3.1</mybatisplus.version>
         <mybatis-plus-generator.version>3.4.1</mybatis-plus-generator.version>
         <dynamic-datasource.version>3.1.0</dynamic-datasource.version>

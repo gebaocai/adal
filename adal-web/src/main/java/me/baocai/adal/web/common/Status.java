@@ -50,6 +50,11 @@ public enum Status implements IStatus {
     PARAM_NOT_MATCH(400, "参数不匹配！"),
 
     /**
+     * 数据已存在！
+     */
+    PARAM_EXIST(400, "数据已存在！"),
+
+    /**
      * 参数不能为空！
      */
     PARAM_NOT_NULL(400, "参数不能为空！"),

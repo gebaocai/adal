@@ -25,22 +25,19 @@ import java.util.List;
 @CacheConfig(cacheNames = {"permissionCache"})
 public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionDao, SysPermission> implements SysPermissionService {
 
-    @Autowired
-    private SysPermissionDao sysPermissionDao;
-
     @Override
     @Cacheable(keyGenerator = "customKeyGenerator")
     public List<SysPermission> getPermissionsByRoleIds(List<String> ids) {
         if (CollUtil.isEmpty(ids)) {
             return CollUtil.toList();
         }
-        return sysPermissionDao.getPermissionsByRoleIds(ids);
+        return baseMapper.getPermissionsByRoleIds(ids);
     }
 
     @Override
     @Cacheable(keyGenerator = "customKeyGenerator")
     public List<SysPermission> getPermissionsByRoleId(String roleId) {
-        return sysPermissionDao.getPermissionsByRoleId(roleId);
+        return baseMapper.getPermissionsByRoleId(roleId);
     }
 
     @Override
@@ -48,18 +45,18 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionDao, SysP
         if (CollUtil.isEmpty(ids)) {
             return CollUtil.toList();
         }
-        return sysPermissionDao.getPermissionsByDepartIds(ids);
+        return baseMapper.getPermissionsByDepartIds(ids);
     }
 
     @Override
     public List<SysPermission> getPermissionsByDepartId(String departId) {
-        return sysPermissionDao.getPermissionsByDepartId(departId);
+        return baseMapper.getPermissionsByDepartId(departId);
     }
 
     @Override
     @Cacheable(keyGenerator = "customKeyGenerator")
     public List<SysPermission> list() {
-        List<SysPermission> permissionList = sysPermissionDao.selectList(new QueryWrapper<SysPermission>().lambda().
+        List<SysPermission> permissionList = baseMapper.selectList(new QueryWrapper<SysPermission>().lambda().
                 orderByAsc(SysPermission::getSortNo));
         return permissionList;
     }

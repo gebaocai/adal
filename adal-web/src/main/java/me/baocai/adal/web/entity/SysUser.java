@@ -1,9 +1,6 @@
 package me.baocai.adal.web.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -14,6 +11,8 @@ import org.apache.ibatis.type.JdbcType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -48,8 +47,7 @@ public class SysUser implements Serializable {
      * 生日
      */
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date birthday;
+    private LocalDate birthday;
 
     /**
      * 性别（1：男 2：女）
@@ -82,12 +80,16 @@ public class SysUser implements Serializable {
     /**
      * 创建时间
      */
-    private Date createTime;
+    @TableField(fill = FieldFill.INSERT)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
-    private Date updateTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updateTime;
 
     @Tolerate
     SysUser() {

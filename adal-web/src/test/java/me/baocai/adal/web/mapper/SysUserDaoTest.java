@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -74,7 +76,7 @@ public class SysUserDaoTest extends AdalWebApplicationTests {
 
     @Test
     public void addUser() {
-        Date date = new Date();
+        LocalDateTime date = LocalDateTime.now();
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String password = bCryptPasswordEncoder.encode("123456");
@@ -82,7 +84,7 @@ public class SysUserDaoTest extends AdalWebApplicationTests {
         SysUser sysUser = SysUser.builder().
                 username("baocai").
                 password(password).
-                birthday(date).
+                birthday(LocalDate.now()).
                 createTime(date).
                 updateTime(date).
                 build();
