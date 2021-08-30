@@ -23,6 +23,10 @@ public class SysDepartTreeModel {
     /**
      * 机构/部门名称
      */
+    private String title;
+    /**
+     * 机构/部门名称
+     */
     private String departName;
     /**
      * 英文名
@@ -102,6 +106,7 @@ public class SysDepartTreeModel {
     public SysDepartTreeModel(SysDepart sysDepart) {
         this.id = sysDepart.getId();
         this.parentId = sysDepart.getParentId();
+        this.title = sysDepart.getDepartName();
         this.departName = sysDepart.getDepartName();
         this.departNameEn = sysDepart.getDepartNameEn();
         this.departNameAbbr = sysDepart.getDepartNameAbbr();

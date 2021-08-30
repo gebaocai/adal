@@ -22,11 +22,17 @@ import java.util.List;
  * @since 2020-12-23
  */
 @RestController
-@RequestMapping("/sys/sysDepart")
+@RequestMapping("/api/sys/sysDepart")
 public class SysDepartController extends BaseController {
 
     @Autowired
     private SysDepartService sysDepartService;
+
+    @GetMapping("/treeList")
+    public CommonResponse treeList() {
+        List<SysDepartTreeModel> treeModelList = sysDepartService.queryTreeList();
+        return CommonResponse.ofSuccess(treeModelList);
+    }
 
     @GetMapping("/list")
     public CommonResponse list() {
@@ -38,6 +44,15 @@ public class SysDepartController extends BaseController {
     public CommonResponse add(@RequestBody Depart depart) {
         String userId = getUserId();
         SysDepart sysDepart = sysDepartService.saveDepartData(depart, userId);
+        if (sysDepart!=null) {
+            return CommonResponse.ofSuccess(sysDepart);
+        }
+        return CommonResponse.ofStatus(Status.ERROR);
+    }
+
+    @GetMapping("/info")
+    public CommonResponse info(@RequestParam(name="id") String id) {
+        SysDepart sysDepart = sysDepartService.getById(id);
         if (sysDepart!=null) {
             return CommonResponse.ofSuccess(sysDepart);
         }
