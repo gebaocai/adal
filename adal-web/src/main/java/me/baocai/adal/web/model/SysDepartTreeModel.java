@@ -16,6 +16,7 @@ public class SysDepartTreeModel {
      * ID
      */
     private String id;
+    private String key;
     /**
      * 父机构ID
      */
@@ -105,6 +106,7 @@ public class SysDepartTreeModel {
      */
     public SysDepartTreeModel(SysDepart sysDepart) {
         this.id = sysDepart.getId();
+        this.key = sysDepart.getId();
         this.parentId = sysDepart.getParentId();
         this.title = sysDepart.getDepartName();
         this.departName = sysDepart.getDepartName();

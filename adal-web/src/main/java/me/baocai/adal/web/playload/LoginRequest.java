@@ -30,7 +30,7 @@ public class LoginRequest {
     /**
      * 记住我
      */
-    private Boolean rememberMe = false;
+    private Boolean rememberMe = true;
 
     @ApiModelProperty(value = "验证码")
     private String captcha;
