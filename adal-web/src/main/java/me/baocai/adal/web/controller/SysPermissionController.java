@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import me.baocai.adal.web.common.CommonResponse;
 import me.baocai.adal.web.entity.SysPermission;
+import me.baocai.adal.web.model.SysPermissionTree;
 import me.baocai.adal.web.service.SysPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,7 @@ public class SysPermissionController extends BaseController {
     @ApiOperation("数据节点")
     @GetMapping(value = "/list")
     public CommonResponse list() {
-        List<SysPermission> permissionList = sysPermissionService.list();
+        List<SysPermissionTree> permissionList = sysPermissionService.queryTreeList();
         return CommonResponse.ofSuccess(permissionList);
     }
 

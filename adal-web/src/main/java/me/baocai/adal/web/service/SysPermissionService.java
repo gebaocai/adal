@@ -2,6 +2,7 @@ package me.baocai.adal.web.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import me.baocai.adal.web.entity.SysPermission;
+import me.baocai.adal.web.model.SysPermissionTree;
 
 import java.util.List;
 
@@ -38,8 +39,7 @@ public interface SysPermissionService extends IService<SysPermission> {
      */
     List<SysPermission> getPermissionsByDepartId(String departId);
 
-    @Override
-    List<SysPermission> list();
+    List<SysPermissionTree> queryTreeList();
 
     /**
      * 根据用户id查找其权限
