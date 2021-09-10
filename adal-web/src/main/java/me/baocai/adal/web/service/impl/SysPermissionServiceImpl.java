@@ -82,10 +82,12 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionDao, SysP
 
     private void findChildren(List<SysPermissionTree> rootTreeModel, List<SysPermission> list) {
         rootTreeModel.stream().forEach(X -> {
-            List<SysPermissionTree> childTreeModel = list.stream().filter(Y -> Y.getParentId().equals(X.getId()))
+            List<SysPermissionTree> childTreeModel = list.stream().filter(Y -> X.getId().equals(Y.getParentId()))
                     .map(Y -> new SysPermissionTree(Y))
                     .collect(Collectors.toList());
-            X.setChildren(childTreeModel);
+            if (!CollUtil.isEmpty(childTreeModel)) {
+                X.setChildren(childTreeModel);
+            }
             findChildren(childTreeModel, list);
         });
     }

@@ -24,15 +24,15 @@ import java.util.List;
  */
 @RestController
 @Slf4j
-@RequestMapping("/sys/permission")
+@RequestMapping("/api/sys/permission")
 public class SysPermissionController extends BaseController {
 
     @Autowired
     private SysPermissionService sysPermissionService;
 
     @ApiOperation("数据节点")
-    @GetMapping(value = "/list")
-    public CommonResponse list() {
+    @GetMapping(value = "/queryTreeList")
+    public CommonResponse queryTreeList() {
         List<SysPermissionTree> permissionList = sysPermissionService.queryTreeList();
         return CommonResponse.ofSuccess(permissionList);
     }
