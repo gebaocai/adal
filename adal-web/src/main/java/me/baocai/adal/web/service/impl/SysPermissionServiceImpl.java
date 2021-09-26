@@ -1,6 +1,7 @@
 package me.baocai.adal.web.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -9,7 +10,9 @@ import me.baocai.adal.web.entity.SysPermission;
 import me.baocai.adal.web.mapper.SysPermissionDao;
 import me.baocai.adal.web.model.SysDepartTreeModel;
 import me.baocai.adal.web.model.SysPermissionTree;
+import me.baocai.adal.web.playload.Permission;
 import me.baocai.adal.web.service.SysPermissionService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -69,6 +72,47 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionDao, SysP
     @Override
     public List<SysPermission> getUserPermission(String userId) {
         return null;
+    }
+
+    @Override
+    public SysPermission savePermission(Permission permission, String userId) {
+        if (permission == null || StrUtil.isEmpty(permission.getName())) {
+            return null;
+        }
+        if (StrUtil.isEmpty(userId)) {
+            return null;
+        }
+        SysPermission sysPermission = SysPermission.builder().build();
+        BeanUtils.copyProperties(permission, sysPermission);
+        if (StrUtil.isEmpty(sysPermission.getParentId())) {
+            sysPermission.setParentId("");
+        }
+        if (save(sysPermission)) {
+            return sysPermission;
+        }
+        return null;
+    }
+
+    @Override
+    public SysPermission updatePermissionById(Permission permission, String userId) {
+        if (permission == null || StrUtil.isEmpty(permission.getName())) {
+            return null;
+        }
+        if (StrUtil.isEmpty(userId)) {
+            return null;
+        }
+        SysPermission sysPermission = SysPermission.builder().build();
+        BeanUtils.copyProperties(permission, sysPermission);
+        sysPermission.setUpdateBy(userId);
+        if (updateById(sysPermission)) {
+            return sysPermission;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean delete(String permissionId) {
+        return removeById(permissionId);
     }
 
     private List<SysPermissionTree> convert2TreeModel(List<SysPermission> list) {

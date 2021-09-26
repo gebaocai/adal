@@ -1,8 +1,11 @@
 package me.baocai.adal.web.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import me.baocai.adal.web.entity.SysDepart;
 import me.baocai.adal.web.entity.SysPermission;
 import me.baocai.adal.web.model.SysPermissionTree;
+import me.baocai.adal.web.playload.Depart;
+import me.baocai.adal.web.playload.Permission;
 
 import java.util.List;
 
@@ -48,4 +51,10 @@ public interface SysPermissionService extends IService<SysPermission> {
      * @return
      */
     List<SysPermission> getUserPermission(String userId);
+
+    SysPermission savePermission(Permission permission, String userId);
+
+    boolean delete(String permissionId);
+
+    SysPermission updatePermissionById(Permission permission, String userId);
 }

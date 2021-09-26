@@ -3,8 +3,10 @@ package me.baocai.adal.web.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Tolerate;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,6 +17,7 @@ import java.util.Objects;
  * @date 2020/12/22 0:04
  */
 @Data
+@Builder
 @EqualsAndHashCode(callSuper = false)
 public class SysPermission implements Serializable {
     private static final long serialVersionUID = -5355053095858380086L;
@@ -154,10 +157,12 @@ public class SysPermission implements Serializable {
     private boolean internalOrExternal;
     /*update_end author:wuxianquan date:20190908 for:实体增加字段 */
 
+    @Tolerate
     public SysPermission() {
 
     }
 
+    @Tolerate
     public SysPermission(boolean index) {
         if (index) {
             this.id = "9502685863ab87f0ad1134142788a385";
