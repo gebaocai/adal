@@ -3,14 +3,17 @@ package me.baocai.adal.web.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Tolerate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@Builder
 @EqualsAndHashCode(callSuper = false)
 public class SysRole implements Serializable {
     private static final long serialVersionUID = -1265159142780010323L;
@@ -59,4 +62,10 @@ public class SysRole implements Serializable {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
+
+    @Tolerate
+    SysRole() {
+
+    }
+
 }

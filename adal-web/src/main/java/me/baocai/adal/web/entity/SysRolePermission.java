@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * <p>
@@ -48,4 +49,20 @@ public class SysRolePermission implements Serializable {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date operateDate;
+
+    /**
+     * 重写equals方法
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SysRolePermission roldPermission = (SysRolePermission) o;
+        return Objects.equals(roleId, roldPermission.roleId) &&
+                Objects.equals(permissionId, roldPermission.permissionId);
+    }
 }
