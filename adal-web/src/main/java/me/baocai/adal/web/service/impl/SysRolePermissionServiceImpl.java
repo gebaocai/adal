@@ -7,6 +7,7 @@ import me.baocai.adal.web.mapper.SysRolePermissionDao;
 import me.baocai.adal.web.service.SysRolePermissionService;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,19 +22,24 @@ import java.util.stream.Collectors;
 @Service
 public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionDao, SysRolePermission> implements SysRolePermissionService {
     @Override
-    public boolean saveRolePermission(String roleId, List<String> permissionIds) {
-        List<SysRolePermission> opsList = listByIds(permissionIds);
+    public boolean saveRolePermission(String roleId, String permissionIds) {
+        List idList = Arrays.asList(permissionIds.split(","));
+        List<SysRolePermission> opsList = listByIds(idList);
         List<SysRolePermission> existList = list(lambdaQuery().eq(SysRolePermission::getRoleId, roleId));
-        List<SysRolePermission> added = opsList.stream().filter(sysRolePermission-> {
-            return !existList.contains(sysRolePermission);
-        }).collect(Collectors.toList());
-
-        List<String> removed = existList.stream().filter(sysRolePermission-> {
-            return !opsList.contains(sysRolePermission);
-        }).map(sysRolePermission->sysRolePermission.getId()).collect(Collectors.toList());
+        List<SysRolePermission> added = opsList.stream().filter(sysRolePermission->
+                !existList.contains(sysRolePermission)).collect(Collectors.toList());
+        List<String> removed = existList.stream().filter(sysRolePermission->
+                !opsList.contains(sysRolePermission)).
+                map(sysRolePermission->sysRolePermission.getId()).
+                collect(Collectors.toList());
 
         boolean removeRes = removeByIds(removed);
         boolean saveRes = saveBatch(added);
         return removeRes&&saveRes;
+    }
+
+    @Override
+    public List<SysRolePermission> list(String roleId) {
+        return null;
     }
 }

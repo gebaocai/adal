@@ -1,6 +1,8 @@
 package me.baocai.adal.web.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
@@ -10,6 +12,7 @@ import lombok.experimental.Tolerate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -27,41 +30,41 @@ public class SysRole implements Serializable {
     /**
      * 角色名称
      */
-    private String roleName;
+    private String name;
 
-    /**
-     * 角色编码
-     */
-    private String roleCode;
+//    /**
+//     * 角色编码
+//     */
+//    private String roleCode;
 
     /**
      * 描述
      */
     private String description;
 
-    /**
-     * 创建人
-     */
-    private String createBy;
+//    /**
+//     * 创建人
+//     */
+//    private String createBy;
 
     /**
      * 创建时间
      */
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
-
-    /**
-     * 更新人
-     */
-    private String updateBy;
+    @TableField(fill = FieldFill.INSERT)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updateTime;
+
+//    /**
+//     * 更新人
+//     */
+//    private String updateBy;
 
     @Tolerate
     SysRole() {

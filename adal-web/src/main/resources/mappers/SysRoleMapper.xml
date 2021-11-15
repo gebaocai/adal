@@ -11,7 +11,7 @@
         WHERE sys_user_role.user_id = #{userId}
     </select>
 
-    <select id="getRolesByUserId" resultType="SysRole">
+    <select id="getRolesByName" resultType="SysRole">
         SELECT sys_role.*
         FROM sys_role
         WHERE sys_role.name = #{name}

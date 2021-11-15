@@ -21,5 +21,7 @@ public interface SysRoleService {
 
     SysRole save(Role role);
 
+    SysRole edit(Role role);
+
     IPage<SysRole> list(Role role, Page<SysRole> page);
 }

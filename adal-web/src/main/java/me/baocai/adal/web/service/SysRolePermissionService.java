@@ -1,7 +1,9 @@
 package me.baocai.adal.web.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import me.baocai.adal.web.entity.SysDepartPermission;
 import me.baocai.adal.web.entity.SysRolePermission;
+import me.baocai.adal.web.playload.DepartPermission;
 
 import java.util.List;
 
@@ -21,6 +23,7 @@ public interface SysRolePermissionService extends IService<SysRolePermission> {
      * @param permissionIds
      * @return
      */
-    boolean saveRolePermission(String roleId, List<String> permissionIds);
+    boolean saveRolePermission(String roleId, String permissionIds);
 
+    List<SysRolePermission> list(String roleId);
 }

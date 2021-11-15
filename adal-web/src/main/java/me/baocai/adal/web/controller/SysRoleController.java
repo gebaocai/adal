@@ -11,6 +11,7 @@ import me.baocai.adal.web.entity.SysRole;
 import me.baocai.adal.web.entity.SysUser;
 import me.baocai.adal.web.playload.Role;
 import me.baocai.adal.web.playload.User;
+import me.baocai.adal.web.service.SysRolePermissionService;
 import me.baocai.adal.web.service.SysRoleService;
 import me.baocai.adal.web.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,12 @@ import java.util.Optional;
  * @since 2020-12-24
  */
 @RestController
-@RequestMapping("/sys/role")
+@RequestMapping("/api/sys/role")
 public class SysRoleController {
     @Autowired
     private SysRoleService sysRoleService;
+    @Autowired
+    private SysRolePermissionService sysRolePermissionService;
 
     @ApiOperation("保存角色接口")
     @ResponseBody
@@ -49,10 +52,26 @@ public class SysRoleController {
         return CommonResponse.ofStatus(Status.ERROR);
     }
 
+    @ApiOperation("保存角色接口")
+    @ResponseBody
+    @PostMapping("/edit")
+    public CommonResponse edit(@RequestBody Role role) {
+        Optional<SysRole> existRole = sysRoleService.getRolesByName(role.getName());
+        if (existRole.isPresent()) {
+            return CommonResponse.ofStatus(Status.PARAM_EXIST);
+        }
+
+        SysRole sysRole = sysRoleService.save(role);
+        if (null != sysRole) {
+            return CommonResponse.ofSuccess(sysRole);
+        }
+        return CommonResponse.ofStatus(Status.ERROR);
+    }
+
     @ApiOperation("角色列表接口")
     @ResponseBody
-    @PostMapping("/list")
-    public CommonResponse list(@RequestBody Role role, @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+    @GetMapping("/list")
+    public CommonResponse list(Role role, @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
                                @RequestParam(name="pageSize", defaultValue="10") Integer pageSize) {
         Page<SysRole> page = new Page<SysRole>(pageNo, pageSize);
         IPage<SysRole> sysRoles = sysRoleService.list(role, page);
@@ -62,26 +81,17 @@ public class SysRoleController {
         return CommonResponse.ofStatus(Status.ERROR);
     }
 
-//    @ApiOperation("保存角色关联用户")
-//    @ResponseBody
-//    @PostMapping("/saveUser")
-//    public CommonResponse saveUser(@RequestBody Role role, @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
-//                               @RequestParam(name="pageSize", defaultValue="10") Integer pageSize) {
-//        Page<SysRole> page = new Page<SysRole>(pageNo, pageSize);
-//        IPage<SysRole> sysRoles = sysRoleService.list(role, page);
-//        if (null != sysRoles) {
-//            return CommonResponse.ofSuccess(sysRoles);
-//        }
-//        return CommonResponse.ofStatus(Status.ERROR);
-//    }
-
     @ApiOperation("保存角色权限")
     @ResponseBody
     @PostMapping("/savePermission")
     public CommonResponse savePermission(@RequestBody JSONObject jsonObject) {
-        String roldId = jsonObject.getStr("roldId");
+        String roleId = jsonObject.getStr("roleId");
         String permissionIds = jsonObject.getStr("permissionIds");
 
+        boolean result = sysRolePermissionService.saveRolePermission(roleId, permissionIds);
+        if (result) {
+            return CommonResponse.ofSuccess();
+        }
         return CommonResponse.ofStatus(Status.ERROR);
     }
 }

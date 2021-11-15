@@ -55,6 +55,16 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRole> impleme
     }
 
     @Override
+    public SysRole edit(Role role) {
+        SysRole sysRole = SysRole.builder().build();
+        BeanUtils.copyProperties(role, sysRole);
+        if (updateById(sysRole)) {
+            return sysRole;
+        }
+        return null;
+    }
+
+    @Override
     public IPage<SysRole> list(Role role, Page<SysRole> page) {
         SysRole sysRole = SysRole.builder().build();
         BeanUtils.copyProperties(role, sysRole);
