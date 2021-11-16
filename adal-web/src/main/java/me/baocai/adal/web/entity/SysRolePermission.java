@@ -3,8 +3,10 @@ package me.baocai.adal.web.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Tolerate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -18,6 +20,7 @@ import java.util.Objects;
  */
 
 @Data
+@Builder
 @EqualsAndHashCode(callSuper = false)
 public class SysRolePermission implements Serializable {
     private static final long serialVersionUID = -8393506242587909934L;
@@ -64,5 +67,10 @@ public class SysRolePermission implements Serializable {
         SysRolePermission roldPermission = (SysRolePermission) o;
         return Objects.equals(roleId, roldPermission.roleId) &&
                 Objects.equals(permissionId, roldPermission.permissionId);
+    }
+
+    @Tolerate
+    SysRolePermission() {
+
     }
 }
