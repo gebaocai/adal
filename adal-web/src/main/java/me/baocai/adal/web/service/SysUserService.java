@@ -1,7 +1,11 @@
 package me.baocai.adal.web.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import me.baocai.adal.web.entity.SysRole;
 import me.baocai.adal.web.entity.SysUser;
+import me.baocai.adal.web.playload.Role;
 import me.baocai.adal.web.playload.User;
 
 import java.util.List;
@@ -26,4 +30,6 @@ public interface SysUserService extends IService<SysUser> {
     List<SysUser> findByUsernameIn(List<String> usernameList);
 
     SysUser save(User user);
+
+    IPage<SysUser> list(User user, Page<SysUser> page);
 }

@@ -1,10 +1,14 @@
 package me.baocai.adal.web.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import me.baocai.adal.web.common.CommonResponse;
 import me.baocai.adal.web.common.Status;
+import me.baocai.adal.web.entity.SysRole;
 import me.baocai.adal.web.entity.SysUser;
+import me.baocai.adal.web.playload.Role;
 import me.baocai.adal.web.playload.User;
 import me.baocai.adal.web.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +21,7 @@ import java.util.Optional;
  * @since 2021-8-21
  */
 @RestController
-@RequestMapping("/sys/user")
+@RequestMapping("/api/sys/user")
 @Api(tags = "用户接口")
 public class SysUserController {
 
@@ -36,6 +40,19 @@ public class SysUserController {
         SysUser sysUser = sysUserService.save(user);
         if (null != sysUser) {
             return CommonResponse.ofSuccess(sysUser);
+        }
+        return CommonResponse.ofStatus(Status.ERROR);
+    }
+
+    @ApiOperation("角色列表接口")
+    @ResponseBody
+    @GetMapping("/list")
+    public CommonResponse list(User role, @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+                               @RequestParam(name="pageSize", defaultValue="10") Integer pageSize) {
+        Page<SysUser> page = new Page<SysUser>(pageNo, pageSize);
+        IPage<SysUser> sysUsers = sysUserService.list(role, page);
+        if (null != sysUsers) {
+            return CommonResponse.ofSuccess(sysUsers);
         }
         return CommonResponse.ofStatus(Status.ERROR);
     }

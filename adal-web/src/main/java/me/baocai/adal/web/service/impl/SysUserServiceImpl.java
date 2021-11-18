@@ -1,9 +1,14 @@
 package me.baocai.adal.web.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import me.baocai.adal.web.entity.SysRole;
 import me.baocai.adal.web.entity.SysUser;
 import me.baocai.adal.web.mapper.SysUserDao;
+import me.baocai.adal.web.playload.Role;
 import me.baocai.adal.web.playload.User;
 import me.baocai.adal.web.service.SysUserDepartService;
 import me.baocai.adal.web.service.SysUserRoleService;
@@ -68,5 +73,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
             return sysUser;
         }
         return null;
+    }
+
+    @Override
+    public IPage<SysUser> list(User user, Page<SysUser> page) {
+        SysUser sysUser = SysUser.builder().build();
+        BeanUtils.copyProperties(user, sysUser);
+        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>(sysUser);
+        return page(page, queryWrapper);
     }
 }
