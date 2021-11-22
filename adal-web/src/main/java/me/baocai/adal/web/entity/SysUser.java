@@ -52,7 +52,7 @@ public class SysUser implements Serializable {
     /**
      * 性别（1：男 2：女）
      */
-    private Integer sex;
+    private Integer gender;
 
     /**
      * 电子邮件

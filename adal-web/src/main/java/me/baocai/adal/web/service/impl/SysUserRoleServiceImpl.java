@@ -25,17 +25,17 @@ import java.util.stream.Collectors;
  * @since 2021-08-19
  */
 @Service
-@CacheConfig(cacheNames = {"userRoleCache"})
+//@CacheConfig(cacheNames = {"userRoleCache"})
 public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleDao, SysUserRole> implements SysUserRoleService {
 
     @Override
-    @Cacheable(key ="'listByUserId'+#userId")
+//    @Cacheable(key ="'listByUserId'+#userId")
     public List<SysUserRole> listByUserId(String userId) {
         return list(lambdaQuery().eq(SysUserRole::getUserId, userId).getWrapper());
     }
 
     @Override
-    @CacheEvict(key ="'listByUserId'+#userId")
+//    @CacheEvict(key ="'listByUserId'+#userId")
     public boolean saveBatch(List<String> roleIds, String userId) {
         List<SysUserRole> roles = roleIds.stream().map(roleId->{
             SysUserRole sysUserRole = new SysUserRole();

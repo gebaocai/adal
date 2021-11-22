@@ -31,5 +31,7 @@ public interface SysUserService extends IService<SysUser> {
 
     SysUser save(User user);
 
+    SysUser edit(User user);
+
     IPage<SysUser> list(User user, Page<SysUser> page);
 }

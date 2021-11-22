@@ -44,6 +44,22 @@ public class SysUserController {
         return CommonResponse.ofStatus(Status.ERROR);
     }
 
+    @ApiOperation("编辑用户接口")
+    @ResponseBody
+    @PostMapping("/edit")
+    public CommonResponse edit(@RequestBody User user) {
+        Optional<SysUser> existUser = sysUserService.findByUsernameOrPhone(user.getUsername(), user.getPhone());
+        if (!existUser.isPresent()) {
+            return CommonResponse.ofStatus(Status.REQUEST_NOT_FOUND);
+        }
+
+        SysUser sysUser = sysUserService.edit(user);
+        if (null != sysUser) {
+            return CommonResponse.ofSuccess(sysUser);
+        }
+        return CommonResponse.ofStatus(Status.ERROR);
+    }
+
     @ApiOperation("角色列表接口")
     @ResponseBody
     @GetMapping("/list")

@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@CacheConfig(cacheNames = {"userCache"})
+//@CacheConfig(cacheNames = {"userCache"})
 public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> implements SysUserService {
 
     @Autowired
@@ -36,7 +36,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
     private SysUserDepartService sysUserDepartService;
 
     @Override
-    @Cacheable(key ="'findByUsernameOrPhone_'+#username+'_'+#phone")
+//    @Cacheable(key ="'findByUsernameOrPhone_'+#username+'_'+#phone")
     public Optional<SysUser> findByUsernameOrPhone(String username, String phone) {
         return baseMapper.findByUsernameOrPhone(username, phone);
     }
@@ -48,7 +48,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
 
     @Override
     @Transactional
-    @CacheEvict(key ="'findByUsernameOrPhone_'+#user.username+'_'+#user.phone")
+//    @CacheEvict(key ="'findByUsernameOrPhone_'+#user.username+'_'+#user.phone")
     public SysUser save(User user) {
         String roleIds = user.getRoleIds();
         String departIds = user.getDepartIds();
@@ -60,6 +60,34 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
         String password = bCryptPasswordEncoder.encode(sysUser.getPassword());
         sysUser.setPassword(password);
         boolean res = save(sysUser);
+
+        String[] idsArry = StrUtil.split(departIds, ",");
+        List<String> idsList = Arrays.asList(idsArry);
+        boolean res1 = sysUserDepartService.saveBatch(idsList, sysUser.getId());
+
+        idsArry = StrUtil.split(roleIds, ",");
+        idsList = Arrays.asList(idsArry);
+        boolean res2 = sysUserRoleService.saveBatch(idsList, sysUser.getId());
+
+        if (res && res1 && res2) {
+            return sysUser;
+        }
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public SysUser edit(User user) {
+        String roleIds = user.getRoleIds();
+        String departIds = user.getDepartIds();
+
+        SysUser sysUser = SysUser.builder().build();
+        BeanUtils.copyProperties(user, sysUser);
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String password = bCryptPasswordEncoder.encode(sysUser.getPassword());
+        sysUser.setPassword(password);
+        boolean res = updateById(sysUser);
 
         String[] idsArry = StrUtil.split(departIds, ",");
         List<String> idsList = Arrays.asList(idsArry);
