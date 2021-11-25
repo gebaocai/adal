@@ -6,6 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import me.baocai.adal.web.common.CommonResponse;
 import me.baocai.adal.web.common.Status;
+import me.baocai.adal.web.entity.SysDepart;
 import me.baocai.adal.web.entity.SysRole;
 import me.baocai.adal.web.entity.SysUser;
 import me.baocai.adal.web.playload.Role;
@@ -65,10 +66,19 @@ public class SysUserController {
     @GetMapping("/list")
     public CommonResponse list(User role, @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
                                @RequestParam(name="pageSize", defaultValue="10") Integer pageSize) {
-        Page<SysUser> page = new Page<SysUser>(pageNo, pageSize);
-        IPage<SysUser> sysUsers = sysUserService.list(role, page);
+        Page page = new Page<>(pageNo, pageSize);
+        IPage<User> sysUsers = sysUserService.list(role, page);
         if (null != sysUsers) {
             return CommonResponse.ofSuccess(sysUsers);
+        }
+        return CommonResponse.ofStatus(Status.ERROR);
+    }
+
+    @GetMapping("/info")
+    public CommonResponse info(@RequestParam(name="id") String id) {
+        SysUser sysUser = sysUserService.getById(id);
+        if (sysUser!=null) {
+            return CommonResponse.ofSuccess(sysUser);
         }
         return CommonResponse.ofStatus(Status.ERROR);
     }

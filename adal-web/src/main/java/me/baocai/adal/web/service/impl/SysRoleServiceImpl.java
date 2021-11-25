@@ -71,4 +71,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRole> impleme
         QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>(sysRole);
         return page(page, queryWrapper);
     }
+
+    @Override
+    public List<SysRole> listAll() {
+        return list();
+    }
 }

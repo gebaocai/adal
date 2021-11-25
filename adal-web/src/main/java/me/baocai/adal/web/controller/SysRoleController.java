@@ -81,6 +81,17 @@ public class SysRoleController {
         return CommonResponse.ofStatus(Status.ERROR);
     }
 
+    @ApiOperation("角色列表接口")
+    @ResponseBody
+    @GetMapping("/listAll")
+    public CommonResponse listAll() {
+        List<SysRole> sysRoles = sysRoleService.listAll();
+        if (null != sysRoles) {
+            return CommonResponse.ofSuccess(sysRoles);
+        }
+        return CommonResponse.ofStatus(Status.ERROR);
+    }
+
     @ApiOperation("保存角色权限")
     @ResponseBody
     @PostMapping("/savePermission")

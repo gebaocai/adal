@@ -65,4 +65,5 @@ public class User implements Serializable {
 
     private String roleIds;
     private String departIds;
+    private String departNames;
 }

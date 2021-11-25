@@ -4,8 +4,10 @@ import cn.hutool.core.collection.CollUtil;
 import me.baocai.adal.web.entity.SysUserDepart;
 import me.baocai.adal.web.entity.SysUserRole;
 import me.baocai.adal.web.mapper.SysUserDepartDao;
+import me.baocai.adal.web.service.SysDepartService;
 import me.baocai.adal.web.service.SysUserDepartService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.beans.Transient;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**

@@ -33,5 +33,7 @@ public interface SysUserService extends IService<SysUser> {
 
     SysUser edit(User user);
 
-    IPage<SysUser> list(User user, Page<SysUser> page);
+    IPage<User> list(User user, Page<SysUser> page);
+
+    User info(String id);
 }
