@@ -150,6 +150,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
                 String[] idsArry = ids1.split(",");
                 StrBuilder sb = new StrBuilder();
                 for (String id:idsArry) {
+                    if(sb.length()>0) {
+                        sb.append(",");
+                    }
                     sb.append(departMap.get(id));
                 }
                 u.setDepartNames(sb.toString());
