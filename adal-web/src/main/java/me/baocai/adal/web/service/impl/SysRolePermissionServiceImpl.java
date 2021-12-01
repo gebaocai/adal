@@ -1,10 +1,12 @@
 package me.baocai.adal.web.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.baocai.adal.web.entity.SysDepartPermission;
 import me.baocai.adal.web.entity.SysPermission;
 import me.baocai.adal.web.entity.SysRolePermission;
+import me.baocai.adal.web.entity.SysUserDepart;
 import me.baocai.adal.web.mapper.SysRolePermissionDao;
 import me.baocai.adal.web.service.SysPermissionService;
 import me.baocai.adal.web.service.SysRolePermissionService;
@@ -49,13 +51,13 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionD
                 map(sysRolePermission->sysRolePermission.getId()).
                 collect(Collectors.toList());
 
-        boolean removeRes = removeByIds(removed);
-        boolean saveRes = saveBatch(added);
+        boolean removeRes = CollUtil.isEmpty(removed)?true:removeByIds(removed);
+        boolean saveRes = CollUtil.isEmpty(added)?true:saveBatch(added);
         return removeRes&&saveRes;
     }
 
     @Override
     public List<SysRolePermission> list(String roleId) {
-        return null;
+        return list(lambdaQuery().eq(SysRolePermission::getRoleId, roleId).getWrapper());
     }
 }

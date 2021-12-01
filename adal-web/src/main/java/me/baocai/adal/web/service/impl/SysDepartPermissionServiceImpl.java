@@ -1,5 +1,6 @@
 package me.baocai.adal.web.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.baocai.adal.web.entity.SysDepartPermission;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
  * @since 2020-12-23
  */
 @Service
-@CacheConfig(cacheNames = {"departPermissionCache"})
+//@CacheConfig(cacheNames = {"departPermissionCache"})
 public class SysDepartPermissionServiceImpl extends ServiceImpl<SysDepartPermissionDao, SysDepartPermission> implements SysDepartPermissionService {
 
     @Override
@@ -54,13 +55,13 @@ public class SysDepartPermissionServiceImpl extends ServiceImpl<SysDepartPermiss
             return !sysDepartPermissions.contains(SysDepartPermission);
         }).map(SysDepartPermission->SysDepartPermission.getId()).collect(Collectors.toList());
 
-        boolean removeRes = removeByIds(removedPermissionIds);
-        boolean saveRes = saveBatch(addedPermissions);
+        boolean removeRes = CollUtil.isEmpty(removedPermissionIds)?true:removeByIds(removedPermissionIds);
+        boolean saveRes = CollUtil.isEmpty(addedPermissions)?true:saveBatch(addedPermissions);
         return removeRes&&saveRes;
     }
 
     @Override
-    @Cacheable(keyGenerator = "customKeyGenerator")
+//    @Cacheable(keyGenerator = "customKeyGenerator")
     public List<SysDepartPermission> list(Long departId) {
         return list(lambdaQuery().eq(SysDepartPermission::getDepartId, departId).getWrapper());
     }

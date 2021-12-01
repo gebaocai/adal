@@ -35,5 +35,7 @@ public interface SysUserService extends IService<SysUser> {
 
     IPage<User> list(User user, Page<SysUser> page);
 
+    IPage<User> list(String roleId, Page page);
+
     User info(String id);
 }

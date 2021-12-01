@@ -30,11 +30,11 @@ import java.util.stream.Collectors;
  * @since 2020-12-23
  */
 @Service
-@CacheConfig(cacheNames = {"permissionCache"})
+//@CacheConfig(cacheNames = {"permissionCache"})
 public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionDao, SysPermission> implements SysPermissionService {
 
     @Override
-    @Cacheable(keyGenerator = "customKeyGenerator")
+//    @Cacheable(keyGenerator = "customKeyGenerator")
     public List<SysPermission> getPermissionsByRoleIds(List<String> ids) {
         if (CollUtil.isEmpty(ids)) {
             return CollUtil.toList();
@@ -43,7 +43,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionDao, SysP
     }
 
     @Override
-    @Cacheable(keyGenerator = "customKeyGenerator")
+//    @Cacheable(keyGenerator = "customKeyGenerator")
     public List<SysPermission> getPermissionsByRoleId(String roleId) {
         return baseMapper.getPermissionsByRoleId(roleId);
     }

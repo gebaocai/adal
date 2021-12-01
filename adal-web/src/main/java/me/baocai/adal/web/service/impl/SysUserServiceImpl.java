@@ -6,6 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.baocai.adal.web.entity.*;
@@ -38,6 +39,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
     private SysUserDepartService sysUserDepartService;
     @Autowired
     private SysDepartService sysDepartService;
+    @Autowired
+    private SysUserDao sysUserDao;
 
     @Override
 //    @Cacheable(key ="'findByUsernameOrPhone_'+#username+'_'+#phone")
@@ -157,6 +160,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
                 }
                 u.setDepartNames(sb.toString());
             }
+            return u;}
+        );
+    }
+
+    @Override
+    public IPage<User> list(String roleId, Page page) {
+        IPage<SysUser> userIPage = sysUserDao.selectPageByRoleId(page, roleId);
+        return userIPage.convert(x->{
+            User u = new User();
+            BeanUtils.copyProperties(x, u);
             return u;}
         );
     }

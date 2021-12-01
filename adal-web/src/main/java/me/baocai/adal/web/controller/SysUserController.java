@@ -61,13 +61,26 @@ public class SysUserController {
         return CommonResponse.ofStatus(Status.ERROR);
     }
 
-    @ApiOperation("角色列表接口")
+    @ApiOperation("用户列表接口")
     @ResponseBody
     @GetMapping("/list")
-    public CommonResponse list(User role, @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+    public CommonResponse list(User user, @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
                                @RequestParam(name="pageSize", defaultValue="10") Integer pageSize) {
         Page page = new Page<>(pageNo, pageSize);
-        IPage<User> sysUsers = sysUserService.list(role, page);
+        IPage<User> sysUsers = sysUserService.list(user, page);
+        if (null != sysUsers) {
+            return CommonResponse.ofSuccess(sysUsers);
+        }
+        return CommonResponse.ofStatus(Status.ERROR);
+    }
+
+    @ApiOperation("用户列表接口")
+    @ResponseBody
+    @GetMapping("/listByRoleId")
+    public CommonResponse list(String roleId, @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+                               @RequestParam(name="pageSize", defaultValue="10") Integer pageSize) {
+        Page page = new Page<>(pageNo, pageSize);
+        IPage<User> sysUsers = sysUserService.list(roleId, page);
         if (null != sysUsers) {
             return CommonResponse.ofSuccess(sysUsers);
         }

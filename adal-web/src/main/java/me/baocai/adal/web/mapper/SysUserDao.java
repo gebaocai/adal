@@ -1,6 +1,8 @@
 package me.baocai.adal.web.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import me.baocai.adal.web.entity.SysUser;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -31,4 +33,12 @@ public interface SysUserDao extends BaseMapper<SysUser> {
      * @return 用户列表
      */
     List<SysUser> findByUsernameIn(@Param("usernameList") List<String> usernameList);
+
+    /**
+     * 根据roleId查询用户列表
+     *
+     * @param roleId
+     * @return 用户列表
+     */
+    IPage<SysUser> selectPageByRoleId(Page<?> page, @Param("roleId") String roleId);
 }

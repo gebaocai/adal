@@ -20,4 +20,17 @@
         FROM sys_user
         WHERE username in (#{usernameList})
     </select>
+
+    <select id="selectPageByRoleId" resultType="me.baocai.adal.web.entity.SysUser">
+        SELECT user.*
+        FROM
+             sys_user_role user_role
+        JOIN
+             sys_user user
+        ON
+             user_role.user_id=user.id
+        WHERE
+            user_role.role_id=#{roleId}
+    </select>
+
 </mapper>

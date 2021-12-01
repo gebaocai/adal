@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiResponses;
 import me.baocai.adal.web.common.CommonResponse;
 import me.baocai.adal.web.common.Consts;
 import me.baocai.adal.web.common.Status;
+import me.baocai.adal.web.entity.SysUserRole;
 import me.baocai.adal.web.playload.LoginRequest;
 import me.baocai.adal.web.service.SysUserRoleService;
 import me.baocai.adal.web.vo.JwtResponse;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -33,7 +35,7 @@ import java.util.List;
  */
 @Api(tags = "用户角色接口")
 @RestController
-@RequestMapping("/sys/userRole")
+@RequestMapping("/api/sys/userRole")
 public class SysUserRoleController {
     @Autowired
     private SysUserRoleService sysUserRoleService;
@@ -51,6 +53,17 @@ public class SysUserRoleController {
             return CommonResponse.ofStatus(Status.ERROR);
         }
         return CommonResponse.ofSuccess();
+    }
+
+    @ApiOperation("角色接口")
+    @GetMapping("/list")
+    public CommonResponse list(@RequestParam("userId") String userId) {
+        if (StrUtil.isEmpty(userId)) {
+            return CommonResponse.ofStatus(Status.PARAM_NOT_MATCH);
+        }
+        List<SysUserRole> roleList = sysUserRoleService.listByUserId(userId);
+        List<String> roleStrList = roleList.stream().map(x->x.getRoleId()).collect(Collectors.toList());
+        return CommonResponse.ofSuccess(roleStrList);
     }
 
 }

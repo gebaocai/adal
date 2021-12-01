@@ -1,6 +1,8 @@
 package me.baocai.adal.web.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import me.baocai.adal.web.entity.SysDepartPermission;
 import me.baocai.adal.web.entity.SysUserDepart;
 import me.baocai.adal.web.entity.SysUserRole;
@@ -32,6 +34,12 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleDao, SysUserR
 //    @Cacheable(key ="'listByUserId'+#userId")
     public List<SysUserRole> listByUserId(String userId) {
         return list(lambdaQuery().eq(SysUserRole::getUserId, userId).getWrapper());
+    }
+
+    @Override
+//    @Cacheable(key ="'listByUserId'+#userId")
+    public IPage<SysUserRole> listByRoleId(Page page, String roleId) {
+        return page(page, lambdaQuery().eq(SysUserRole::getRoleId, roleId).getWrapper());
     }
 
     @Override
