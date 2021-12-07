@@ -91,9 +91,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
         SysUser sysUser = SysUser.builder().build();
         BeanUtils.copyProperties(user, sysUser);
 
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String password = bCryptPasswordEncoder.encode(sysUser.getPassword());
-        sysUser.setPassword(password);
+//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+//        String password = bCryptPasswordEncoder.encode(sysUser.getPassword());
+//        sysUser.setPassword(password);
         boolean res = updateById(sysUser);
 
         String[] idsArry = StrUtil.split(departIds, ",");
@@ -105,6 +105,23 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
         boolean res2 = sysUserRoleService.saveBatch(idsList, sysUser.getId());
 
         if (res && res1 && res2) {
+            return sysUser;
+        }
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public SysUser changePassword(User user) {
+        SysUser sysUser = SysUser.builder().
+                id(user.getId()).
+                password(user.getPassword()).
+                build();
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String password = bCryptPasswordEncoder.encode(sysUser.getPassword());
+        sysUser.setPassword(password);
+        boolean res = updateById(sysUser);
+        if (res) {
             return sysUser;
         }
         return null;
@@ -167,9 +184,39 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
     @Override
     public IPage<User> list(String roleId, Page page) {
         IPage<SysUser> userIPage = sysUserDao.selectPageByRoleId(page, roleId);
+        final List<String> ids = CollUtil.newArrayList();
+        userIPage.getRecords().stream().forEach(x->{
+            String departIds = x.getDepartIds();
+            if (StrUtil.isEmpty(departIds)) {
+                return;
+            }
+            String[] idsArry = departIds.split(",");
+            for (String id:idsArry) {
+                ids.add(id);
+            }
+        });
+        List<String> departIds = ids.stream().distinct().collect(Collectors.toList());
+        List<SysDepart> sysDeparts = CollUtil.isEmpty(departIds)?CollUtil.newArrayList():sysDepartService.listByIds(departIds);
+        Map<String, String> departMap = new HashMap<>();
+        sysDeparts.stream().forEach(x-> {
+            departMap.put(x.getId(), x.getDepartName());
+        });
+
         return userIPage.convert(x->{
             User u = new User();
             BeanUtils.copyProperties(x, u);
+            String ids1 = x.getDepartIds();
+            if (!StrUtil.isEmpty(ids1)) {
+                String[] idsArry = ids1.split(",");
+                StrBuilder sb = new StrBuilder();
+                for (String id:idsArry) {
+                    if(sb.length()>0) {
+                        sb.append(",");
+                    }
+                    sb.append(departMap.get(id));
+                }
+                u.setDepartNames(sb.toString());
+            }
             return u;}
         );
     }

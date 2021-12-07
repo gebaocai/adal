@@ -61,6 +61,22 @@ public class SysUserController {
         return CommonResponse.ofStatus(Status.ERROR);
     }
 
+    @ApiOperation("修改用户密码")
+    @ResponseBody
+    @PostMapping("/changePassword")
+    public CommonResponse changePassword(@RequestBody User user) {
+        SysUser existedSysUser = sysUserService.getById(user.getId());
+        if (null == existedSysUser) {
+            return CommonResponse.ofStatus(Status.REQUEST_NOT_FOUND);
+        }
+
+        SysUser sysUser = sysUserService.changePassword(user);
+        if (null != sysUser) {
+            return CommonResponse.ofSuccess(sysUser);
+        }
+        return CommonResponse.ofStatus(Status.ERROR);
+    }
+
     @ApiOperation("用户列表接口")
     @ResponseBody
     @GetMapping("/list")

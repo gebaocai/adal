@@ -33,6 +33,8 @@ public interface SysUserService extends IService<SysUser> {
 
     SysUser edit(User user);
 
+    SysUser changePassword(User user);
+
     IPage<User> list(User user, Page<SysUser> page);
 
     IPage<User> list(String roleId, Page page);
