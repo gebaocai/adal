@@ -30,6 +30,7 @@ spring:
   redis:
     database: 2
     host: 129.28.153.9
+    password: gebaocai
   rabbitmq:
     host: 129.28.153.9
     port: 5672
