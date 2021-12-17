@@ -85,6 +85,10 @@
             <groupId>eu.bitwalker</groupId>
             <artifactId>UserAgentUtils</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -126,12 +130,6 @@
                 <!--Nacos服务发现地址-->
                 <discovery.server-addr>192.168.1.100:8848</discovery.server-addr>
             </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>io.springfox</groupId>
-                    <artifactId>springfox-boot-starter</artifactId>
-                </dependency>
-            </dependencies>
         </profile>
         <!-- 测试 -->
         <profile>
