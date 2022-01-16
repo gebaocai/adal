@@ -16,6 +16,6 @@ import java.util.Map;
  * @since 2021-08-19
  */
 public interface SysUserDepartService extends IService<SysUserDepart> {
-    List<SysUserDepart> listByUserId(String userId);
+    List<String> listByUserId(String userId);
     boolean saveBatch(List<String> departIds, String userId);
 }

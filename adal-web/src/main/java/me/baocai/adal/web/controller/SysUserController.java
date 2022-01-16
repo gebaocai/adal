@@ -15,6 +15,7 @@ import me.baocai.adal.web.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -93,10 +94,8 @@ public class SysUserController {
     @ApiOperation("用户列表接口")
     @ResponseBody
     @GetMapping("/listByRoleId")
-    public CommonResponse list(String roleId, @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
-                               @RequestParam(name="pageSize", defaultValue="10") Integer pageSize) {
-        Page page = new Page<>(pageNo, pageSize);
-        IPage<User> sysUsers = sysUserService.list(roleId, page);
+    public CommonResponse list(String roleId) {
+        List<User> sysUsers = sysUserService.listByRoleId(roleId);
         if (null != sysUsers) {
             return CommonResponse.ofSuccess(sysUsers);
         }

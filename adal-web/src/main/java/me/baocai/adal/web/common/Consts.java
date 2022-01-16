@@ -34,6 +34,15 @@ public interface Consts {
      * Captcha 在 Redis 中保存的key前缀
      */
     String REDIS_CAPTCHA_PREFIX = "adal:captcha:";
+    /**
+     * Role在CASBIN中保存的前缀
+     */
+    String CASBIN_ROLE_KEY_PREFIX = "role:";
+
+    /**
+     * DEPART在CASBIN中保存的前缀
+     */
+    String CASBIN_DEPART_KEY_PREFIX = "depart:";
 
     /**
      * Captcha 有效期

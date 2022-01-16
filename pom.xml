@@ -34,6 +34,7 @@
         <dynamic-datasource.version>3.1.0</dynamic-datasource.version>
         <velocity.version>2.2</velocity.version>
         <springfox.version>3.0.0</springfox.version>
+        <casbin.version>0.4.0</casbin.version>
     </properties>
 
     <repositories>
@@ -130,6 +131,11 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-boot-starter</artifactId>
                 <version>${springfox.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.casbin</groupId>
+                <artifactId>casbin-spring-boot-starter</artifactId>
+                <version>${casbin.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

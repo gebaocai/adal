@@ -17,6 +17,7 @@ import me.baocai.adal.web.service.SysDepartService;
 import me.baocai.adal.web.service.SysUserDepartService;
 import me.baocai.adal.web.service.SysUserRoleService;
 import me.baocai.adal.web.service.SysUserService;
+import org.casbin.jcasbin.main.Enforcer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -41,6 +42,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
     private SysDepartService sysDepartService;
     @Autowired
     private SysUserDao sysUserDao;
+    @Autowired
+    private Enforcer enforcer;
 
     @Override
 //    @Cacheable(key ="'findByUsernameOrPhone_'+#username+'_'+#phone")
@@ -146,14 +149,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
         IPage<SysUser> userIPage = page(page, queryWrapper);
         final List<String> ids = CollUtil.newArrayList();
         userIPage.getRecords().stream().forEach(x->{
-            String departIds = x.getDepartIds();
-            if (StrUtil.isEmpty(departIds)) {
-                return;
-            }
-            String[] idsArry = departIds.split(",");
-            for (String id:idsArry) {
-                ids.add(id);
-            }
+            List<String> departIds = sysUserDepartService.listByUserId(x.getId());
+            ids.addAll(departIds);
         });
         List<String> departIds = ids.stream().distinct().collect(Collectors.toList());
         List<SysDepart> sysDeparts = CollUtil.isEmpty(departIds)?CollUtil.newArrayList():sysDepartService.listByIds(departIds);
@@ -182,10 +179,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
     }
 
     @Override
-    public IPage<User> list(String roleId, Page page) {
-        IPage<SysUser> userIPage = sysUserDao.selectPageByRoleId(page, roleId);
+    public List<User> listByRoleId(String roleId) {
+        List<String> userIds = enforcer.getUsersForRole(roleId);
+        if (CollUtil.isEmpty(userIds)) {
+            return CollUtil.newArrayList();
+        }
+        List<SysUser> users = listByIds(userIds);
+
         final List<String> ids = CollUtil.newArrayList();
-        userIPage.getRecords().stream().forEach(x->{
+        users.stream().forEach(x->{
             String departIds = x.getDepartIds();
             if (StrUtil.isEmpty(departIds)) {
                 return;
@@ -201,8 +203,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
         sysDeparts.stream().forEach(x-> {
             departMap.put(x.getId(), x.getDepartName());
         });
-
-        return userIPage.convert(x->{
+        List<User> us = users.stream().map(x-> {
             User u = new User();
             BeanUtils.copyProperties(x, u);
             String ids1 = x.getDepartIds();
@@ -217,7 +218,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
                 }
                 u.setDepartNames(sb.toString());
             }
-            return u;}
-        );
+            return u;
+        }).collect(Collectors.toList());
+
+        return us;
     }
 }

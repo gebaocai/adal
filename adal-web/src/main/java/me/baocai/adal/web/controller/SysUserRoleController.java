@@ -61,9 +61,9 @@ public class SysUserRoleController {
         if (StrUtil.isEmpty(userId)) {
             return CommonResponse.ofStatus(Status.PARAM_NOT_MATCH);
         }
-        List<SysUserRole> roleList = sysUserRoleService.listByUserId(userId);
-        List<String> roleStrList = roleList.stream().map(x->x.getRoleId()).collect(Collectors.toList());
-        return CommonResponse.ofSuccess(roleStrList);
+        List<String> roleList = sysUserRoleService.listByUserId(userId);
+//        List<String> roleStrList = roleList.stream().map(x->x.getRoleId()).collect(Collectors.toList());
+        return CommonResponse.ofSuccess(roleList);
     }
 
 }

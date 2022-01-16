@@ -44,6 +44,8 @@ public class Goods implements Serializable {
     @ApiModelProperty("商品数量")
     private String num;
 
+    private Integer age;
+
     /**
      * 状态枚举（带{@link me.baocai.adal.web.enums.StateEnum})
      */

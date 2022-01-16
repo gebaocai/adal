@@ -17,7 +17,7 @@ import java.util.List;
  * @since 2021-08-19
  */
 public interface SysUserRoleService extends IService<SysUserRole> {
-    List<SysUserRole> listByUserId(String userId);
+    List<String> listByUserId(String userId);
     IPage<SysUserRole> listByRoleId(Page page, String roleId);
     boolean saveBatch(List<String> roleIds, String userId);
 }

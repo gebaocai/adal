@@ -66,34 +66,34 @@ public class RbacAuthorityService {
 //                return permissionService.getPermissionsByRoleId(roleId);
 //            }).flatMap(Collection::stream).collect(Collectors.toSet()).stream().collect(Collectors.toList());
 
-            List<SysUserRole> userRoles = sysUserRoleService.listByUserId(userId);
-            List<String> roleIds = userRoles.stream().map(userRole->userRole.getRoleId()).collect(Collectors.toList());
-
-            List<SysUserDepart> userDeparts = sysUserDepartService.listByUserId(userId);
-            List<String> departIds = userDeparts.stream().map(userDepart->userDepart.getDepartId()).collect(Collectors.toList());
-
-            List<SysPermission> permissions = permissionService.getPermissionsByDepartIds(departIds);
-            List<SysPermission> permissions2 = permissionService.getPermissionsByRoleIds(roleIds);
-
-            permissions.removeAll(permissions2);
-            permissions.addAll(permissions2);
-
-            //获取资源，前后端分离，所以过滤页面权限，只保留按钮权限
-            List<SysPermission> btnPerms = permissions.stream()
-                    // 过滤页面权限
-                    .filter(permission -> Objects.equals(permission.getMenuType(), Consts.BUTTON))
-                    // 过滤 URL 为空
-                    .filter(permission -> StrUtil.isNotBlank(permission.getUrl()))
-                    .collect(Collectors.toList());
-
-            for (SysPermission btnPerm : btnPerms) {
-                AntPathRequestMatcher antPathMatcher = new AntPathRequestMatcher(btnPerm.getUrl());
-                if (antPathMatcher.matches(request)) {
-                    hasPermission = true;
-                    break;
-                }
-            }
-
+//            List<SysUserRole> userRoles = sysUserRoleService.listByUserId(userId);
+//            List<String> roleIds = userRoles.stream().map(userRole->userRole.getRoleId()).collect(Collectors.toList());
+//
+//            List<SysUserDepart> userDeparts = sysUserDepartService.listByUserId(userId);
+//            List<String> departIds = userDeparts.stream().map(userDepart->userDepart.getDepartId()).collect(Collectors.toList());
+//
+//            List<SysPermission> permissions = permissionService.getPermissionsByDepartIds(departIds);
+//            List<SysPermission> permissions2 = permissionService.getPermissionsByRoleIds(roleIds);
+//
+//            permissions.removeAll(permissions2);
+//            permissions.addAll(permissions2);
+//
+//            //获取资源，前后端分离，所以过滤页面权限，只保留按钮权限
+//            List<SysPermission> btnPerms = permissions.stream()
+//                    // 过滤页面权限
+//                    .filter(permission -> Objects.equals(permission.getMenuType(), Consts.BUTTON))
+//                    // 过滤 URL 为空
+//                    .filter(permission -> StrUtil.isNotBlank(permission.getUrl()))
+//                    .collect(Collectors.toList());
+//
+//            for (SysPermission btnPerm : btnPerms) {
+//                AntPathRequestMatcher antPathMatcher = new AntPathRequestMatcher(btnPerm.getUrl());
+//                if (antPathMatcher.matches(request)) {
+//                    hasPermission = true;
+//                    break;
+//                }
+//            }
+            hasPermission = true;
             return hasPermission;
         } else {
             return false;
