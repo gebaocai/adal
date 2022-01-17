@@ -17,6 +17,6 @@ import java.util.List;
 public interface SysDepartPermissionService extends IService<SysDepartPermission> {
     boolean saveDepartPermission(DepartPermission departPermission, String userId);
 
-    List<SysDepartPermission> list(Long departId);
+    List<String> list(String departId);
 
 }

@@ -25,5 +25,5 @@ public interface SysRolePermissionService extends IService<SysRolePermission> {
      */
     boolean saveRolePermission(String roleId, String permissionIds);
 
-    List<SysRolePermission> list(String roleId);
+    List<String> list(String roleId);
 }

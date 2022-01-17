@@ -38,8 +38,7 @@ public class SysRolePermissionController extends BaseController {
     @ResponseBody
     @GetMapping("/list")
     public CommonResponse list(String roleId) {
-        List<SysRolePermission> sysRolePermissionList = sysRolePermissionService.list(roleId);
-        List<String> permissionIds = sysRolePermissionList.stream().map(x->x.getPermissionId()).collect(Collectors.toList());
+        List<String> permissionIds = sysRolePermissionService.list(roleId);
         if (null != permissionIds) {
             return CommonResponse.ofSuccess(permissionIds);
         }

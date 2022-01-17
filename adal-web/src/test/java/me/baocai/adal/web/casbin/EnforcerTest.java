@@ -52,4 +52,12 @@ public class EnforcerTest {
         Assert.assertFalse(enforcer.enforce("alice", "data2", "write"));
 
     }
+
+    @Test
+    public void test3() {
+        enforcer.addNamedGroupingPolicy("g2", "data", "aaa");
+
+
+
+    }
 }
