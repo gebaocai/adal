@@ -44,7 +44,11 @@ public class SysPermissionController extends BaseController {
     @GetMapping(value = "/getUserPermission")
     public CommonResponse getUserPermission() {
         String userId = getUserId();
-        return CommonResponse.ofSuccess();
+        List<SysPermission> sysPermissions = sysPermissionService.getUserPermission(userId);
+        if (sysPermissions!=null) {
+            return CommonResponse.ofSuccess(sysPermissions);
+        }
+        return CommonResponse.ofStatus(Status.ERROR);
     }
 
     @PostMapping("/add")

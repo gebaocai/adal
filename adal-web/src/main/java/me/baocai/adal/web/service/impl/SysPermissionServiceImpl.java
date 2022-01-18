@@ -12,6 +12,7 @@ import me.baocai.adal.web.model.SysDepartTreeModel;
 import me.baocai.adal.web.model.SysPermissionTree;
 import me.baocai.adal.web.playload.Permission;
 import me.baocai.adal.web.service.SysPermissionService;
+import org.casbin.jcasbin.main.Enforcer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -32,6 +33,9 @@ import java.util.stream.Collectors;
 @Service
 //@CacheConfig(cacheNames = {"permissionCache"})
 public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionDao, SysPermission> implements SysPermissionService {
+
+    @Autowired
+    private Enforcer enforcer;
 
     @Override
 //    @Cacheable(keyGenerator = "customKeyGenerator")
@@ -71,7 +75,13 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionDao, SysP
 
     @Override
     public List<SysPermission> getUserPermission(String userId) {
-        return null;
+        List<List<String>> permissions = enforcer.getImplicitPermissionsForUser(userId);
+        List<SysPermission> sysPermissions = permissions.stream().map(x-> {
+            String permissionId = x.get(1);
+            return getById(permissionId);
+        }).collect(Collectors.toList());
+
+        return sysPermissions;
     }
 
     @Override
