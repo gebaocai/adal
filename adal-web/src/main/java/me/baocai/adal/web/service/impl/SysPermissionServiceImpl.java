@@ -5,9 +5,11 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import me.baocai.adal.web.common.Consts;
 import me.baocai.adal.web.entity.SysDepart;
 import me.baocai.adal.web.entity.SysPermission;
 import me.baocai.adal.web.mapper.SysPermissionDao;
+import me.baocai.adal.web.model.PermissionData;
 import me.baocai.adal.web.model.SysDepartTreeModel;
 import me.baocai.adal.web.model.SysPermissionTree;
 import me.baocai.adal.web.playload.Permission;
@@ -74,14 +76,16 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionDao, SysP
     }
 
     @Override
-    public List<SysPermission> getUserPermission(String userId) {
+    public List<PermissionData.MenuData> getUserPermission(String userId) {
         List<List<String>> permissions = enforcer.getImplicitPermissionsForUser(userId);
-        List<SysPermission> sysPermissions = permissions.stream().map(x-> {
+        List<String> sysPermissionIds = permissions.stream().map(x-> {
             String permissionId = x.get(1);
-            return getById(permissionId);
+            return permissionId;
         }).collect(Collectors.toList());
-
-        return sysPermissions;
+        List<String> sysPermissionIds1 = sysPermissionIds.stream().distinct().collect(Collectors.toList());
+        List<SysPermission> sysPermissions = listByIds(sysPermissionIds1);
+        List<PermissionData.MenuData> permissionData = convert2MenuData(sysPermissions);
+        return permissionData;
     }
 
     @Override
@@ -143,6 +147,27 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionDao, SysP
                 X.setChildren(childTreeModel);
             }
             findChildren(childTreeModel, list);
+        });
+    }
+
+    private List<PermissionData.MenuData> convert2MenuData(List<SysPermission> list) {
+        List<PermissionData.MenuData> permissionData = list.stream()
+                .filter(X -> X.getMenuType() == Consts.MENU)
+                .map(X -> new PermissionData.MenuData(X))
+                .collect(Collectors.toList());
+        findChildren1(permissionData, list);
+        return permissionData;
+    }
+
+    private void findChildren1(List<PermissionData.MenuData> permissionData, List<SysPermission> list) {
+        permissionData.stream().forEach(X -> {
+            List<PermissionData.MenuData> childTreeModel = list.stream().filter(Y -> X.getId().equals(Y.getParentId()))
+                    .map(Y -> new PermissionData.MenuData(Y))
+                    .collect(Collectors.toList());
+            if (!CollUtil.isEmpty(childTreeModel)) {
+                X.setRoutes(childTreeModel);
+            }
+            findChildren1(childTreeModel, list);
         });
     }
 }

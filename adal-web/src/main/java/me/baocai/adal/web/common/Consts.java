@@ -16,9 +16,13 @@ public interface Consts {
     Integer DISABLE = 0;
 
     /**
-     * 页面
+     * 一级菜单
      */
-    Integer PAGE = 1;
+    Integer MENU = 0;
+    /**
+     * 子菜单
+     */
+    Integer SUB_MENU = 1;
 
     /**
      * 按钮

@@ -3,6 +3,7 @@ package me.baocai.adal.web.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import me.baocai.adal.web.entity.SysDepart;
 import me.baocai.adal.web.entity.SysPermission;
+import me.baocai.adal.web.model.PermissionData;
 import me.baocai.adal.web.model.SysPermissionTree;
 import me.baocai.adal.web.playload.Depart;
 import me.baocai.adal.web.playload.Permission;
@@ -50,7 +51,7 @@ public interface SysPermissionService extends IService<SysPermission> {
      * @param userId
      * @return
      */
-    List<SysPermission> getUserPermission(String userId);
+    List<PermissionData.MenuData> getUserPermission(String userId);
 
     SysPermission savePermission(Permission permission, String userId);
 

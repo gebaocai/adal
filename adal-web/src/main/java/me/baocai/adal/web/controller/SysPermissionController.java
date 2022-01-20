@@ -8,6 +8,7 @@ import me.baocai.adal.web.common.CommonResponse;
 import me.baocai.adal.web.common.Status;
 import me.baocai.adal.web.entity.SysDepart;
 import me.baocai.adal.web.entity.SysPermission;
+import me.baocai.adal.web.model.PermissionData;
 import me.baocai.adal.web.model.SysPermissionTree;
 import me.baocai.adal.web.playload.Depart;
 import me.baocai.adal.web.playload.Permission;
@@ -44,7 +45,7 @@ public class SysPermissionController extends BaseController {
     @GetMapping(value = "/getUserPermission")
     public CommonResponse getUserPermission() {
         String userId = getUserId();
-        List<SysPermission> sysPermissions = sysPermissionService.getUserPermission(userId);
+        List<PermissionData.MenuData> sysPermissions = sysPermissionService.getUserPermission(userId);
         if (sysPermissions!=null) {
             return CommonResponse.ofSuccess(sysPermissions);
         }
