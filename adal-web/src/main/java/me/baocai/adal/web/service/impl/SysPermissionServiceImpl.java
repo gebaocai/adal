@@ -8,12 +8,14 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.baocai.adal.web.common.Consts;
 import me.baocai.adal.web.entity.SysDepart;
 import me.baocai.adal.web.entity.SysPermission;
+import me.baocai.adal.web.entity.SysUser;
 import me.baocai.adal.web.mapper.SysPermissionDao;
 import me.baocai.adal.web.model.PermissionData;
 import me.baocai.adal.web.model.SysDepartTreeModel;
 import me.baocai.adal.web.model.SysPermissionTree;
 import me.baocai.adal.web.playload.Permission;
 import me.baocai.adal.web.service.SysPermissionService;
+import me.baocai.adal.web.service.SysUserService;
 import org.casbin.jcasbin.main.Enforcer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,8 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionDao, SysP
 
     @Autowired
     private Enforcer enforcer;
+    @Autowired
+    private SysUserService sysUserService;
 
     @Override
 //    @Cacheable(keyGenerator = "customKeyGenerator")
@@ -77,14 +81,21 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionDao, SysP
 
     @Override
     public List<PermissionData.MenuData> getUserPermission(String userId) {
-        List<List<String>> permissions = enforcer.getImplicitPermissionsForUser(userId);
-        List<String> sysPermissionIds = permissions.stream().map(x-> {
-            String permissionId = x.get(1);
-            return permissionId;
-        }).collect(Collectors.toList());
-        List<String> sysPermissionIds1 = sysPermissionIds.stream().distinct().collect(Collectors.toList());
-        List<SysPermission> sysPermissions = listByIds(sysPermissionIds1);
-        List<PermissionData.MenuData> permissionData = convert2MenuData(sysPermissions);
+        SysUser sysUser = sysUserService.getById(userId);
+        List<SysPermission> permissionList;
+        if (sysUser.getUsername().equals("admin")) {
+            permissionList = baseMapper.selectList(new QueryWrapper<SysPermission>().lambda().
+                    orderByAsc(SysPermission::getSortNo));
+        } else {
+            List<List<String>> permissions = enforcer.getImplicitPermissionsForUser(userId);
+            List<String> sysPermissionIds = permissions.stream().map(x -> {
+                String permissionId = x.get(1);
+                return permissionId;
+            }).collect(Collectors.toList());
+            List<String> sysPermissionIds1 = sysPermissionIds.stream().distinct().collect(Collectors.toList());
+            permissionList = listByIds(sysPermissionIds1);
+        }
+        List<PermissionData.MenuData> permissionData = convert2MenuData(permissionList);
         return permissionData;
     }
 
