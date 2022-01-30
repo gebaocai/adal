@@ -27,11 +27,11 @@ public class SysPermissionApiServiceImpl extends ServiceImpl<SysPermissionApiDao
     private SysApiService sysApiService;
 
     @Override
-    public List<SysApi> list(String permissionId) {
+    public List<String> list(String permissionId) {
         List<SysPermissionApi> lastRoles = list(lambdaQuery().eq(SysPermissionApi::getPermissionId, permissionId).getWrapper());
         List<String> apiIds = lastRoles.stream().map(x->x.getApiId()).collect(Collectors.toList());
-        List<SysApi> sysApis = sysApiService.listByIds(apiIds);
-        return sysApis;
+//        List<SysApi> sysApis = sysApiService.listByIds(apiIds);
+        return apiIds;
     }
 
     @Override

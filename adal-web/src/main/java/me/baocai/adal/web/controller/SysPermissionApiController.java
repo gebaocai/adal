@@ -7,6 +7,8 @@ import io.swagger.annotations.ApiOperation;
 import me.baocai.adal.web.common.CommonResponse;
 import me.baocai.adal.web.common.Status;
 import me.baocai.adal.web.entity.SysApi;
+import me.baocai.adal.web.playload.DepartPermission;
+import me.baocai.adal.web.playload.PermissionApi;
 import me.baocai.adal.web.service.SysPermissionApiService;
 import me.baocai.adal.web.service.SysUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,18 +33,29 @@ public class SysPermissionApiController {
 
     @ApiOperation("批量保存角色接口")
     @PostMapping("/batchSave")
-    public CommonResponse batchSave(@RequestParam("permissionId") String permissionId, @RequestParam("apiIds") String apiIds) {
-        String[] idsArry = StrUtil.split(apiIds, ",");
+    public CommonResponse batchSave(@RequestBody PermissionApi permissionApi) {
+        String[] idsArry = StrUtil.split(permissionApi.getApiIds(), ",");
         List<String> idsList = Arrays.asList(idsArry);
-        if (StrUtil.isEmpty(permissionId) || CollUtil.isEmpty(idsList)) {
+        if (StrUtil.isEmpty(permissionApi.getPermissionId()) || CollUtil.isEmpty(idsList)) {
             return CommonResponse.ofStatus(Status.PARAM_NOT_MATCH);
         }
-        boolean result = sysPermissionApiService.saveBatch(idsList, permissionId);
+        boolean result = sysPermissionApiService.saveBatch(idsList, permissionApi.getPermissionId());
         if (!result) {
             return CommonResponse.ofStatus(Status.ERROR);
         }
         return CommonResponse.ofSuccess();
     }
+
+//    @ApiOperation("角色接口")
+//    @GetMapping("/list")
+//    public CommonResponse list(@RequestParam("permissionId") String permissionId) {
+//        if (StrUtil.isEmpty(permissionId)) {
+//            return CommonResponse.ofStatus(Status.PARAM_NOT_MATCH);
+//        }
+//        List<SysApi> apiList = sysPermissionApiService.list(permissionId);
+////        List<String> roleStrList = roleList.stream().map(x->x.getRoleId()).collect(Collectors.toList());
+//        return CommonResponse.ofSuccess(apiList);
+//    }
 
     @ApiOperation("角色接口")
     @GetMapping("/list")
@@ -50,7 +63,7 @@ public class SysPermissionApiController {
         if (StrUtil.isEmpty(permissionId)) {
             return CommonResponse.ofStatus(Status.PARAM_NOT_MATCH);
         }
-        List<SysApi> apiList = sysPermissionApiService.list(permissionId);
+        List<String> apiList = sysPermissionApiService.list(permissionId);
 //        List<String> roleStrList = roleList.stream().map(x->x.getRoleId()).collect(Collectors.toList());
         return CommonResponse.ofSuccess(apiList);
     }

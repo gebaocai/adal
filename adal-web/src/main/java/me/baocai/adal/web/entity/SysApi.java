@@ -44,6 +44,11 @@ public class SysApi implements Serializable {
     private String description;
 
     /**
+     * 菜单排序
+     */
+    private Double sortNo;
+
+    /**
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)

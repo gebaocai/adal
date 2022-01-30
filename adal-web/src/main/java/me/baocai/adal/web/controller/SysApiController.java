@@ -8,12 +8,14 @@ import me.baocai.adal.web.common.CommonResponse;
 import me.baocai.adal.web.common.Status;
 import me.baocai.adal.web.entity.SysApi;
 import me.baocai.adal.web.entity.SysRole;
+import me.baocai.adal.web.model.SysApiData;
 import me.baocai.adal.web.playload.Api;
 import me.baocai.adal.web.playload.Role;
 import me.baocai.adal.web.service.SysApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -62,6 +64,17 @@ public class SysApiController {
         IPage<SysApi> sysRoles = sysApiService.list(api, page);
         if (null != sysRoles) {
             return CommonResponse.ofSuccess(sysRoles);
+        }
+        return CommonResponse.ofStatus(Status.ERROR);
+    }
+
+    @ApiOperation("接口列表")
+    @ResponseBody
+    @GetMapping("/queryTreeList")
+    public CommonResponse queryTreeList() {
+        List<SysApiData> sysApiDataList = sysApiService.queryTreeList();
+        if (null != sysApiDataList) {
+            return CommonResponse.ofSuccess(sysApiDataList);
         }
         return CommonResponse.ofStatus(Status.ERROR);
     }

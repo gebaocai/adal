@@ -15,6 +15,6 @@ import java.util.List;
  * @since 2022-01-22
  */
 public interface SysPermissionApiService extends IService<SysPermissionApi> {
-    List<SysApi> list(String permissionId);
+    List<String> list(String permissionId);
     boolean saveBatch(List<String> apiIds, String permissionId);
 }

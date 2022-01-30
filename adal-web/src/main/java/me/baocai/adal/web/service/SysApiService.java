@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import me.baocai.adal.web.entity.SysApi;
 import com.baomidou.mybatisplus.extension.service.IService;
 import me.baocai.adal.web.entity.SysRole;
+import me.baocai.adal.web.model.SysApiData;
 import me.baocai.adal.web.playload.Api;
 import me.baocai.adal.web.playload.Role;
 
@@ -25,5 +26,5 @@ public interface SysApiService extends IService<SysApi> {
 
     IPage<SysApi> list(Api api, Page<SysApi> page);
 
-    List<SysApi> listAll();
+    List<SysApiData> queryTreeList();
 }

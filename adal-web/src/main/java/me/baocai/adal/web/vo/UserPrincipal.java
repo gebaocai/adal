@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import me.baocai.adal.web.common.Consts;
+import me.baocai.adal.web.entity.SysApi;
 import me.baocai.adal.web.entity.SysPermission;
 import me.baocai.adal.web.entity.SysRole;
 import me.baocai.adal.web.entity.SysUser;
@@ -95,9 +96,15 @@ public class UserPrincipal implements UserDetails {
      */
     private Collection<? extends GrantedAuthority> authorities;
 
-    public static UserPrincipal create(SysUser user) {
+    public static UserPrincipal create(SysUser user, List<SysApi> apiList) {
         UserPrincipal userPrincipal = new UserPrincipal();
         BeanUtils.copyProperties(user, userPrincipal);
+
+        List<GrantedAuthority> authorities = apiList.stream()
+                .filter(api -> StrUtil.isNotBlank(api.getUrl()))
+                .map(api -> new SimpleGrantedAuthority(api.getUrl()))
+                .collect(Collectors.toList());
+        userPrincipal.setAuthorities(authorities);
         return userPrincipal;
     }
 
