@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="me.baocai.adal.web.mapper.SysPermissionDao">
+<mapper namespace="ga.baocai.adal.web.mapper.SysPermissionDao">
 
     <select id="getPermissionsByRoleIds" resultType="SysPermission">
         SELECT

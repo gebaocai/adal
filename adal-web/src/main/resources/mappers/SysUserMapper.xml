@@ -2,12 +2,12 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="me.baocai.adal.web.mapper.SysUserDao">
+<mapper namespace="ga.baocai.adal.web.mapper.SysUserDao">
 
     <!-- 开启基于redis的二级缓存 -->
     <!--<cache type="me.baocai.budd.tb.RedisCache"/>-->
 
-    <select id="findByUsernameOrPhone" resultType="me.baocai.adal.web.entity.SysUser">
+    <select id="findByUsernameOrPhone" resultType="ga.baocai.adal.web.entity.SysUser">
         SELECT *
         FROM sys_user
         WHERE
@@ -15,13 +15,13 @@
             OR phone = #{phone}
     </select>
 
-    <select id="findByUsernameIn" resultType="me.baocai.adal.web.entity.SysUser">
+    <select id="findByUsernameIn" resultType="ga.baocai.adal.web.entity.SysUser">
         SELECT id, username, password
         FROM sys_user
         WHERE username in (#{usernameList})
     </select>
 
-    <select id="selectPageByRoleId" resultType="me.baocai.adal.web.entity.SysUser">
+    <select id="selectPageByRoleId" resultType="ga.baocai.adal.web.entity.SysUser">
         SELECT user.*
         FROM
              sys_user_role user_role
