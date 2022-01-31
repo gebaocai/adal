@@ -5,8 +5,6 @@ import ga.baocai.adal.web.entity.SysApi;
 import ga.baocai.adal.web.entity.SysPermissionApi;
 import ga.baocai.adal.web.entity.SysUser;
 import ga.baocai.adal.web.service.*;
-import me.baocai.adal.web.entity.*;
-import me.baocai.adal.web.service.*;
 import ga.baocai.adal.web.vo.UserPrincipal;
 import org.casbin.jcasbin.main.Enforcer;
 import org.springframework.beans.factory.annotation.Autowired;

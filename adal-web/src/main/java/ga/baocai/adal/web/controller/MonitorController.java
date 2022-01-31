@@ -33,27 +33,27 @@ public class MonitorController {
      *
      * @param pageCondition 分页参数
      */
-    @GetMapping("/online/user")
-    public CommonResponse onlineUser(PageCondition pageCondition) {
-        PageUtil.checkPageCondition(pageCondition, PageCondition.class);
-        PageResult<OnlineUser> pageResult = monitorService.onlineUser(pageCondition);
-        return CommonResponse.ofSuccess(pageResult);
-    }
-
-    /**
-     * 批量踢出在线用户
-     *
-     * @param names 用户名列表
-     */
-    @DeleteMapping("/online/user/kickout")
-    public CommonResponse kickoutOnlineUser(@RequestBody List<String> names) {
-        if (CollUtil.isEmpty(names)) {
-            throw new SecurityException(Status.PARAM_NOT_NULL);
-        }
-        if (names.contains(SecurityUtil.getCurrentUsername())) {
-            throw new SecurityException(Status.KICKOUT_SELF);
-        }
-        monitorService.kickout(names);
-        return CommonResponse.ofSuccess();
-    }
+//    @GetMapping("/online/user")
+//    public CommonResponse onlineUser(PageCondition pageCondition) {
+//        PageUtil.checkPageCondition(pageCondition, PageCondition.class);
+//        PageResult<OnlineUser> pageResult = monitorService.onlineUser(pageCondition);
+//        return CommonResponse.ofSuccess(pageResult);
+//    }
+//
+//    /**
+//     * 批量踢出在线用户
+//     *
+//     * @param names 用户名列表
+//     */
+//    @DeleteMapping("/online/user/kickout")
+//    public CommonResponse kickoutOnlineUser(@RequestBody List<String> names) {
+//        if (CollUtil.isEmpty(names)) {
+//            throw new SecurityException(Status.PARAM_NOT_NULL);
+//        }
+//        if (names.contains(SecurityUtil.getCurrentUsername())) {
+//            throw new SecurityException(Status.KICKOUT_SELF);
+//        }
+//        monitorService.kickout(names);
+//        return CommonResponse.ofSuccess();
+//    }
 }

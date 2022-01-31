@@ -10,7 +10,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import ga.baocai.adal.web.entity.SysDepart;
 import ga.baocai.adal.web.entity.SysUser;
 import ga.baocai.adal.web.playload.User;
-import me.baocai.adal.web.entity.*;
 import ga.baocai.adal.web.mapper.SysUserDao;
 import ga.baocai.adal.web.service.SysDepartService;
 import ga.baocai.adal.web.service.SysUserDepartService;
@@ -37,19 +36,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
     @Autowired
     private SysDepartService sysDepartService;
     @Autowired
-    private SysUserDao sysUserDao;
-    @Autowired
     private Enforcer enforcer;
 
     @Override
 //    @Cacheable(key ="'findByUsernameOrPhone_'+#username+'_'+#phone")
     public Optional<SysUser> findByUsernameOrPhone(String username, String phone) {
-        return baseMapper.findByUsernameOrPhone(username, phone);
-    }
-
-    @Override
-    public List<SysUser> findByUsernameIn(List<String> usernameList) {
-        return baseMapper.findByUsernameIn(usernameList);
+        SysUser sysUser = getOne(lambdaQuery().eq(SysUser::getUsername, username).
+                or().eq(SysUser::getPhone, phone).getWrapper());
+        return Optional.of(sysUser);
     }
 
     @Override

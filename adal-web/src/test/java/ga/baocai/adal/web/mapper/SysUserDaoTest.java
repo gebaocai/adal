@@ -33,13 +33,13 @@ public class SysUserDaoTest extends AdalWebApplicationTests {
     @Autowired
     private SysPermissionService permissionService;
 
-    @Test
-    public void findByUsernameIn() {
-        List<String> usernameList = Lists.newArrayList("admin", "user");
-        List<SysUser> userList = sysUserService.findByUsernameIn(usernameList);
-        Assert.assertEquals(2, userList.size());
-        log.info("【userList】= {}", userList);
-    }
+//    @Test
+//    public void findByUsernameIn() {
+//        List<String> usernameList = Lists.newArrayList("admin", "user");
+//        List<SysUser> userList = sysUserService.findByUsernameIn(usernameList);
+//        Assert.assertEquals(2, userList.size());
+//        log.info("【userList】= {}", userList);
+//    }
 
     @Test
     public void findByUsernameOrEmailOrPhone() {

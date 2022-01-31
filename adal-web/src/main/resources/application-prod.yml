@@ -46,8 +46,8 @@ mybatis-plus:
   configuration:
     # 下划线转驼峰
     map-underscore-to-camel-case: true
-  type-aliases-package: me.baocai.adal.web.model
-  typeEnumsPackage: me.baocai.adal.web.enums
+  type-aliases-package: ga.baocai.adal.web.model
+  typeEnumsPackage: ga.baocai.adal.web.enums
   mapper-locations:
     - mappers/*.xml
   global-config:
@@ -58,8 +58,8 @@ mybatis-plus:
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
 logging:
   level:
-    me.baocai: error
-    me.baocai.adal.web.repository: trace
+    ga.baocai: error
+    ga.baocai.adal.web.repository: trace
 springfox:
   documentation:
     swagger-ui:

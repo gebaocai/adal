@@ -19,14 +19,6 @@ public interface SysUserService extends IService<SysUser> {
      */
     Optional<SysUser> findByUsernameOrPhone(String username, String phone);
 
-    /**
-     * 根据用户名列表查询用户列表
-     *
-     * @param usernameList 用户名列表
-     * @return 用户列表
-     */
-    List<SysUser> findByUsernameIn(List<String> usernameList);
-
     SysUser save(User user);
 
     SysUser edit(User user);

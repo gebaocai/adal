@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @Configuration
 @Slf4j
-@MapperScan("me.baocai.adal.web.mapper")
+@MapperScan("ga.baocai.adal.web.mapper")
 public class MybatisPlusConfig {
 //    @Bean
 //    public PaginationInterceptor paginationInterceptor() {
