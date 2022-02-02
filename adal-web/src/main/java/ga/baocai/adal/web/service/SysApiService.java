@@ -24,5 +24,5 @@ public interface SysApiService extends IService<SysApi> {
 
     IPage<SysApi> list(Api api, Page<SysApi> page);
 
-    List<SysApiData> queryTreeList();
+    List<SysApiData> queryTreeList(String fetchType);
 }

@@ -68,8 +68,8 @@ public class SysApiController {
     @ApiOperation("接口列表")
     @ResponseBody
     @GetMapping("/queryTreeList")
-    public CommonResponse queryTreeList() {
-        List<SysApiData> sysApiDataList = sysApiService.queryTreeList();
+    public CommonResponse queryTreeList(@RequestParam(name="fetchType", defaultValue="all") String fetchType) {
+        List<SysApiData> sysApiDataList = sysApiService.queryTreeList(fetchType);
         if (null != sysApiDataList) {
             return CommonResponse.ofSuccess(sysApiDataList);
         }
