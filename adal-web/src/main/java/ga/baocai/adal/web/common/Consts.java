@@ -25,7 +25,7 @@ public interface Consts {
     Integer SUB_MENU = 1;
 
     /**
-     * 按钮
+     * 按钮/链接
      */
     Integer BUTTON = 2;
 

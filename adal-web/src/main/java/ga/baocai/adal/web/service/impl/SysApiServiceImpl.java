@@ -1,11 +1,15 @@
 package ga.baocai.adal.web.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import ga.baocai.adal.web.entity.SysPermission;
 import ga.baocai.adal.web.model.SysApiData;
 import ga.baocai.adal.web.entity.SysApi;
 import ga.baocai.adal.web.mapper.SysApiDao;
+import ga.baocai.adal.web.model.SysPermissionTree;
 import ga.baocai.adal.web.playload.Api;
 import ga.baocai.adal.web.service.SysApiService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -56,10 +60,25 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiDao, SysApi> implements
     @Override
     public List<SysApiData> queryTreeList() {
         List<SysApi> sysApis = list(lambdaQuery().orderByAsc(SysApi::getSortNo).getWrapper());
-        List<SysApiData> sysApiDataList = sysApis.stream().map(sysApi -> {
+        List<SysApiData> sysApiDataList = sysApis.stream()
+            .filter(X -> StrUtil.isEmpty(X.getParentId()))
+            .map(sysApi -> {
             SysApiData data = new SysApiData(sysApi);
             return data;
         }).collect(Collectors.toList());
+        findChildren(sysApiDataList, sysApis);
         return sysApiDataList;
+    }
+
+    private void findChildren(List<SysApiData> rootTreeModel, List<SysApi> list) {
+        rootTreeModel.stream().forEach(X -> {
+            List<SysApiData> childTreeModel = list.stream().filter(Y -> X.getId().equals(Y.getParentId()))
+                    .map(Y -> new SysApiData(Y))
+                    .collect(Collectors.toList());
+            if (!CollUtil.isEmpty(childTreeModel)) {
+                X.setChildren(childTreeModel);
+            }
+            findChildren(childTreeModel, list);
+        });
     }
 }

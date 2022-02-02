@@ -37,6 +37,10 @@ public class SysApi implements Serializable {
     private String name;
 
     private String url;
+    /**
+     * 父id
+     */
+    private String parentId;
 
     /**
      * 描述
@@ -47,6 +51,11 @@ public class SysApi implements Serializable {
      * 菜单排序
      */
     private Double sortNo;
+
+    /**
+     * 类型（0：一级菜单；1：子菜单 ；2：按钮权限）
+     */
+    private Integer menuType;
 
     /**
      * 创建时间
