@@ -69,5 +69,6 @@ public class SysApiData {
         this.description = api.getDescription();
         this.sortNo = api.getSortNo();
         this.menuType = api.getMenuType();
+        this.parentId = api.getParentId();
     }
 }
