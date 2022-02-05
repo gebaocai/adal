@@ -2,6 +2,8 @@ package ga.baocai.adal.web.controller;
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
+import ga.baocai.adal.web.entity.SysUser;
+import ga.baocai.adal.web.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -50,6 +52,9 @@ public class AuthController {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private SysUserService sysUserService;
 
     /**
      * 登录
@@ -120,4 +125,6 @@ public class AuthController {
         }
 
     }
+
+
 }

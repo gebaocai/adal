@@ -1,8 +1,12 @@
 package ga.baocai.adal.web.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import ga.baocai.adal.web.model.PermissionData;
+import ga.baocai.adal.web.model.SysUserData;
 import ga.baocai.adal.web.playload.User;
+import ga.baocai.adal.web.service.SysPermissionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import ga.baocai.adal.web.common.CommonResponse;
@@ -22,10 +26,12 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/sys/user")
 @Api(tags = "用户接口")
-public class SysUserController {
+public class SysUserController extends BaseController{
 
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private SysPermissionService sysPermissionService;
 
     @ApiOperation("保存用户接口")
     @ResponseBody
@@ -104,6 +110,19 @@ public class SysUserController {
         SysUser sysUser = sysUserService.getById(id);
         if (sysUser!=null) {
             return CommonResponse.ofSuccess(sysUser);
+        }
+        return CommonResponse.ofStatus(Status.ERROR);
+    }
+
+    @GetMapping("/currentUser")
+    public CommonResponse currentUser() {
+        SysUser sysUser = sysUserService.getById(getUserId());
+        SysUserData sysUserData = new SysUserData();
+        BeanUtil.copyProperties(sysUser, sysUserData);
+        List<PermissionData.MenuData> sysPermissions = sysPermissionService.getUserPermission(getUserId());
+        sysUserData.setMenuData(sysPermissions);
+        if (sysUserData!=null) {
+            return CommonResponse.ofSuccess(sysUserData);
         }
         return CommonResponse.ofStatus(Status.ERROR);
     }
