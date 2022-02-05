@@ -2,6 +2,9 @@ package ga.baocai.adal.web.controller;
 
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONObject;
+import ga.baocai.adal.web.entity.SysApi;
+import ga.baocai.adal.web.playload.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import ga.baocai.adal.web.common.CommonResponse;
@@ -89,7 +92,30 @@ public class SysPermissionController extends BaseController {
         if (null == sysPermission) {
             return CommonResponse.ofMessage("未找到对应实体");
         }
+        boolean hasChildren = sysPermissionService.hasChildren(permission);
+        if (hasChildren) {
+            JSONObject x = new JSONObject();
+            x.put("hasChildren", true);
+            return CommonResponse.ofSuccess(x);
+        }
         if (sysPermissionService.delete(id)) {
+            return CommonResponse.ofSuccess();
+        }
+        return CommonResponse.ofStatus(Status.ERROR);
+    }
+
+    @PostMapping("/deleteForce")
+    public CommonResponse deleteForce(@RequestBody Permission permission) {
+        String id = permission.getId();
+        if (StrUtil.isEmpty(id)) {
+            return CommonResponse.ofStatus(Status.PARAM_NOT_MATCH);
+        }
+        SysPermission sysPermission = sysPermissionService.getById(id);
+        if (null == sysPermission) {
+            return CommonResponse.ofMessage("未找到对应实体");
+        }
+
+        if (sysPermissionService.deleteForce(permission)) {
             return CommonResponse.ofSuccess();
         }
         return CommonResponse.ofStatus(Status.ERROR);

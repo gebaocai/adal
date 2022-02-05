@@ -5,11 +5,13 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import ga.baocai.adal.web.common.Consts;
+import ga.baocai.adal.web.entity.SysApi;
 import ga.baocai.adal.web.entity.SysPermission;
 import ga.baocai.adal.web.entity.SysUser;
 import ga.baocai.adal.web.mapper.SysPermissionDao;
 import ga.baocai.adal.web.model.PermissionData;
 import ga.baocai.adal.web.model.SysPermissionTree;
+import ga.baocai.adal.web.playload.Api;
 import ga.baocai.adal.web.playload.Permission;
 import ga.baocai.adal.web.service.SysPermissionService;
 import ga.baocai.adal.web.service.SysUserService;
@@ -17,6 +19,7 @@ import org.casbin.jcasbin.main.Enforcer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -133,6 +136,29 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionDao, SysP
     @Override
     public boolean delete(String permissionId) {
         return removeById(permissionId);
+    }
+
+    @Override
+    public boolean hasChildren(Permission permission) {
+        SysPermission sysPermission = getOne(lambdaQuery().eq(SysPermission::getParentId, permission.getId()).getWrapper(), false);
+        return sysPermission != null;
+    }
+
+    @Transactional
+    @Override
+    public boolean deleteForce(Permission permission) {
+        List<SysPermission> sysApiList = list(lambdaQuery().eq(SysPermission::getParentId, permission.getId()).getWrapper());
+        List<String> ids = CollUtil.toList(permission.getId());
+        findChildren2(sysApiList, ids);
+        return removeByIds(ids);
+    }
+
+    private void findChildren2(List<SysPermission> sysApiList, List<String> ids) {
+        sysApiList.stream().forEach(X -> {
+            ids.add(X.getId());
+            List<SysPermission> sysApiList1 = list(lambdaQuery().eq(SysPermission::getParentId, X.getId()).getWrapper());
+            findChildren2(sysApiList1, ids);
+        });
     }
 
     private List<SysPermissionTree> convert2TreeModel(List<SysPermission> list) {
