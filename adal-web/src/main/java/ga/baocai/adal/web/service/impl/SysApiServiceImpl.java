@@ -16,8 +16,10 @@ import ga.baocai.adal.web.service.SysApiService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -56,6 +58,29 @@ public class SysApiServiceImpl extends ServiceImpl<SysApiDao, SysApi> implements
         BeanUtils.copyProperties(api, sysApi);
         QueryWrapper<SysApi> queryWrapper = new QueryWrapper<>(sysApi);
         return page(page, queryWrapper);
+    }
+
+    @Override
+    public boolean hasChildren(Api api) {
+        SysApi sysApi = getOne(lambdaQuery().eq(SysApi::getParentId, api.getId()).getWrapper(), false);
+        return sysApi != null;
+    }
+
+    @Transactional
+    @Override
+    public boolean deleteForce(Api api) {
+        List<SysApi> sysApiList = list(lambdaQuery().eq(SysApi::getParentId, api.getId()).getWrapper());
+        List<String> ids = CollUtil.toList(api.getId());
+        findChildren(sysApiList, ids);
+        return removeByIds(ids);
+    }
+
+    private void findChildren(List<SysApi> sysApiList, List<String> ids) {
+        sysApiList.stream().forEach(X -> {
+            ids.add(X.getId());
+            List<SysApi> sysApiList1 = list(lambdaQuery().eq(SysApi::getParentId, X.getId()).getWrapper());
+            findChildren(sysApiList1, ids);
+        });
     }
 
     @Override

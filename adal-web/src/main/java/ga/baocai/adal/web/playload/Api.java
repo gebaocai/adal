@@ -18,4 +18,8 @@ public class Api {
      * 类型（0：一级菜单；1：子菜单 ；2：按钮权限）
      */
     private Integer menuType;
+    /**
+     * 菜单排序
+     */
+    private Double sortNo;
 }

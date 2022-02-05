@@ -25,4 +25,8 @@ public interface SysApiService extends IService<SysApi> {
     IPage<SysApi> list(Api api, Page<SysApi> page);
 
     List<SysApiData> queryTreeList(String fetchType);
+
+    boolean hasChildren(Api api);
+
+    boolean deleteForce(Api api);
 }
