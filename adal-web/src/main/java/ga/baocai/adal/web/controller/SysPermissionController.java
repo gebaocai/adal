@@ -46,7 +46,7 @@ public class SysPermissionController extends BaseController {
     @GetMapping(value = "/getUserPermission")
     public CommonResponse getUserPermission() {
         String userId = getUserId();
-        List<PermissionData.MenuData> sysPermissions = sysPermissionService.getUserPermission(userId);
+        PermissionData sysPermissions = sysPermissionService.getUserPermission(userId);
         if (sysPermissions!=null) {
             return CommonResponse.ofSuccess(sysPermissions);
         }

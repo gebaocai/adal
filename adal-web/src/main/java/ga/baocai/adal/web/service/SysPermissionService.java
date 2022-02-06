@@ -50,7 +50,7 @@ public interface SysPermissionService extends IService<SysPermission> {
      * @param userId
      * @return
      */
-    List<PermissionData.MenuData> getUserPermission(String userId);
+    PermissionData getUserPermission(String userId);
 
     SysPermission savePermission(Permission permission, String userId);
 

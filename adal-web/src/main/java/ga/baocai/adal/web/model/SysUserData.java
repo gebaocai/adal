@@ -47,5 +47,5 @@ public class SysUserData {
 
     private LocalDateTime updateTime;
 
-    private List<PermissionData.MenuData> menuData;
+    private PermissionData permissionData;
 }

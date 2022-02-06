@@ -119,8 +119,8 @@ public class SysUserController extends BaseController{
         SysUser sysUser = sysUserService.getById(getUserId());
         SysUserData sysUserData = new SysUserData();
         BeanUtil.copyProperties(sysUser, sysUserData);
-        List<PermissionData.MenuData> sysPermissions = sysPermissionService.getUserPermission(getUserId());
-        sysUserData.setMenuData(sysPermissions);
+        PermissionData sysPermissions = sysPermissionService.getUserPermission(getUserId());
+        sysUserData.setPermissionData(sysPermissions);
         if (sysUserData!=null) {
             return CommonResponse.ofSuccess(sysUserData);
         }

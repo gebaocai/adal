@@ -78,7 +78,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionDao, SysP
     }
 
     @Override
-    public List<PermissionData.MenuData> getUserPermission(String userId) {
+    public PermissionData getUserPermission(String userId) {
         SysUser sysUser = sysUserService.getById(userId);
         List<SysPermission> permissionList;
         if (sysUser.getUsername().equals("admin")) {
@@ -93,7 +93,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionDao, SysP
             List<String> sysPermissionIds1 = sysPermissionIds.stream().distinct().collect(Collectors.toList());
             permissionList = listByIds(sysPermissionIds1);
         }
-        List<PermissionData.MenuData> permissionData = convert2MenuData(permissionList);
+        PermissionData permissionData = convert2MenuData(permissionList);
         return permissionData;
     }
 
@@ -182,12 +182,21 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionDao, SysP
         });
     }
 
-    private List<PermissionData.MenuData> convert2MenuData(List<SysPermission> list) {
-        List<PermissionData.MenuData> permissionData = list.stream()
+    private PermissionData convert2MenuData(List<SysPermission> list) {
+        List<PermissionData.MenuData> menuData = list.stream()
                 .filter(X -> X.getMenuType() == Consts.MENU)
                 .map(X -> new PermissionData.MenuData(X))
                 .collect(Collectors.toList());
-        findChildren1(permissionData, list);
+        findChildren1(menuData, list);
+
+        List<String> perms = list.stream()
+                .filter(X -> X.getMenuType() == Consts.BUTTON)
+                .map(X -> X.getPerms())
+                .collect(Collectors.toList());
+
+        PermissionData permissionData = new PermissionData();
+        permissionData.setMenuData(menuData);
+        permissionData.setPerms(perms);
         return permissionData;
     }
 
