@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import ga.baocai.adal.web.common.Consts;
 import ga.baocai.adal.web.entity.SysDepart;
 import ga.baocai.adal.web.entity.SysUser;
 import ga.baocai.adal.web.playload.User;
@@ -170,7 +171,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
 
     @Override
     public List<User> listByRoleId(String roleId) {
-        List<String> userIds = enforcer.getUsersForRole(roleId);
+        List<String> userIds = enforcer.getUsersForRole(Consts.CASBIN_ROLE_KEY_PREFIX+roleId);
         if (CollUtil.isEmpty(userIds)) {
             return CollUtil.newArrayList();
         }

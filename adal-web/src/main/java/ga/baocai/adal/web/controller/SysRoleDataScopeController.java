@@ -26,7 +26,7 @@ import java.util.List;
  * @since 2022-02-08
  */
 @RestController
-@RequestMapping("/sys-role-data-scope")
+@RequestMapping("/api/sys-role-data-scope")
 public class SysRoleDataScopeController {
     @Autowired
     private SysRoleDataScopeService sysRoleDataScopeService;
