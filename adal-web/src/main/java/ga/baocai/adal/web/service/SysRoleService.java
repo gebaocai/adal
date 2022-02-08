@@ -2,13 +2,14 @@ package ga.baocai.adal.web.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import ga.baocai.adal.web.entity.SysRole;
 import ga.baocai.adal.web.playload.Role;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface SysRoleService {
+public interface SysRoleService extends IService<SysRole> {
     /**
      * 根据用户id 查询角色列表
      *

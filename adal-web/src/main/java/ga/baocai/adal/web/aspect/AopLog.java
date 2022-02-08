@@ -28,7 +28,7 @@ public class AopLog {
 	/**
 	 * 切入点
 	 */
-	@Pointcut("execution(public * me.baocai.adal.web.controller.*Controller.*(..))")
+	@Pointcut("execution(public * ga.baocai.adal.web.controller.*Controller.*(..))")
 	public void log() {
 
 	}

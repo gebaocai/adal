@@ -42,6 +42,8 @@ public class SysRole implements Serializable {
      */
     private String description;
 
+    private Integer dataScopeType;
+
 //    /**
 //     * 创建人
 //     */

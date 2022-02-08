@@ -60,7 +60,7 @@ public class CodeGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(scanner("模块名"));
-        pc.setParent("me.baocai");
+        pc.setParent("ga.baocai");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -134,7 +134,7 @@ public class CodeGenerator {
         mpg.setStrategy(strategy);
 
         PackageConfig packageConfig = new PackageConfig();
-        packageConfig.setParent("me.baocai.adal.web");
+        packageConfig.setParent("ga.baocai.adal.web");
         packageConfig.setEntity("entity");
         mpg.setPackageInfo(packageConfig);
 //        mpg.setTemplateEngine(new FreemarkerTemplateEngine());

@@ -31,23 +31,9 @@ import java.util.stream.Collectors;
  */
 @Component
 public class RbacAuthorityService {
-    @Autowired
-    private SysRoleService sysRoleService;
-
-    @Autowired
-    private SysPermissionService permissionService;
 
     @Autowired
     private RequestMappingHandlerMapping mapping;
-
-    @Autowired
-    private SysUserRoleService sysUserRoleService;
-
-    @Autowired
-    private SysUserDepartService sysUserDepartService;
-
-    @Autowired
-    private Enforcer enforcer;
 
     public boolean hasPermission(HttpServletRequest request, Authentication authentication) {
         checkRequest(request);

@@ -3,9 +3,12 @@ package ga.baocai.adal.web.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import ga.baocai.adal.web.common.Consts;
 import ga.baocai.adal.web.entity.SysRolePermission;
+import ga.baocai.adal.web.entity.SysUserDataScope;
 import ga.baocai.adal.web.mapper.SysRolePermissionDao;
+import ga.baocai.adal.web.mapper.SysUserDataScopeDao;
 import ga.baocai.adal.web.service.SysPermissionService;
 import ga.baocai.adal.web.service.SysRolePermissionService;
+import ga.baocai.adal.web.service.SysUserDataScopeService;
 import org.casbin.jcasbin.main.Enforcer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,7 +58,10 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionD
 //        return removeRes&&saveRes;
 
         List<List<String>> permissions = enforcer.getPermissionsForUser(Consts.CASBIN_ROLE_KEY_PREFIX+roleId);
-        List<String> lastPermissions = permissions.stream().map(x->x.get(1)).collect(Collectors.toList());
+        List<String> lastPermissions = permissions.stream().filter(
+                x-> {String permissionType = x.get(1);
+                    return Consts.CASBIN_PERMISSON_TYPE_LINK.equals(permissionType);}
+        ).map(x->x.get(2)).collect(Collectors.toList());
 
         List<String> permissionIdReq = Arrays.asList(permissionIds.split(","));
 
@@ -67,10 +73,10 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionD
         }).collect(Collectors.toList());
 
         removedPermissions.forEach(permission -> {
-            enforcer.deletePermissionForUser(Consts.CASBIN_ROLE_KEY_PREFIX+roleId, permission);
+            enforcer.deletePermissionForUser(Consts.CASBIN_ROLE_KEY_PREFIX+roleId, Consts.CASBIN_PERMISSON_TYPE_LINK, permission);
         });
         addedPermissions.forEach(permission -> {
-            enforcer.addPermissionForUser(Consts.CASBIN_ROLE_KEY_PREFIX+roleId, permission);
+            enforcer.addPermissionForUser(Consts.CASBIN_ROLE_KEY_PREFIX+roleId, Consts.CASBIN_PERMISSON_TYPE_LINK, permission);
         });
         return true;
     }
@@ -79,8 +85,10 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionD
     public List<String> list(String roleId) {
 //        return list(lambdaQuery().eq(SysRolePermission::getRoleId, roleId).getWrapper());
         List<List<String>> permissions = enforcer.getPermissionsForUser(Consts.CASBIN_ROLE_KEY_PREFIX+roleId);
-        List<String> lastPermissions = permissions.stream().map(x->x.get(1)).collect(Collectors.toList());
-//        return list(lambdaQuery().eq(SysDepartPermission::getDepartId, departId).getWrapper());
+        List<String> lastPermissions = permissions.stream().filter(
+                x-> {String permissionType = x.get(1);
+                    return Consts.CASBIN_PERMISSON_TYPE_LINK.equals(permissionType);}
+        ).map(x->x.get(2)).collect(Collectors.toList());
         return lastPermissions;
     }
 }

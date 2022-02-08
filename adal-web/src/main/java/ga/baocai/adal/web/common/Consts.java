@@ -49,6 +49,12 @@ public interface Consts {
     String CASBIN_DEPART_KEY_PREFIX = "depart:";
 
     /**
+     * PERMISSON_TYPE (link/departId)
+     */
+    String CASBIN_PERMISSON_TYPE_LINK = "link";
+    String CASBIN_PERMISSON_TYPE_DATA_SCOPE = "data_scope";
+
+    /**
      * Captcha 有效期
      */
     Integer CAPTCHA_EXPIRATION = 60;
@@ -77,4 +83,15 @@ public interface Consts {
      * 匿名用户 用户名
      */
     String ANONYMOUS_NAME = "匿名用户";
+
+    /**
+     * 数据范围类型（1全部数据 2本部门及以下数据 3本部门数据 4仅本人数据 5自定义数据）
+     */
+    Integer DATA_SCOPE_ALL = 1;
+    Integer DATA_SCOPE_DEPART_AND_SUB = 2;
+    Integer DATA_SCOPE_DEPART = 3;
+    Integer DATA_SCOPE_SELF = 4;
+    Integer DATA_SCOPE_CUSTOM = 5;
+
+
 }
