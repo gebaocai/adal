@@ -41,8 +41,8 @@ public class SysUserDataScopeController extends BaseController{
 
     @ResponseBody
     @GetMapping("/list")
-    public CommonResponse list(String departId) {
-        List<String> permissionIds = sysUserDataScopeService.list(departId);
+    public CommonResponse list(String userId) {
+        List<String> permissionIds = sysUserDataScopeService.list(userId);
         if (null != permissionIds) {
             return CommonResponse.ofSuccess(permissionIds);
         }

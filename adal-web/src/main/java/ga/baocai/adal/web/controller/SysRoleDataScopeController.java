@@ -49,6 +49,7 @@ public class SysRoleDataScopeController {
     public CommonResponse list(String roleId) {
         SysRole sysRole = sysRoleService.getById(roleId);
         RoleDataScopeData dataScope = new RoleDataScopeData();
+        dataScope.setRoleId(roleId);
         dataScope.setDataScopeType(sysRole.getDataScopeType());
         if (Consts.DATA_SCOPE_CUSTOM == sysRole.getDataScopeType()) {
             List<String> departIds = sysRoleDataScopeService.list(roleId);

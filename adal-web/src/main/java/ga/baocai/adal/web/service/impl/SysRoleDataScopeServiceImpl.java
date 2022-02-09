@@ -2,15 +2,18 @@ package ga.baocai.adal.web.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import ga.baocai.adal.web.common.Consts;
+import ga.baocai.adal.web.entity.SysRole;
 import ga.baocai.adal.web.entity.SysRoleDataScope;
 import ga.baocai.adal.web.mapper.SysRoleDataScopeDao;
 import ga.baocai.adal.web.playload.RoleDataScope;
 import ga.baocai.adal.web.playload.UserDataScope;
 import ga.baocai.adal.web.service.SysRoleDataScopeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import ga.baocai.adal.web.service.SysRoleService;
 import org.casbin.jcasbin.main.Enforcer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,10 +31,18 @@ import java.util.stream.Collectors;
 public class SysRoleDataScopeServiceImpl extends ServiceImpl<SysRoleDataScopeDao, SysRoleDataScope> implements SysRoleDataScopeService {
     @Autowired
     private Enforcer enforcer;
+    @Autowired
+    private SysRoleService sysRoleService;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean saveRoleDataScope(RoleDataScope roleDataScope) {
         String roleId = roleDataScope.getRoleId();
+        SysRole sysRole = SysRole.builder().id(roleId).dataScopeType(roleDataScope.getDataScopeType()).build();
+        boolean result = sysRoleService.updateById(sysRole);
+        if (Consts.DATA_SCOPE_CUSTOM != roleDataScope.getDataScopeType()) {
+            return result;
+        }
         List<List<String>> permissions = enforcer.getPermissionsForUser(Consts.CASBIN_ROLE_KEY_PREFIX+roleId);
         List<String> lastPermissions = permissions.stream().filter(
                 x-> {String permissionType = x.get(1);
@@ -49,10 +60,10 @@ public class SysRoleDataScopeServiceImpl extends ServiceImpl<SysRoleDataScopeDao
         }).collect(Collectors.toList());
 
         removedPermissions.forEach(permission -> {
-            enforcer.deletePermissionForUser(roleId, Consts.CASBIN_PERMISSON_TYPE_DATA_SCOPE, permission);
+            enforcer.deletePermissionForUser(Consts.CASBIN_ROLE_KEY_PREFIX+roleId, Consts.CASBIN_PERMISSON_TYPE_DATA_SCOPE, permission);
         });
         addedPermissions.forEach(permission -> {
-            enforcer.addPermissionForUser(roleId, Consts.CASBIN_PERMISSON_TYPE_DATA_SCOPE, permission);
+            enforcer.addPermissionForUser(Consts.CASBIN_ROLE_KEY_PREFIX+roleId, Consts.CASBIN_PERMISSON_TYPE_DATA_SCOPE, permission);
         });
 
         return true;
