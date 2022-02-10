@@ -71,6 +71,11 @@ public class SysUser implements Serializable {
     private String departIds;
 
     /**
+     * 状态(0：管理员  1：普通用户 ）
+     */
+    private Integer userType;
+
+    /**
      * 状态(1：正常  2：冻结 ）
      */
     private Integer status;
@@ -89,12 +94,18 @@ public class SysUser implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
+    @TableField(fill = FieldFill.INSERT)
+    private String createUser;
+
     /**
      * 更新时间
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
+
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private String updateUser;
 
     @Tolerate
     SysUser() {

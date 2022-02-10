@@ -33,4 +33,6 @@ public interface SysDepartService extends IService<SysDepart> {
      */
     List<SysDepart> getDepartsByUserId(String userId);
 
+    List<String> getDataScopeListByDataScopeType(Integer dataScopeType, List<String> orgId);
+
 }

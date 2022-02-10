@@ -1,9 +1,15 @@
 package ga.baocai.adal.web.controller;
 
+import ga.baocai.adal.web.common.Consts;
 import ga.baocai.adal.web.vo.UserPrincipal;
+import org.casbin.jcasbin.main.Enforcer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author gebaocai
@@ -21,5 +27,6 @@ public class BaseController {
         String userId = principal.getId();
         return userId;
     }
+
 
 }

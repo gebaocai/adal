@@ -1,8 +1,11 @@
 package ga.baocai.adal.web.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import ga.baocai.adal.web.common.Consts;
 import ga.baocai.adal.web.playload.Depart;
 import ga.baocai.adal.web.entity.SysDepart;
 import ga.baocai.adal.web.mapper.SysDepartDao;
@@ -116,5 +119,57 @@ public class SysDepartServiceImpl extends ServiceImpl<SysDepartDao, SysDepart> i
     @Override
     public List<SysDepart> getDepartsByUserId(String userId) {
         return null;
+    }
+
+    @Override
+    public List<String> getDataScopeListByDataScopeType(Integer dataScopeType, List<String> orgId) {
+
+        List<String> resultList = CollectionUtil.newArrayList();
+
+        if (CollectionUtil.isEmpty(orgId)) {
+            return CollectionUtil.newArrayList();
+        }
+
+        // 如果是范围类型是全部数据，则获取当前系统所有的组织架构id
+        if (Consts.DATA_SCOPE_ALL.equals(dataScopeType)) {
+            resultList = this.getOrgIdAll();
+        }
+        // 如果范围类型是本部门及以下部门，则查询本节点和子节点集合，包含本节点
+        else if (Consts.DATA_SCOPE_DEPART_AND_SUB.equals(dataScopeType)) {
+            resultList = this.getChildIdListWithSelfById(orgId);
+        }
+        // 如果数据范围是本部门，不含子节点，则直接返回本部门
+        else if (Consts.DATA_SCOPE_DEPART.equals(dataScopeType)) {
+            resultList.addAll(orgId);
+        }
+
+        return resultList;
+    }
+
+    private List<String> getOrgIdAll() {
+        List<String> resultList = CollectionUtil.newArrayList();
+
+        LambdaQueryWrapper<SysDepart> queryWrapper = new LambdaQueryWrapper<>();
+
+        this.list(queryWrapper).forEach(sysOrg -> resultList.add(sysOrg.getId()));
+        return resultList;
+    }
+
+    private List<String> getChildIdListWithSelfById(List<String> orgIds) {
+        List<String> resultList = CollectionUtil.newArrayList();
+        List<SysDepart> sysDepartList = list();
+        findChild(resultList, orgIds, sysDepartList);
+        resultList.addAll(orgIds);
+        return resultList;
+    }
+
+    private void findChild(List<String> resultList, List<String> orgIds, List<SysDepart> sysDepartList) {
+        if (CollectionUtil.isEmpty(orgIds)) {
+            return;
+        }
+        sysDepartList.stream().forEach(X->{
+            List<String> subOrgIds = orgIds.stream().filter(Y->Y.equals(X.getParentId())).collect(Collectors.toList());
+            findChild(resultList, subOrgIds, sysDepartList);
+        });
     }
 }

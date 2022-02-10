@@ -1,5 +1,6 @@
 package ga.baocai.adal.web.mapper;
 
+import cn.hutool.core.collection.CollectionUtil;
 import ga.baocai.adal.web.playload.Depart;
 import lombok.extern.slf4j.Slf4j;
 import ga.baocai.adal.web.AdalWebApplicationTests;
@@ -53,5 +54,13 @@ public class SysDepartDaoTest extends AdalWebApplicationTests {
     public void testDelete() {
         boolean result = sysDepartService.delete("1342850006310326272");
         Assert.assertTrue(result);
+    }
+
+    @Test
+    public void getDataScopeListByDataScopeType() {
+        List<String> departIds = CollectionUtil.newArrayList();
+        departIds.add("1427582230926069760");
+        List<String> departList = sysDepartService.getDataScopeListByDataScopeType(2, departIds);
+        log.info("【departList】= {}", departList);
     }
 }

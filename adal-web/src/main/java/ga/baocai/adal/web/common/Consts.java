@@ -93,5 +93,12 @@ public interface Consts {
     Integer DATA_SCOPE_SELF = 4;
     Integer DATA_SCOPE_CUSTOM = 5;
 
-
+    /**
+     * 管理员
+     */
+    Integer ADMIN = 1;
+    /**
+     * 普通用户
+     */
+    Integer NO_ADMIN = 0;
 }

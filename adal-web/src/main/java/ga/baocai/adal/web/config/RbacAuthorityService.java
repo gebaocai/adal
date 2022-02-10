@@ -1,6 +1,7 @@
 package ga.baocai.adal.web.config;
 
 import cn.hutool.core.collection.CollUtil;
+import ga.baocai.adal.web.common.Consts;
 import ga.baocai.adal.web.exception.SecurityException;
 import ga.baocai.adal.web.service.SysPermissionService;
 import ga.baocai.adal.web.service.SysRoleService;
@@ -43,7 +44,7 @@ public class RbacAuthorityService {
 
         if (userInfo instanceof UserDetails) {
             UserPrincipal principal = (UserPrincipal) userInfo;
-            if (principal.getUsername().equals("admin")) {
+            if (principal.getUserType() == Consts.ADMIN) {
                 return true;
             }
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();

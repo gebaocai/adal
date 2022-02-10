@@ -67,6 +67,11 @@ public class UserPrincipal implements UserDetails {
     private Integer sex;
 
     /**
+     * 性别，admin-1，用户-0
+     */
+    private Integer userType;
+
+    /**
      * 状态，启用-1，禁用-0
      */
     private Integer status;
@@ -82,6 +87,16 @@ public class UserPrincipal implements UserDetails {
     private Date updateTime;
 
     /**
+     * 数据类型
+     */
+    private Integer dataScopeType;
+
+    /**
+     * 数据列表
+     */
+    private List<String> dataScope;
+
+    /**
      * 用户角色列表
      */
     private List<String> roles;
@@ -91,9 +106,11 @@ public class UserPrincipal implements UserDetails {
      */
     private Collection<? extends GrantedAuthority> authorities;
 
-    public static UserPrincipal create(SysUser user, List<SysApi> apiList) {
+    public static UserPrincipal create(SysUser user, List<SysApi> apiList, Integer dataScopeType, List<String> dataScope) {
         UserPrincipal userPrincipal = new UserPrincipal();
         BeanUtils.copyProperties(user, userPrincipal);
+        userPrincipal.setDataScopeType(dataScopeType);
+        userPrincipal.setDataScope(dataScope);
 
         List<GrantedAuthority> authorities = apiList.stream()
                 .filter(api -> StrUtil.isNotBlank(api.getUrl()))

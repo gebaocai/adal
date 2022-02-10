@@ -1,6 +1,7 @@
 package ga.baocai.adal.web.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.text.StrBuilder;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -9,16 +10,18 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import ga.baocai.adal.web.common.Consts;
 import ga.baocai.adal.web.entity.SysDepart;
+import ga.baocai.adal.web.entity.SysRole;
 import ga.baocai.adal.web.entity.SysUser;
 import ga.baocai.adal.web.playload.User;
 import ga.baocai.adal.web.mapper.SysUserDao;
-import ga.baocai.adal.web.service.SysDepartService;
-import ga.baocai.adal.web.service.SysUserDepartService;
-import ga.baocai.adal.web.service.SysUserRoleService;
-import ga.baocai.adal.web.service.SysUserService;
+import ga.baocai.adal.web.service.*;
+import ga.baocai.adal.web.vo.UserPrincipal;
 import org.casbin.jcasbin.main.Enforcer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +35,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
 
     @Autowired
     private SysUserRoleService sysUserRoleService;
+    @Autowired
+    private SysRoleService sysRoleService;
     @Autowired
     private SysUserDepartService sysUserDepartService;
     @Autowired
@@ -134,9 +139,34 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
 
     @Override
     public IPage<User> list(User user, Page page) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object userInfo = authentication.getPrincipal();
+        UserPrincipal principal = (UserPrincipal) userInfo;
+        Integer dataScopeType = principal.getDataScopeType();
+        List<String> dataScope = principal.getDataScope();
+
         SysUser sysUser = SysUser.builder().build();
         BeanUtils.copyProperties(user, sysUser);
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>(sysUser);
+        if (Consts.ADMIN != principal.getUserType()) {
+            if (Consts.DATA_SCOPE_SELF == dataScopeType) {
+                queryWrapper.eq("create_user", principal.getId());
+            } else {
+                StringBuilder sb = new StringBuilder();
+                dataScope.stream().forEach(x->{
+                    if (sb.length()>0) {
+                        sb.append(",");
+                    } else {
+                        sb.append("(");
+                    }
+                    sb.append(x);
+                });
+                sb.append(")");
+                queryWrapper.inSql("id", "select user_id from sys_user_depart where depart_id in " + sb.toString());
+            }
+        }
+
         IPage<SysUser> userIPage = page(page, queryWrapper);
         final List<String> ids = CollUtil.newArrayList();
         userIPage.getRecords().stream().forEach(x->{
@@ -171,38 +201,38 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
 
     @Override
     public List<User> listByRoleId(String roleId) {
-        List<String> userIds = enforcer.getUsersForRole(Consts.CASBIN_ROLE_KEY_PREFIX+roleId);
+        List<String> userIds = enforcer.getUsersForRole(Consts.CASBIN_ROLE_KEY_PREFIX + roleId);
         if (CollUtil.isEmpty(userIds)) {
             return CollUtil.newArrayList();
         }
         List<SysUser> users = listByIds(userIds);
 
         final List<String> ids = CollUtil.newArrayList();
-        users.stream().forEach(x->{
+        users.stream().forEach(x -> {
             String departIds = x.getDepartIds();
             if (StrUtil.isEmpty(departIds)) {
                 return;
             }
             String[] idsArry = departIds.split(",");
-            for (String id:idsArry) {
+            for (String id : idsArry) {
                 ids.add(id);
             }
         });
         List<String> departIds = ids.stream().distinct().collect(Collectors.toList());
-        List<SysDepart> sysDeparts = CollUtil.isEmpty(departIds)?CollUtil.newArrayList():sysDepartService.listByIds(departIds);
+        List<SysDepart> sysDeparts = CollUtil.isEmpty(departIds) ? CollUtil.newArrayList() : sysDepartService.listByIds(departIds);
         Map<String, String> departMap = new HashMap<>();
-        sysDeparts.stream().forEach(x-> {
+        sysDeparts.stream().forEach(x -> {
             departMap.put(x.getId(), x.getDepartName());
         });
-        List<User> us = users.stream().map(x-> {
+        List<User> us = users.stream().map(x -> {
             User u = new User();
             BeanUtils.copyProperties(x, u);
             String ids1 = x.getDepartIds();
             if (!StrUtil.isEmpty(ids1)) {
                 String[] idsArry = ids1.split(",");
                 StrBuilder sb = new StrBuilder();
-                for (String id:idsArry) {
-                    if(sb.length()>0) {
+                for (String id : idsArry) {
+                    if (sb.length() > 0) {
                         sb.append(",");
                     }
                     sb.append(departMap.get(id));
@@ -214,4 +244,5 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
 
         return us;
     }
+
 }
