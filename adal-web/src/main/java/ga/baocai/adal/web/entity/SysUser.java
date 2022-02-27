@@ -66,11 +66,6 @@ public class SysUser implements Serializable {
     private String phone;
 
     /**
-     *
-     */
-    private String departIds;
-
-    /**
      * 状态(0：管理员  1：普通用户 ）
      */
     private Integer userType;

@@ -166,13 +166,21 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
                 queryWrapper.inSql("id", "select user_id from sys_user_depart where depart_id in " + sb.toString());
             }
         }
+        queryWrapper.ne("user_type", Consts.ADMIN);
 
         IPage<SysUser> userIPage = page(page, queryWrapper);
         final List<String> ids = CollUtil.newArrayList();
-        userIPage.getRecords().stream().forEach(x->{
+        IPage<User> userIPage1 = userIPage.convert(x-> {
+            User u = new User();
+            BeanUtils.copyProperties(x, u);
             List<String> departIds = sysUserDepartService.listByUserId(x.getId());
+            String departIdsStr = StrUtil.join(",", departIds);
+            u.setDepartIds(departIdsStr);
             ids.addAll(departIds);
+            return u;
         });
+
+
         List<String> departIds = ids.stream().distinct().collect(Collectors.toList());
         List<SysDepart> sysDeparts = CollUtil.isEmpty(departIds)?CollUtil.newArrayList():sysDepartService.listByIds(departIds);
         Map<String, String> departMap = new HashMap<>();
@@ -180,9 +188,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
             departMap.put(x.getId(), x.getDepartName());
         });
 
-        return userIPage.convert(x->{
-            User u = new User();
-            BeanUtils.copyProperties(x, u);
+        userIPage1.getRecords().stream().forEach(x->{
             String ids1 = x.getDepartIds();
             if (!StrUtil.isEmpty(ids1)) {
                 String[] idsArry = ids1.split(",");
@@ -193,10 +199,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
                     }
                     sb.append(departMap.get(id));
                 }
-                u.setDepartNames(sb.toString());
+                x.setDepartNames(sb.toString());
             }
-            return u;}
-        );
+        });
+
+        return userIPage1;
     }
 
     @Override
@@ -208,25 +215,22 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
         List<SysUser> users = listByIds(userIds);
 
         final List<String> ids = CollUtil.newArrayList();
-        users.stream().forEach(x -> {
-            String departIds = x.getDepartIds();
-            if (StrUtil.isEmpty(departIds)) {
-                return;
-            }
-            String[] idsArry = departIds.split(",");
-            for (String id : idsArry) {
-                ids.add(id);
-            }
-        });
+        List<User> usersRes = users.stream().map(x -> {
+            User u = new User();
+            BeanUtils.copyProperties(x, u);
+            List<String> departIds = sysUserDepartService.listByUserId(x.getId());
+            String departIdsStr = StrUtil.join(",", departIds);
+            u.setDepartIds(departIdsStr);
+            ids.addAll(departIds);
+            return u;
+        }).collect(Collectors.toList());
         List<String> departIds = ids.stream().distinct().collect(Collectors.toList());
         List<SysDepart> sysDeparts = CollUtil.isEmpty(departIds) ? CollUtil.newArrayList() : sysDepartService.listByIds(departIds);
         Map<String, String> departMap = new HashMap<>();
         sysDeparts.stream().forEach(x -> {
             departMap.put(x.getId(), x.getDepartName());
         });
-        List<User> us = users.stream().map(x -> {
-            User u = new User();
-            BeanUtils.copyProperties(x, u);
+        usersRes.stream().forEach(x -> {
             String ids1 = x.getDepartIds();
             if (!StrUtil.isEmpty(ids1)) {
                 String[] idsArry = ids1.split(",");
@@ -237,12 +241,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
                     }
                     sb.append(departMap.get(id));
                 }
-                u.setDepartNames(sb.toString());
+                x.setDepartNames(sb.toString());
             }
-            return u;
-        }).collect(Collectors.toList());
-
-        return us;
+        });
+        return usersRes;
     }
 
 }
