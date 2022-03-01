@@ -15,6 +15,7 @@ import ga.baocai.adal.web.entity.SysUser;
 import ga.baocai.adal.web.playload.User;
 import ga.baocai.adal.web.mapper.SysUserDao;
 import ga.baocai.adal.web.service.*;
+import ga.baocai.adal.web.util.DataScopeUtil;
 import ga.baocai.adal.web.vo.UserPrincipal;
 import org.casbin.jcasbin.main.Enforcer;
 import org.springframework.beans.BeanUtils;
@@ -139,33 +140,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
 
     @Override
     public IPage<User> list(User user, Page page) {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object userInfo = authentication.getPrincipal();
-        UserPrincipal principal = (UserPrincipal) userInfo;
-        Integer dataScopeType = principal.getDataScopeType();
-        List<String> dataScope = principal.getDataScope();
-
         SysUser sysUser = SysUser.builder().build();
         BeanUtils.copyProperties(user, sysUser);
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>(sysUser);
-        if (Consts.ADMIN != principal.getUserType()) {
-            if (Consts.DATA_SCOPE_SELF == dataScopeType) {
-                queryWrapper.eq("create_user", principal.getId());
-            } else {
-                StringBuilder sb = new StringBuilder();
-                dataScope.stream().forEach(x->{
-                    if (sb.length()>0) {
-                        sb.append(",");
-                    } else {
-                        sb.append("(");
-                    }
-                    sb.append(x);
-                });
-                sb.append(")");
-                queryWrapper.inSql("id", "select user_id from sys_user_depart where depart_id in " + sb.toString());
-            }
-        }
+        //Set DataScope in Sql
+        DataScopeUtil.queryWrapper(queryWrapper);
         queryWrapper.ne("user_type", Consts.ADMIN);
 
         IPage<SysUser> userIPage = page(page, queryWrapper);
@@ -176,6 +155,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
             List<String> departIds = sysUserDepartService.listByUserId(x.getId());
             String departIdsStr = StrUtil.join(",", departIds);
             u.setDepartIds(departIdsStr);
+            u.setPassword("");
             ids.addAll(departIds);
             return u;
         });
@@ -221,6 +201,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
             List<String> departIds = sysUserDepartService.listByUserId(x.getId());
             String departIdsStr = StrUtil.join(",", departIds);
             u.setDepartIds(departIdsStr);
+            u.setPassword("");
             ids.addAll(departIds);
             return u;
         }).collect(Collectors.toList());
