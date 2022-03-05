@@ -63,6 +63,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
 
         SysUser sysUser = SysUser.builder().build();
         BeanUtils.copyProperties(user, sysUser);
+        sysUser.setUserType(Consts.NO_ADMIN);
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String password = bCryptPasswordEncoder.encode(sysUser.getPassword());
