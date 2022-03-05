@@ -17,6 +17,7 @@ import ga.baocai.adal.web.mapper.SysUserDao;
 import ga.baocai.adal.web.service.*;
 import ga.baocai.adal.web.util.DataScopeUtil;
 import ga.baocai.adal.web.vo.UserPrincipal;
+import org.apache.logging.log4j.util.Strings;
 import org.casbin.jcasbin.main.Enforcer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +49,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
     @Override
 //    @Cacheable(key ="'findByUsernameOrPhone_'+#username+'_'+#phone")
     public Optional<SysUser> findByUsernameOrPhone(String username, String phone) {
-        SysUser sysUser = getOne(lambdaQuery().eq(SysUser::getUsername, username).
-                or().eq(SysUser::getPhone, phone).getWrapper());
-        return Optional.of(sysUser);
+        SysUser sysUser = getOne(lambdaQuery().eq(Strings.isNotEmpty(username), SysUser::getUsername, username).
+                or().eq(Strings.isNotEmpty(phone), SysUser::getPhone, phone).getWrapper());
+        return Optional.ofNullable(sysUser);
     }
 
     @Override
