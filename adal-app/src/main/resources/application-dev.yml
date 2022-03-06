@@ -1,0 +1,40 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: adal-app
+  datasource:
+    url: jdbc:mysql://192.168.0.200/adal?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    database: 2
+    host: 192.168.0.200
+    password: gebaocai
+mybatis-plus:
+  configuration:
+    # 下划线转驼峰
+    map-underscore-to-camel-case: true
+  type-aliases-package: ga.baocai.adal.app.entity
+  typeEnumsPackage: ga.baocai.adal.app.enums
+  mapper-locations:
+    - mappers/*.xml
+  global-config:
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+    db-config:
+      logic-delete-field: deleted  #全局逻辑删除字段值 3.3.0开始支持，详情看下面。
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+logging:
+  level:
+    ga.baocai: debug
+    ga.baocai.adal.web.repository: trace
+springfox:
+  documentation:
+    swagger-ui:
+      enabled: true
+security:
+  config:
+    privateKey: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAInKLqD7RuTepKgdnM9zqz2kF645LMkbzxIgDKmL7SkAn6WoTT8CiS0qm5yQXYOVchNZRWcSh1V8duu8Q5CdI3oVXV7M1G5eyB9yyX8mKW+V8xtpxsujUCLXbZoV5GUMf2hcDmMWhAsBBvhLRqD5BD3sn++0BVScWR7iILEGAajFAgMBAAECgYAZG5RflSoX7lIGqE64ppUfiFUgVB7LDpwu61QjWPIANLLilsZsouOoLUlpwAyqO4Mr72psG745X5Kz5fxRz7B0+vsjP/VTtolKVEpH/5/+LAugCpL6XiwtWO4jZt189M1Lc/YTxO6XEYIbOLSxiPMtA+46362lK2bpW9G2jAg+AQJBAOD0J7t7Hhxwb/+ITFq9G1ph3fci/cOpnMqI9hzrxBiuOGLX05DBRVZBZ637scz0fNFIMA8HzZy6O50SK4uvuUECQQCczm93YFoUiB1CXYgolptnC7qXqTqeukx9Z73jxb3B6BObX0vufnlZdSkkbtuAKjVQb9OVM52zANabNdQzIeqFAkEAtLBIrdXRtOQ3gdhYBFZ7fxi3Msg/bwdxMlna3hYeN/jQv8w+WrpzWDpG7kAKa+dBztSeDaSl6irIsXyjz5rBQQJATb+x1yAIKiv/TfuwWmeqsCJJp486SJ+Y84kvxzMxzmZy6lQLAzrkkm2cM7tfzKGhA7wezdjk9W+R+S1shNnpPQJAZYmF81o2FU5Qxop3r49wCJy0/YBvx3MKbDO/q4SoiJrxgfDqjb5iEOF9VPACirFujGKy9XKkAqbntUCWQZCtow==
+    publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCJyi6g+0bk3qSoHZzPc6s9pBeuOSzJG88SIAypi+0pAJ+lqE0/AoktKpuckF2DlXITWUVnEodVfHbrvEOQnSN6FV1ezNRuXsgfcsl/JilvlfMbacbLo1Ai122aFeRlDH9oXA5jFoQLAQb4S0ag+QQ97J/vtAVUnFke4iCxBgGoxQIDAQAB

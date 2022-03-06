@@ -10,14 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
  * <p>
  * Spring Security工具类
  * </p>
- *
- * @package: com.xkcoding.rbac.security.util
- * @description: Spring Security工具类
- * @author: yangkai.shen
- * @date: Created in 2018-12-12 18:30
- * @copyright: Copyright (c) 2018
- * @version: V1.0
- * @modified: yangkai.shen
  */
 public class SecurityUtil {
     /**

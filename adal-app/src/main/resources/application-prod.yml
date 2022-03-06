@@ -1,0 +1,36 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: adal-app
+  datasource:
+    url: jdbc:mysql://192.168.0.200/adal?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    database: 2
+    host: 192.168.0.200
+    password: gebaocai
+mybatis-plus:
+  configuration:
+    # 下划线转驼峰
+    map-underscore-to-camel-case: true
+  type-aliases-package: ga.baocai.adal.app.entity
+  typeEnumsPackage: ga.baocai.adal.app.enums
+  mapper-locations:
+    - mappers/*.xml
+  global-config:
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+    db-config:
+      logic-delete-field: deleted  #全局逻辑删除字段值 3.3.0开始支持，详情看下面。
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+logging:
+  level:
+    ga.baocai: debug
+    ga.baocai.adal.web.repository: trace
+springfox:
+  documentation:
+    swagger-ui:
+      enabled: true

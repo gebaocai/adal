@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: adal-app
+  profiles:
+    active: @profile.name@

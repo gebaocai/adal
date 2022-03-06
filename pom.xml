@@ -11,6 +11,7 @@
     <modules>
         <module>adal-web</module>
         <module>adal-common</module>
+        <module>adal-app</module>
     </modules>
 
     <name>adal</name>
