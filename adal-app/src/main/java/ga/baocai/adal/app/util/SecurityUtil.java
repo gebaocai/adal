@@ -25,7 +25,7 @@ public class SecurityUtil {
         } catch (Throwable e) {
             //输出到日志文件中
             log.error(e.toString());
-            throw new RuntimeException("ApiSecurityUtil.decrypt：解密异常！");
+            throw new RuntimeException("SecurityUtil.decrypt：解密异常！");
         }
     }
 
@@ -50,7 +50,7 @@ public class SecurityUtil {
         } catch (Throwable e) {
             //输出到日志文件中
             log.error(e.toString());
-            throw new RuntimeException("ApiSecurityUtil.encrypt：加密异常！");
+            throw new RuntimeException("SecurityUtil.encrypt：加密异常！");
         }
     }
 }
