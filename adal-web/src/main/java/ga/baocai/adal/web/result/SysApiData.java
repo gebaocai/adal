@@ -1,4 +1,4 @@
-package ga.baocai.adal.web.model;
+package ga.baocai.adal.web.result;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

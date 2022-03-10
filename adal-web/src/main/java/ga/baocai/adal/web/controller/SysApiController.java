@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ga.baocai.adal.web.common.CommonResponse;
 import ga.baocai.adal.web.common.Status;
 import ga.baocai.adal.web.entity.SysApi;
-import ga.baocai.adal.web.model.SysApiData;
+import ga.baocai.adal.web.result.SysApiData;
 import ga.baocai.adal.web.playload.Api;
 import ga.baocai.adal.web.service.SysApiService;
 import io.swagger.annotations.ApiOperation;

@@ -2,9 +2,8 @@ package ga.baocai.adal.web.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import ga.baocai.adal.web.entity.SysPermission;
-import ga.baocai.adal.web.model.PermissionData;
-import ga.baocai.adal.web.model.SysPermissionTree;
-import ga.baocai.adal.web.playload.Api;
+import ga.baocai.adal.web.result.PermissionData;
+import ga.baocai.adal.web.result.SysPermissionTree;
 import ga.baocai.adal.web.playload.Permission;
 
 import java.util.List;

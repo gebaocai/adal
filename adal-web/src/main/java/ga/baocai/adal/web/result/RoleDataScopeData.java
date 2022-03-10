@@ -1,4 +1,4 @@
-package ga.baocai.adal.web.model;
+package ga.baocai.adal.web.result;
 
 import lombok.Data;
 

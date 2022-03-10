@@ -5,7 +5,7 @@ import ga.baocai.adal.web.playload.Depart;
 import lombok.extern.slf4j.Slf4j;
 import ga.baocai.adal.web.AdalWebApplicationTests;
 import ga.baocai.adal.web.entity.SysDepart;
-import ga.baocai.adal.web.model.SysDepartTreeModel;
+import ga.baocai.adal.web.result.SysDepartTreeModel;
 import ga.baocai.adal.web.service.SysDepartService;
 import org.junit.Assert;
 import org.junit.Test;

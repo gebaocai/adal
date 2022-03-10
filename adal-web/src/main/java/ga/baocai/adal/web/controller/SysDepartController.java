@@ -6,7 +6,7 @@ import ga.baocai.adal.web.playload.Depart;
 import ga.baocai.adal.web.common.CommonResponse;
 import ga.baocai.adal.web.common.Status;
 import ga.baocai.adal.web.entity.SysDepart;
-import ga.baocai.adal.web.model.SysDepartTreeModel;
+import ga.baocai.adal.web.result.SysDepartTreeModel;
 import ga.baocai.adal.web.service.SysDepartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

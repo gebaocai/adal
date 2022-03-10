@@ -3,7 +3,7 @@ package ga.baocai.adal.web.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ga.baocai.adal.web.entity.SysApi;
-import ga.baocai.adal.web.model.SysApiData;
+import ga.baocai.adal.web.result.SysApiData;
 import ga.baocai.adal.web.playload.Api;
 import com.baomidou.mybatisplus.extension.service.IService;
 

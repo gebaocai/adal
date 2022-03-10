@@ -9,7 +9,7 @@ import ga.baocai.adal.web.common.Consts;
 import ga.baocai.adal.web.playload.Depart;
 import ga.baocai.adal.web.entity.SysDepart;
 import ga.baocai.adal.web.mapper.SysDepartDao;
-import ga.baocai.adal.web.model.SysDepartTreeModel;
+import ga.baocai.adal.web.result.SysDepartTreeModel;
 import ga.baocai.adal.web.rule.OrgCodeRule;
 import ga.baocai.adal.web.service.SysDepartService;
 import org.springframework.beans.BeanUtils;

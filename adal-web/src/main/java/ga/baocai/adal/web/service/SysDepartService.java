@@ -3,7 +3,7 @@ package ga.baocai.adal.web.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import ga.baocai.adal.web.playload.Depart;
 import ga.baocai.adal.web.entity.SysDepart;
-import ga.baocai.adal.web.model.SysDepartTreeModel;
+import ga.baocai.adal.web.result.SysDepartTreeModel;
 
 import java.util.List;
 

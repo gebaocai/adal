@@ -6,11 +6,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ga.baocai.adal.web.common.Consts;
-import ga.baocai.adal.web.entity.SysPermission;
-import ga.baocai.adal.web.model.SysApiData;
+import ga.baocai.adal.web.result.SysApiData;
 import ga.baocai.adal.web.entity.SysApi;
 import ga.baocai.adal.web.mapper.SysApiDao;
-import ga.baocai.adal.web.model.SysPermissionTree;
 import ga.baocai.adal.web.playload.Api;
 import ga.baocai.adal.web.service.SysApiService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
