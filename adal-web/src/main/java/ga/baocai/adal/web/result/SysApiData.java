@@ -15,6 +15,7 @@ public class SysApiData {
      * ID
      */
     private String id;
+    private String value;
     private String key;
     /**
      * 父id
@@ -60,6 +61,7 @@ public class SysApiData {
 
     public SysApiData(SysApi api) {
         this.id = api.getId();
+        this.value = api.getId();
         this.key = api.getId();
         this.title = api.getName();
         this.name = api.getName();
