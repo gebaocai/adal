@@ -12,6 +12,7 @@ import ga.baocai.adal.web.common.Consts;
 import ga.baocai.adal.web.entity.SysDepart;
 import ga.baocai.adal.web.entity.SysRole;
 import ga.baocai.adal.web.entity.SysUser;
+import ga.baocai.adal.web.playload.ChangePW;
 import ga.baocai.adal.web.playload.User;
 import ga.baocai.adal.web.mapper.SysUserDao;
 import ga.baocai.adal.web.service.*;
@@ -114,10 +115,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
 
     @Override
     @Transactional
-    public SysUser changePassword(User user) {
+    public SysUser changePassword(ChangePW changePW) {
         SysUser sysUser = SysUser.builder().
-                id(user.getId()).
-                password(user.getPassword()).
+                id(changePW.getId()).
+                password(changePW.getNewPassword()).
                 build();
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String password = bCryptPasswordEncoder.encode(sysUser.getPassword());

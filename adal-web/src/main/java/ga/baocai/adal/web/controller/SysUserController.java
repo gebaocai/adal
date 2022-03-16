@@ -1,8 +1,10 @@
 package ga.baocai.adal.web.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import ga.baocai.adal.web.playload.ChangePW;
 import ga.baocai.adal.web.result.PermissionData;
 import ga.baocai.adal.web.result.SysUserData;
 import ga.baocai.adal.web.playload.User;
@@ -13,7 +15,9 @@ import ga.baocai.adal.web.common.CommonResponse;
 import ga.baocai.adal.web.common.Status;
 import ga.baocai.adal.web.entity.SysUser;
 import ga.baocai.adal.web.service.SysUserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +30,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/sys/user")
 @Api(tags = "用户接口")
+@Slf4j
 public class SysUserController extends BaseController{
 
     @Autowired
@@ -68,13 +73,33 @@ public class SysUserController extends BaseController{
     @ApiOperation("修改用户密码")
     @ResponseBody
     @PostMapping("/changePassword")
-    public CommonResponse changePassword(@RequestBody User user) {
-        SysUser existedSysUser = sysUserService.getById(user.getId());
+    public CommonResponse changePassword(@RequestBody ChangePW changePW) {
+        if (StrUtil.isAllEmpty(changePW.getId(), changePW.getCurPassword())) {
+            return CommonResponse.ofStatus(Status.PARAM_NOT_MATCH);
+        }
+        if (!StrUtil.equals(changePW.getNewPassword(), changePW.getRePassword())) {
+            return CommonResponse.ofStatus(Status.PARAM_NOT_MATCH);
+        }
+
+        if (StrUtil.isEmpty(changePW.getId())) {
+            String curUserId = getUserId();
+            changePW.setId(curUserId);
+        }
+
+        SysUser existedSysUser = sysUserService.getById(changePW.getId());
         if (null == existedSysUser) {
             return CommonResponse.ofStatus(Status.REQUEST_NOT_FOUND);
         }
 
-        SysUser sysUser = sysUserService.changePassword(user);
+        if (StrUtil.isNotEmpty(changePW.getCurPassword())) {
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            if (!bCryptPasswordEncoder.matches(changePW.getCurPassword(), existedSysUser.getPassword())) {
+                log.info("curPassword not match!!!");
+                return CommonResponse.ofStatus(Status.PARAM_PASSWORD_NOT_MATCH);
+            }
+        }
+
+        SysUser sysUser = sysUserService.changePassword(changePW);
         if (null != sysUser) {
             return CommonResponse.ofSuccess(sysUser);
         }

@@ -3,6 +3,7 @@ package ga.baocai.adal.web.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import ga.baocai.adal.web.playload.ChangePW;
 import ga.baocai.adal.web.playload.User;
 import ga.baocai.adal.web.entity.SysUser;
 
@@ -23,7 +24,7 @@ public interface SysUserService extends IService<SysUser> {
 
     SysUser edit(User user);
 
-    SysUser changePassword(User user);
+    SysUser changePassword(ChangePW changePW);
 
     IPage<User> list(User user, Page<SysUser> page);
 
