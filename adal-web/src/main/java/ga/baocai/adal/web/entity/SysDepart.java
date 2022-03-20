@@ -1,5 +1,6 @@
 package ga.baocai.adal.web.entity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
@@ -31,10 +32,12 @@ public class SysDepart implements Serializable {
     /**
      * 机构/部门名称
      */
+    @Excel(name = "名称", width = 20)
     private String departName;
     /**
      * 英文名
      */
+    @Excel(name = "英文名称", width = 20)
     private String departNameEn;
     /**
      * 缩写
@@ -43,6 +46,7 @@ public class SysDepart implements Serializable {
     /**
      * 排序
      */
+    @Excel(name = "排序", width = 20)
     private Integer departOrder;
     /**
      * 描述
@@ -59,6 +63,7 @@ public class SysDepart implements Serializable {
     /**
      * 机构编码
      */
+    @Excel(name = "编码", width = 20)
     private String orgCode;
     /**
      * 手机号
@@ -75,10 +80,12 @@ public class SysDepart implements Serializable {
     /**
      * 备注
      */
+    @Excel(name = "备注", width = 20)
     private String memo;
     /**
      * 状态（1启用，0不启用）
      */
+    @Excel(name = "状态", replace = {"正常_1", "停用_0"}, width = 20)
     private String status;
     /**
      * 删除状态（0，正常，1已删除）

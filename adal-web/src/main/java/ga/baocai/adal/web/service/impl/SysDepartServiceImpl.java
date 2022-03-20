@@ -12,6 +12,7 @@ import ga.baocai.adal.web.mapper.SysDepartDao;
 import ga.baocai.adal.web.result.SysDepartTreeModel;
 import ga.baocai.adal.web.rule.OrgCodeRule;
 import ga.baocai.adal.web.service.SysDepartService;
+import ga.baocai.adal.web.util.PoiUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -144,6 +145,12 @@ public class SysDepartServiceImpl extends ServiceImpl<SysDepartDao, SysDepart> i
         }
 
         return resultList;
+    }
+
+    @Override
+    public void export() {
+        List<SysDepart> list = this.list();
+        PoiUtil.exportExcelWithStream("SysOrg.xls", SysDepart.class, list);
     }
 
     private List<String> getOrgIdAll() {

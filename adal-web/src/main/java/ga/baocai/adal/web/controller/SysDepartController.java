@@ -84,5 +84,10 @@ public class SysDepartController extends BaseController {
         }
         return CommonResponse.ofStatus(Status.ERROR);
     }
+
+    @GetMapping("/export")
+    public void export() {
+        sysDepartService.export();
+    }
 }
 

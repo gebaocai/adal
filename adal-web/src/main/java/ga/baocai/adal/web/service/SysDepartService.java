@@ -35,4 +35,6 @@ public interface SysDepartService extends IService<SysDepart> {
 
     List<String> getDataScopeListByDataScopeType(Integer dataScopeType, List<String> orgId);
 
+    void export();
+
 }
